@@ -53,7 +53,6 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 	private String moves = "";
 	
 	
-	private long bootTime = System.currentTimeMillis();
 	
 	private VerifyAwaiting hangman = new VerifyAwaiting();
 	private String hangmanText = "";
@@ -107,7 +106,7 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 		
 		
 		//lruns the register. 
-		reg.testCommands(event);
+				reg.testCommands(event);
 		
 		if(event.getMessage().getContent().equals("~help"))
 			SendHelp.sendHelp(event, reg);
@@ -145,11 +144,9 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 				playYoutubeKeywords(event)|| 
 				playLocal(event) ||
 				
-				google(event) || 
 				
 				
-				ifunny(event) ||
-				reddit(event) ||
+				
 				
 				tic1(event) ||
 				tic2(event) ||
@@ -404,62 +401,9 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 		
 		return false;
 	}
-		
-	//get IFunny memes
-	private boolean ifunny(MessageReceivedEvent event) {
-		if(!event.getMessage().getContent().equals("~ifunny")) {
-			return false;
-		}
-		List<String> pics;
-		try {
-			pics = PhotoStream.getUrl("https://www.ifunny.co");
-			System.out.println("EVENT: sent IFunny features");
-		        
-				for(String pic : pics) {
-					
-					
-					if(pic.substring(0,new String("https://img.ifcdn.com").length()).equals("https://img.ifcdn.com")){
-						
-						sendMessage(event.getChannel(), pic);
-			        	try {Thread.sleep(1000);} catch (InterruptedException e) {e.printStackTrace();}
-			        	
-					}
-		        	
-				}
-				
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		return true;
-	}
+
 	
-	//get reddit memes
-	private boolean reddit(MessageReceivedEvent event) {
-		if(!event.getMessage().getContent().equals("~reddit")) {
-			return false;
-		}
-		List<String> redditPics;
-		try {
-			redditPics = PhotoStream.getUrl("https://www.reddit.com/r/memes/");
-		
-		        String redditTemp = "";
-				for(String pic : redditPics) {
-						
-						redditTemp = redditTemp + " " + pic + "\n\n\n";
-						if(redditTemp.length()>500) {
-							sendMessage(event.getChannel(),redditTemp);
-							redditTemp = "";
-							System.out.println("EVENT: printed reddit message");
-						}
-				}
-				
-				sendMessage(event.getChannel(),redditTemp);
-				
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		return true;
-	}
+	
 	
 	//play youtube
 	private boolean playYoutubeLink(MessageReceivedEvent event) {
@@ -503,21 +447,7 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 		}
 	}
 	
-	//Google
-	private boolean google(MessageReceivedEvent event) {
 	
-		String text = event.getMessage().getContent();
-		if(!(text.startsWith("~google "))) {
-			return false;
-		}
-		System.out.println("EVENT: googler used");
-		Googler googler = new Googler();
-		sendMessage(event.getChannel(),"Done! Heres the first result:");
-		sendMessage(event.getChannel(), googler.Google(text.substring(8,text.length())));
-		
-		
-		return false;
-	}
 	
 	//play a youtube video from keywords	
 	private boolean playYoutubeKeywords(MessageReceivedEvent event) {
@@ -680,17 +610,7 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 				sendMessage(channel,"started");
 				return true;
 			
-			case "cb-status":
-				sendMessage(channel, "locked:" + locked);
-				String temp = "voice channels:\n";
-				List<IVoiceChannel> vc = client.getConnectedVoiceChannels();
-				for(IVoiceChannel v : vc) {
-					temp+=v.getName() + " (in " + v.getGuild().getName() +" ) \n";
-				}
-				sendMessage(channel, temp);
-				sendMessage(channel, "minutes sense boot time: " + ((System.currentTimeMillis() - bootTime) / 60000) + "  hours:" + (((System.currentTimeMillis() - bootTime) / 60000)/60));
-				System.out.println("EVENT: sent status message");
-				return true;
+				
 			case "cb-tic-kill":
 				tacV.setActive(false);
 				tac = new Tac();

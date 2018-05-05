@@ -3,6 +3,8 @@ package com.carson.commandManagers;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.carson.classes.Logger;
+import com.carson.commands.cb.SubregisterCB;
 import com.carson.commands.main.SubregisterMain;
 
 import sx.blah.discord.api.IDiscordClient;
@@ -13,16 +15,23 @@ public class Register {
 	
 	private List<Subregister> subregisters = new ArrayList<Subregister>();
 	
-	public void buildRegister(IDiscordClient c) {
-		subregisters.add(new SubregisterMain().build(c));
+	public Register buildRegister(IDiscordClient c) {
+		return new Register()
+				.addSubregister(new SubregisterMain(c).build(c))
+				.addSubregister(new SubregisterCB(c).build(c))
+				;
 		
 		
 	}
 	
+	private Register addSubregister(Subregister s) {
+		subregisters.add(s);
+		return this;
+	}
+
 	public static Register build(IDiscordClient c) {
 		Register r = new Register();
-		r.buildRegister(c);
-		return r;
+		return r.buildRegister(c);
 	}
 	
 	
@@ -45,6 +54,7 @@ public class Register {
 	}
 	
 	public void testCommands(MessageReceivedEvent  event) {
+		Logger.log(event);
 		for(Subregister r : subregisters) {
 			r.testCommands(event);
 		}

@@ -38,7 +38,6 @@ public class PhotoStream {
               print(" * %s: <%s> %sx%s (%s)",
                       src.tagName(), src.attr("abs:src"), src.attr("width"), src.attr("height"),
                       trim(src.attr("alt"), 20));
-          System.out.println(src.absUrl("abs:src"));
           s.add(src.absUrl("abs:src"));
           
           }else {

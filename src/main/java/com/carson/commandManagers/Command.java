@@ -3,6 +3,7 @@ package com.carson.commandManagers;
 import com.carson.classes.Messanger;
 
 import sx.blah.discord.api.IDiscordClient;
+import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IChannel;
 
 public class Command{
@@ -21,6 +22,8 @@ public class Command{
 	protected void sendMessageClean(IChannel c, String t) {
 		new Messanger(client).sendMessageClean(c, t);
 	}
-	
+	protected void sendMessage(MessageReceivedEvent event, String text) {
+		sendMessage(event.getChannel(), text);
+	}
 	
 }
