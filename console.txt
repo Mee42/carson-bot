@@ -1,31 +1,25 @@
-10:54:09.435: [INFO][main][sx.blah.discord.Discord4J] - Discord4J v2.10.1 be2318c (https://github.com/austinv11/Discord4J)
-10:54:09.437: [INFO][main][sx.blah.discord.Discord4J] - A Java binding for the official Discord API, forked from the inactive https://github.com/nerd/Discord4J. Copyright (c) 2017, Licensed under GNU LGPLv3
+11:19:07.150: [INFO][main][sx.blah.discord.Discord4J] - Discord4J v2.10.1 be2318c (https://github.com/austinv11/Discord4J)
+11:19:07.151: [INFO][main][sx.blah.discord.Discord4J] - A Java binding for the official Discord API, forked from the inactive https://github.com/nerd/Discord4J. Copyright (c) 2017, Licensed under GNU LGPLv3
 BOOT: bot started
-10:54:14.366: [INFO][HttpClient@1514957758-20][sx.blah.discord.Discord4J] - Websocket Connected.
-10:54:14.504: [INFO][Dispatch Handler][sx.blah.discord.Discord4J] - Connected to Discord Gateway v6. Receiving 5 guilds.
-MESSAGE:AwesomeCarson123:terst(Gumbosphere - general-bot)   xp:553
-MESSAGE:AwesomeCarson123:wtf(Gumbosphere - general-bot)   xp:560
-MESSAGE:AwesomeCarson123:lmao(Gumbosphere - general-bot)   xp:570
-MESSAGE:AwesomeCarson123:lmfao(Gumbosphere - general-bot)   xp:584
-MESSAGE:AwesomeCarson123:fuck(Gumbosphere - general-bot)   xp:598
-MESSAGE:AwesomeCarson123:yay(Gumbosphere - general-bot)   xp:600
-MESSAGE:fodder:shit(Gumbosphere - general-bot)   xp:83
-MESSAGE:fodder:shite(Gumbosphere - general-bot)   xp:84
-MESSAGE:fodder:even the irish spelling lmao(Gumbosphere - general-bot)   xp:91
-MESSAGE:AwesomeCarson123:it just needs to contain a bad work(Gumbosphere - general-bot)   xp:605
-MESSAGE:AwesomeCarson123:so afuckea(Gumbosphere - general-bot)   xp:608
-MESSAGE:AwesomeCarson123:gets reported(Gumbosphere - general-bot)   xp:621
-MESSAGE:fodder:wanker(Gumbosphere - general-bot)   xp:105
-MESSAGE:fodder:hm(Gumbosphere - general-bot)   xp:109
-MESSAGE:AwesomeCarson123:it also saves me from having to do the different tenses(Gumbosphere - general-bot)   xp:627
-MESSAGE:AwesomeCarson123:il add that 2 the list lol(Gumbosphere - general-bot)   xp:640
-MESSAGE:fodder:don't forget about the brits and aussies lmao(Gumbosphere - general-bot)   xp:119
-MESSAGE:AwesomeCarson123:wanker(Gumbosphere - general-bot)   xp:642
-MESSAGE:AwesomeCarson123:53 words(Gumbosphere - general-bot)   xp:648
-MESSAGE:fodder:bloody wankeh(Gumbosphere - general-bot)   xp:124
-MESSAGE:fodder:hm(Gumbosphere - general-bot)   xp:131
-MESSAGE:AwesomeCarson123:w3e should stop(Gumbosphere - general-bot)   xp:652
-MESSAGE:AwesomeCarson123:lol(Gumbosphere - general-bot)   xp:654
-MESSAGE:fodder:yeah lmao(Gumbosphere - general-bot)   xp:140
-MESSAGE:AwesomeCarson123:bloody isn't censored(Gumbosphere - general-bot)   xp:655
-MESSAGE:fodder:just censor wank as a whole ig(Gumbosphere - general-bot)   xp:152
+11:19:12.212: [INFO][HttpClient@1101796169-21][sx.blah.discord.Discord4J] - Websocket Connected.
+11:19:12.330: [INFO][Dispatch Handler][sx.blah.discord.Discord4J] - Connected to Discord Gateway v6. Receiving 5 guilds.
+MESSAGE:AwesomeCarson123:v~join(Carson-Bot - commands)   xp:1428
+EVENT: running v~join
+EVENT:Joining voice channel
+11:19:14.521: [INFO][HttpClient@62500100-51][sx.blah.discord.Discord4J] - Voice Websocket Connected.
+MESSAGE:AwesomeCarson123:v~local(Carson-Bot - commands)   xp:1434
+EVENT: running v~local
+EVENT: getLocal called by AwesomeCarson123
+MESSAGE:AwesomeCarson123:v~local~revolution(Carson-Bot - commands)   xp:1436
+EVENT: running v~local
+EVENT: playing revolution.wav in guild Carson-Bot
+BOT_MESSAGE:Adding to queue Unknown title(Carson-Bot - commands)
+MESSAGE:AwesomeCarson123:v~skip(Carson-Bot - commands)   xp:1448
+EVENT:skipping song
+BOT_MESSAGE:Skipped to next track,.. playing:null(Carson-Bot - commands)
+MESSAGE:AwesomeCarson123:v~skip(Carson-Bot - commands)   xp:1459
+EVENT:skipping song
+BOT_MESSAGE:Skipped to next track,.. playing:null(Carson-Bot - commands)
+11:23:55.449: [INFO][Thread-13][sx.blah.discord.Discord4J] - Shard 0 websocket disconnected with status code 1001 and reason "Shutdown".
+11:23:55.453: [INFO][Thread-13][sx.blah.discord.Discord4J] - Voice Websocket disconnected with status code 1001 and reason "Shutdown"
+11:23:55.458: [INFO][Thread-13][sx.blah.discord.Discord4J] - Voice Websocket Disconnected.

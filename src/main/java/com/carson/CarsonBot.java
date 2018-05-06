@@ -16,6 +16,7 @@ import com.carson.classes.RunCMD;
 import com.carson.classes.SendHelp;
 import com.carson.classes.VerifyAwaiting;
 import com.carson.commandManagers.Register;
+import com.carson.commands.main.lavaplayer.LavaplayerMain;
 import com.carson.commands.main.ps.PlanetSim;
 import com.carson.lavaplayer.GuildMusicManager;
 import com.carson.tic.Tac;
@@ -84,10 +85,9 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 		System.out.println("BOOT: bot started");
 //		client.changeAvatar(Image.forFile(new File("C:\\Users\\Carson\\Desktop\\discord\\carson-bot\\profile.jpg")));
 		
+		LavaplayerMain m = new LavaplayerMain();
 		
 		
-		AudioSourceManagers.registerRemoteSources(playerManager);
-        AudioSourceManagers.registerLocalSource(playerManager);
         
         //this enables the logger
 //        ((Discord4J.Discord4JLogger) Discord4J.LOGGER).setLevel(Level.TRACE);
@@ -133,9 +133,7 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 				dnd(event) ||
 				
 				playYoutubeLink(event) || 
-				playYoutubeKeywords(event)|| 
-				playLocal(event) ||
-				
+				playYoutubeKeywords(event)|| 				
 				
 				
 				
@@ -460,57 +458,7 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 	
 	
 	
-	//play local song
-	private boolean playLocal(MessageReceivedEvent event) {
-		if(!event.getMessage().getContent().startsWith("v~local~")) {
-			return false;
-		}
-		
-		if(event.getMessage().getContent().equals("v~local~get")) {
-			getLocal(event);
-			return true;
-		}
-		
-		String text = event.getMessage().getContent().substring(8, event.getMessage().getContent().length());
-		List<File> files = FileIO.use(new File("/home/carson/music/Music")).listFiles();
-		
-		for(File file : files) {
-			if(file.getName().substring(0, file.getName().length()-4).equals(text) ){
-				if(event.getAuthor().getLongID() == 293853365891235841L || event.getAuthor().getLongID() == 398876612701192212L) {
-					playFile(event.getChannel(),file);
-					System.out.println("EVENT: playing " + file.getName() + " in guild " + event.getGuild().getName() );
-					return true;
-				}else if(file.getParentFile().equals(new File("/home/carson/music/Music"))){
-					System.out.println("EVENT: playing " + file.getName() + " in guild " + event.getGuild().getName() );
-					playFile(event.getChannel(),file);
-					return true;
-				}
-			}
-		}
-		System.out.println("EVENT: couldn't find music file");
-		sendMessage(event.getChannel(), "Couldn't find that piece of music. try v~local~get, or be depressed because you don't have perms to play some songs");
-		
-		
-		return true;
-		
-	}
 	
-	//get all local songs and there names
-	private void getLocal(MessageReceivedEvent event) {
-		System.out.println("EVENT: getLocal called by " + event.getAuthor().getName());
-		EmbedBuilder builder = new EmbedBuilder();
-		builder.withColor(255, 0, 0);
-		builder.withAuthorName("Carson-Bot");
-		List<File> files = FileIO.use(new File("/home/carson/music/Music")).listFiles();
-		builder.withTitle("Local files:");
-		for(File file : files) {
-			if(event.getAuthor().getLongID() == 293853365891235841L || event.getAuthor().getLongID() == 398876612701192212L || file.getParentFile().equals(new File("/home/carson/music/Music"))){
-				builder.appendField(file.getName().substring(0, file.getName().length()-4), file.getAbsolutePath(),true);		
-			}
-		}
-		
-		event.getChannel().sendMessage(builder.build());
-	}
 
 	
 	//all carsonbot commands
@@ -777,28 +725,7 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 			
 			//MUSIC COMMANDS
 				
-				
-			case "v~join":
-				System.out.println("EVENT:Joining voice channel");
-				event.getGuild().getVoiceChannels().get(0).join();
-				return true;
-				
-			case "v~leave":
-				System.out.println("EVENT:leaving voice channel");
-				List<IVoiceChannel> channels = event.getGuild().getVoiceChannels();
-				
-				for(IVoiceChannel channel : channels) {
-					if(channel.isConnected()) {
-						channel.leave();
-					}
-				}
-				return true;
-			case "v~skip":
-				System.out.println("EVENT:skipping song");
-				skipTrack(event.getChannel());
-				return true;
-				
-			
+		
 				
 			
 		

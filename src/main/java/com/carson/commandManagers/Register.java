@@ -6,6 +6,7 @@ import java.util.List;
 import com.carson.classes.Logger;
 import com.carson.commands.cb.SubregisterCB;
 import com.carson.commands.main.SubregisterMain;
+import com.carson.commands.main.lavaplayer.LavaplayerMain;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
