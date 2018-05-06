@@ -28,7 +28,12 @@ public class CommandPS extends Command implements ICommand{
 		IChannel channel = event.getChannel();
 		switch(args[1]) {
 		case "mine":
-			new PlanetSim(event.getClient(), new Messanger(event.getClient())).manager.mineFor(event);
+			if(!new PlanetSim(event.getClient(), new Messanger(event.getClient()))
+			.manager.mineFor(event)) {
+				sendMessage(event, "sorry, there was an error mining for you. You may have mined before this hour");
+			}else {
+				sendMessage(event, "Mined for " + event.getAuthor().getDisplayName(event.getGuild()));
+			}
 			return;
 		
 		case "extract":
@@ -171,14 +176,14 @@ public class CommandPS extends Command implements ICommand{
 				case "delete":
 					if(args.length == 4 ) {
 						if(args[3].equals("people")){
-							manager.hardcode_populatePeople();
+							manager.hardcodePopulatePeople();
 							sendMessage(channel,"cleared people");
 						}else if(args[3].equals("miners")) {
 							manager.populateMinersBlank();
 							sendMessage(channel,"cleared miners");
 						}else if(args[3].equals("both")) {
+							manager.hardcodePopulatePeople();
 							manager.populateMinersBlank();
-							manager.hardcode_populatePeople();
 							sendMessage(channel,"cleared both miners and people");
 						}else {
 							sendMessage(channel,"not something I can delete");

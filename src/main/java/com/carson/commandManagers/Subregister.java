@@ -46,6 +46,7 @@ public class Subregister {
 			if(c.test(event)) {
 				System.out.println("EVENT: running " + c.getName());
 				c.run(event);
+				return;
 			}
 		}
 	}

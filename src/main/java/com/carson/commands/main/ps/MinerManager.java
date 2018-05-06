@@ -1,6 +1,9 @@
 package com.carson.commands.main.ps;
 
 import java.net.UnknownHostException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import com.mongodb.BasicDBObject;
@@ -139,7 +142,7 @@ public class MinerManager {
 		
 		DBCollection miners = database.getCollection("miners");
 		DBCollection collection_people = database.getCollection("people");
-
+		
 		DBObject idObject = new BasicDBObject("_id", id);
 		
 		DBCursor cursorMiners = miners.find(idObject);
@@ -157,6 +160,11 @@ public class MinerManager {
 		
 		Miner miner = DBOtoMiner(minerDBO);
 		Person person = DBOtoPerson(personDBO);
+		
+		if(String.valueOf(minerDBO.get("time")).equals(getHour())) {
+			return false;
+		}
+		
 		
 		List<String> planets = person.getPlanets();
 		System.out.println("planets:" + planets);
@@ -190,14 +198,19 @@ public class MinerManager {
 		return true;
 	}
 	
-	public void hardcode_populatePeople() {
+	public void hardcodePopulatePeople() {
 		DB database = mClient.getDB("miningDB");
 		DBCollection collection_people = database.getCollection("people");
 		collection_people.drop();
 		Person[] people = new Person[] {
-				new Person("279412525051674624").addPlanet("earth").addPlanet("sol"),
-				new Person("293853365891235841").addPlanet("earth").addPlanet("kepler"),
-				new Person("317104272405823489")
+				new Person("364897415637106700").addPlanet("earth"), //ace skipper
+				new Person("293853365891235841").addPlanet("earth"), //me
+				new Person("422191638736142346").addPlanet("earth"), //karxn
+				new Person("260739564895731715").addPlanet("earth"), //daniel
+				new Person("317104272405823489").addPlanet("earth"),//alex
+				new Person("318783502768144384").addPlanet("earth"), //yellowtoad
+				new Person("378915849391570964").addPlanet("earth"), //Blastoise
+				new Person("334513103838511115").addPlanet("earth"), //fodder
 				
 		};
 		
@@ -212,16 +225,36 @@ public class MinerManager {
 		DB database = mClient.getDB("miningDB");
 		DBCollection collection = database.getCollection("miners");
 		collection.drop();
-		String[] playerIDs = new String[] {
-				"279412525051674624",
-				"293853365891235841",
-				"317104272405823489"};
+//		String[] playerIDs = new String[] {
+//				"279412525051674624",
+//				"293853365891235841",
+//				"317104272405823489"};
+//		
+//		for(String id : playerIDs) {
+//			collection.insert(minerToDBO(new Miner(), id));
+//		}
 		
-		for(String id : playerIDs) {
-			collection.insert(minerToDBO(new Miner(), id));
+		DBCollection people = database.getCollection("people");
+		
+		DBCursor peoples = people.find();
+		
+		List<DBObject> pplDBO = peoples.toArray();
+		
+		for(DBObject d : pplDBO) {
+			collection.insert(
+					minerToDBOclean(new Miner(), String.valueOf(d.get("_id")))
+							);
 		}
+		
 	}
 	
+	private DBObject minerToDBOclean(Miner miner, String id) {
+		DBObject a = minerToDBO(miner,id);
+		a.put("time", -1);
+		return a;
+		
+	}
+
 	public void addPlanet(String id, String planet) {
 		DB database = mClient.getDB("miningDB");
 		DBCollection people = database.getCollection("people");
@@ -238,12 +271,18 @@ public class MinerManager {
 			
 			
 		}
-//		client.getChannelByID(123L).sendMessage(id + " just got planet:" + planet + " added to the db. hardcode him !");
  		people.findAndModify(people.find(query).one(), person);
 		
 	}
 	
-	
+	private String getHour() {
+		
+		Date date = new Date();   // given date
+		Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
+		calendar.setTime(date);   // assigns calendar to given date 
+		       // gets hour in 12h format
+		return String.valueOf(calendar.get(Calendar.HOUR));
+	}
 	
 	
 	
@@ -256,9 +295,12 @@ public class MinerManager {
 				.append("metal", m.StoreMiner()[1])
 				.append("coal", m.StoreMiner()[2])
 				.append("silicon", m.StoreMiner()[3])
-				.append("neo", m.StoreMiner()[4]);
+				.append("neo", m.StoreMiner()[4])
+				.append("time", getHour())
+				;
 				
 	}
+	
 	private Miner DBOtoMiner(DBObject o) {
 		return new Miner( new Object[] {
 				o.get("oil"),

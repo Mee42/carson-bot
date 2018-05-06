@@ -1,25 +1,56 @@
-11:19:07.150: [INFO][main][sx.blah.discord.Discord4J] - Discord4J v2.10.1 be2318c (https://github.com/austinv11/Discord4J)
-11:19:07.151: [INFO][main][sx.blah.discord.Discord4J] - A Java binding for the official Discord API, forked from the inactive https://github.com/nerd/Discord4J. Copyright (c) 2017, Licensed under GNU LGPLv3
+16:29:07.696: [INFO][main][sx.blah.discord.Discord4J] - Discord4J v2.10.1 be2318c (https://github.com/austinv11/Discord4J)
+16:29:07.697: [INFO][main][sx.blah.discord.Discord4J] - A Java binding for the official Discord API, forked from the inactive https://github.com/nerd/Discord4J. Copyright (c) 2017, Licensed under GNU LGPLv3
 BOOT: bot started
-11:19:12.212: [INFO][HttpClient@1101796169-21][sx.blah.discord.Discord4J] - Websocket Connected.
-11:19:12.330: [INFO][Dispatch Handler][sx.blah.discord.Discord4J] - Connected to Discord Gateway v6. Receiving 5 guilds.
-MESSAGE:AwesomeCarson123:v~join(Carson-Bot - commands)   xp:1428
-EVENT: running v~join
-EVENT:Joining voice channel
-11:19:14.521: [INFO][HttpClient@62500100-51][sx.blah.discord.Discord4J] - Voice Websocket Connected.
-MESSAGE:AwesomeCarson123:v~local(Carson-Bot - commands)   xp:1434
-EVENT: running v~local
-EVENT: getLocal called by AwesomeCarson123
-MESSAGE:AwesomeCarson123:v~local~revolution(Carson-Bot - commands)   xp:1436
-EVENT: running v~local
-EVENT: playing revolution.wav in guild Carson-Bot
-BOT_MESSAGE:Adding to queue Unknown title(Carson-Bot - commands)
-MESSAGE:AwesomeCarson123:v~skip(Carson-Bot - commands)   xp:1448
-EVENT:skipping song
-BOT_MESSAGE:Skipped to next track,.. playing:null(Carson-Bot - commands)
-MESSAGE:AwesomeCarson123:v~skip(Carson-Bot - commands)   xp:1459
-EVENT:skipping song
-BOT_MESSAGE:Skipped to next track,.. playing:null(Carson-Bot - commands)
-11:23:55.449: [INFO][Thread-13][sx.blah.discord.Discord4J] - Shard 0 websocket disconnected with status code 1001 and reason "Shutdown".
-11:23:55.453: [INFO][Thread-13][sx.blah.discord.Discord4J] - Voice Websocket disconnected with status code 1001 and reason "Shutdown"
-11:23:55.458: [INFO][Thread-13][sx.blah.discord.Discord4J] - Voice Websocket Disconnected.
+16:29:12.765: [INFO][HttpClient@824344271-20][sx.blah.discord.Discord4J] - Websocket Connected.
+16:29:13.033: [INFO][Dispatch Handler][sx.blah.discord.Discord4J] - Connected to Discord Gateway v6. Receiving 5 guilds.
+MESSAGE:AwesomeCarson123:kepler(Planet Sim - intersystem_relations)   xp:5552
+MESSAGE:TheEnderKing71:does <@364897415637106700> agree?(Planet Sim - intersystem_relations)   xp:2903
+MESSAGE:AwesomeCarson123:~dnd(Carson-Bot - commands)   xp:1626
+EVENT: timed out
+EVENT: running ~dnd
+BOT_MESSAGE:what dice do you want to role?(format: XdY, X and Y can be multi-digit(Carson-Bot - commands)
+EVENT: running null
+BOT_MESSAGE:please fix your inputs(Carson-Bot - commands)
+MESSAGE:AwesomeCarson123:3d4(Carson-Bot - commands)   xp:1629
+EVENT: running null
+10
+BOT_MESSAGE:You got:10(Carson-Bot - commands)
+MESSAGE:AwesomeCarson123:~dnd(Carson-Bot - commands)   xp:1638
+EVENT: running ~dnd
+BOT_MESSAGE:what dice do you want to role?(format: XdY, X and Y can be multi-digit(Carson-Bot - commands)
+EVENT: running null
+BOT_MESSAGE:please fix your inputs(Carson-Bot - commands)
+MESSAGE:AwesomeCarson123:d(Carson-Bot - commands)   xp:1649
+EVENT: running null
+BOT_MESSAGE:I can't proccess that, please fix your input(Carson-Bot - commands)
+MESSAGE:AwesomeCarson123:f(Carson-Bot - commands)   xp:1664
+EVENT: running null
+BOT_MESSAGE:please fix your inputs(Carson-Bot - commands)
+MESSAGE:AwesomeCarson123:d(Carson-Bot - commands)   xp:1668
+EVENT: running null
+BOT_MESSAGE:I can't proccess that, please fix your input(Carson-Bot - commands)
+MESSAGE:AwesomeCarson123:d(Carson-Bot - commands)   xp:1676
+EVENT: running null
+BOT_MESSAGE:I can't proccess that, please fix your input(Carson-Bot - commands)
+MESSAGE:AwesomeCarson123:s(Carson-Bot - commands)   xp:1678
+EVENT: running null
+BOT_MESSAGE:please fix your inputs(Carson-Bot - commands)
+MESSAGE:AwesomeCarson123:3d4(Carson-Bot - commands)   xp:1692
+EVENT: running null
+8
+BOT_MESSAGE:You got:8(Carson-Bot - commands)
+MESSAGE:AceSkipper:yeh(Planet Sim - mining)   xp:452
+MESSAGE:AceSkipper:ps mine(Planet Sim - mining)   xp:462
+EVENT: running ps
+mining for :364897415637106700
+found one user
+BOT_MESSAGE:sorry, there was an error mining for you. You may have mined before this hour(Planet Sim - mining)
+MESSAGE:AceSkipper:yes(Planet Sim - intersystem_relations)   xp:466
+MESSAGE:TheEnderKing71:ok(Planet Sim - intersystem_relations)   xp:2905
+MESSAGE:TheEnderKing71:ya know(Planet Sim - intersystem_relations)   xp:2917
+MESSAGE:AceSkipper:?(Planet Sim - intersystem_relations)   xp:480
+MESSAGE:TheEnderKing71:if everyone is in the same system then they are more vulnerable(Planet Sim - intersystem_relations)   xp:2922
+MESSAGE:AceSkipper:k(Planet Sim - intersystem_relations)   xp:493
+MESSAGE:AwesomeCarson123:more people to hide with(Planet Sim - intersystem_relations)   xp:5557
+MESSAGE:TheEnderKing71:well, just making sure you knew(Planet Sim - intersystem_relations)   xp:2936
+16:31:07.382: [INFO][Thread-13][sx.blah.discord.Discord4J] - Shard 0 websocket disconnected with status code 1001 and reason "Shutdown".

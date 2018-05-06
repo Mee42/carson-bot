@@ -129,7 +129,6 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 				
 				gumbo(event) || 
 				
-				dndStart(event) ||
 				dnd(event) ||
 				
 				playYoutubeLink(event) || 
@@ -141,9 +140,7 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 				tic1(event) ||
 				tic2(event) ||
 				
-				cbCommands(event) ||
-				musicCommands(event) //not sure how if this is broken
-				
+				cbCommands(event)
 				
 				) 
 		
@@ -671,21 +668,21 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 	
 
 
-	
-	
-	//start dnd game
-	private boolean dndStart(MessageReceivedEvent event) {
-		if(!event.getMessage().getContent().equals("~dnd")) {
-			return false;
-		}
-		
-		System.out.println("EVENT: started dnd role");
-		sendMessage(event.getChannel(),"what dice do you want to role?(format: XdY, X and Y can be multi-digit");
-		dnd.set(event);
-		return true;
-		
-		
-	}
+//	
+//	
+//	//start dnd game
+//	private boolean dndStart(MessageReceivedEvent event) {
+//		if(!event.getMessage().getContent().equals("~dnd")) {
+//			return false;
+//		}
+//		
+//		System.out.println("EVENT: started dnd role");
+//		sendMessage(event.getChannel(),"what dice do you want to role?(format: XdY, X and Y can be multi-digit");
+//		dnd.set(event);
+//		return true;
+//		
+//		
+//	}
 	
 	
 	
@@ -712,32 +709,6 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 	
 	
 	
-	//run all music commands
-	private boolean musicCommands(MessageReceivedEvent event) {
-		
-			
-		switch(event.getMessage().getContent()) {
-
-			
-
-
-		
-			
-			//MUSIC COMMANDS
-				
-		
-				
-			
-		
-		
-			default:
-				return false;
-			
-		}
-		
-	}
-	
-
 		
 	//LAVAPLAYER CLASSES
 	
@@ -760,12 +731,6 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 	        musicManager.getScheduler().queue(track);
 	    }
 	 
-	 private  void skipTrack(IChannel channel) {
-	        GuildMusicManager musicManager = getGuildAudioPlayer(channel.getGuild());
-	        musicManager.getScheduler().nextTrack();
-
-	        sendMessage(channel, "Skipped to next track,.. playing:" + AudioPlayer.getAudioPlayerForGuild(channel.getGuild()).getCurrentTrack());
-	    }
 	
 	 private  void playLink(final IChannel channel, final String trackUrl) {
         GuildMusicManager musicManager = getGuildAudioPlayer(channel.getGuild());

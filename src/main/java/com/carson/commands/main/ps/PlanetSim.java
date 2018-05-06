@@ -140,14 +140,14 @@ public class PlanetSim {
 				case "delete":
 					if(args.length == 4 ) {
 						if(args[3].equals("people")){
-							manager.hardcode_populatePeople();
+							manager.hardcodePopulatePeople();
 							sendMessage(channel,"cleared people");
 						}else if(args[3].equals("miners")) {
 							manager.populateMinersBlank();
 							sendMessage(channel,"cleared miners");
 						}else if(args[3].equals("both")) {
 							manager.populateMinersBlank();
-							manager.hardcode_populatePeople();
+							manager.hardcodePopulatePeople();
 							sendMessage(channel,"cleared both miners and people");
 						}else {
 							sendMessage(channel,"not something I can delete");

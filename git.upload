@@ -1,4 +1,6 @@
 #!bin/bash
+git config --global user.email "carson42g@gmail.com"
+git config --global user.name "Mee42"
 git add .
 git commit -m 'commit'
 git push origin master
