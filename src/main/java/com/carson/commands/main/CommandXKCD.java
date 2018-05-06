@@ -17,9 +17,9 @@ public class CommandXKCD extends Command implements ICommand{
 	}
 
 	@Override
-	public boolean run(MessageReceivedEvent event) {
+	public void run(MessageReceivedEvent event) {
 		sendMessage(event, "sorry, XKCD is not set up yet. please check back later");
-		return false;
+		return ;
 	}
 
 	@Override

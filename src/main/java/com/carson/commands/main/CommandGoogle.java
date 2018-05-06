@@ -19,7 +19,7 @@ public class CommandGoogle extends Command implements ICommand {
 	}
 
 	@Override
-	public boolean run(MessageReceivedEvent event) {
+	public void run(MessageReceivedEvent event) {
 		//Google
 		
 		
@@ -29,7 +29,7 @@ public class CommandGoogle extends Command implements ICommand {
 			sendMessage(event.getChannel(), googler.Google(text.substring(8,text.length())));
 			
 			
-		return true;
+		return;
 	}
 
 	@Override

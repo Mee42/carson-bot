@@ -49,8 +49,12 @@ public class ProfanityChecker {
 							event.getAuthor().getDisplayName(event.getGuild())+
 							" said:```" + text+"```");
 				
+				try {
+					event.getMessage().delete();
+				}catch (sx.blah.discord.util.MissingPermissionsException e) {
+					event.getChannel().sendMessage( "I need manager message perms. contact the moderator of this server, <@" + event.getGuild().getOwnerLongID() + "> ");
+				} 
 				
-				event.getMessage().delete();
 				return true;
 			}
 		}

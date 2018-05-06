@@ -11,6 +11,7 @@ public class SubregisterCB extends Subregister{
 	public Subregister build(IDiscordClient c) {
 		return new SubregisterCB()
 				.addCommand(new CommandStatus(c))
+				.addCommand(new CommandSetPlaying(c))
 				;
 	}
 	

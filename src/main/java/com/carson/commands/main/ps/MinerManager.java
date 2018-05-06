@@ -1,7 +1,6 @@
-package com.carson.db;
+package com.carson.commands.main.ps;
 
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.mongodb.BasicDBObject;
@@ -81,31 +80,38 @@ public class MinerManager {
 		
 		System.out.println("mode:" + mode);
 		for(int i = 0;i<mode;i++) {
+			
 			Miner m = DBOtoMiner(objects.get(i));
 			System.out.println("m.empty:" + m.empty());
-			long id = Long.valueOf(
-					String.valueOf(
-					objects.get(i)
-					.get("_id")));
-			RequestFuture<String> nameFuture =  RequestBuffer.request(() -> {
-				 return client.fetchUser(id).getName();
-			 });
-			String name = nameFuture.get();
-			
-			
-			 
-			System.out.println("id:"  + id + " name: " + name);
-			
-			builder.appendField(
-					name,   //gets the name of the user with the id in the miner object
-					m.getStuff(), //the mining log
-					false);
-			
-			
-			
-			minersCollection.findAndModify(objects.get(i), minerToDBO(new Miner(), (String)(objects.get(i).get("_id"))));
-			
-			
+			if(!m.empty()) {
+				
+				long id = Long.valueOf(
+						String.valueOf(
+						objects.get(i)
+						.get("_id")));
+				RequestFuture<String> nameFuture =  RequestBuffer.request(() -> {
+					 return client.fetchUser(id).getName();
+				 });
+				String name = nameFuture.get();
+				
+				
+				 
+				System.out.println("id:"  + id + " name: " + name);
+				
+				builder.appendField(
+						name,   //gets the name of the user with the id in the miner object
+						m.getStuff(), //the mining log
+						false);
+				
+				
+				
+				minersCollection.findAndModify(objects.get(i), minerToDBO(new Miner(), (String)(objects.get(i).get("_id"))));
+				
+			}else {
+				if(mode < objects.size()) {
+					mode++;
+				}
+			}
 		}
 				
 				

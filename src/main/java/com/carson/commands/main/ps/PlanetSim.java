@@ -1,4 +1,4 @@
-package com.carson.db;
+package com.carson.commands.main.ps;
 
 import com.carson.classes.Messanger;
 import com.mongodb.MongoClient;
@@ -11,7 +11,7 @@ public class PlanetSim {
 
 	IDiscordClient client;
 	MongoClient mClient = MinerManager.getClient();
-    MinerManager manager;
+    public MinerManager manager;
     Messanger m;
     
 	public PlanetSim(IDiscordClient c,Messanger m) {
@@ -19,7 +19,7 @@ public class PlanetSim {
 		this.m = m;
 		manager =  new MinerManager(c, mClient);
 	}
-
+	
 	public static PlanetSim make(IDiscordClient c, Messanger m) {
 		return new PlanetSim(c,m);
 	}
@@ -181,15 +181,16 @@ public class PlanetSim {
 					return true;
 				case "help":
 					sendMessage(channel, "```admin comands:\n"
-							+ "delete\n"
-							+ "\t-people\n"
-							+ "\t-miners\n"
-							+ "\t-both\n"
-							+ "addsystem player_id system_name\n"
-							+ "getDB```");
+							+ "ps admin\n"
+							+ "\tdelete\n"
+							+ "\t\t-people\n"
+							+ "\t\t-miners\n"
+							+ "\t\t-both\n"
+							+ "\taddsystem player_id system_name\n"
+							+ "\tgetDB```");
 					return true;
 				default:
-					sendMessage(channel, "incorrect arguments");
+					sendMessage(channel, "incorrect arguments. use ps admin help for all admin commands");
 			}
 		}else {
 			sendMessage(channel,"you need aditional arguments. use ps admin help for all admin commands");

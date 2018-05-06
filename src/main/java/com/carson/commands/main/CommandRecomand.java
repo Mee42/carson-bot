@@ -24,7 +24,7 @@ public class CommandRecomand extends Command implements ICommand{
 	}
 
 	@Override
-	public boolean run(MessageReceivedEvent event) {
+	public void run(MessageReceivedEvent event) {
 		String[] text = event.getMessage().getContent().split("-");
 		if(text.length > 2) {
 			sendMessage(event.getChannel(), "For some reason, I can't exept this as an input. Remember, you can't use '-' in your recommendation. Please contact the dev if this continues to occur");
@@ -38,7 +38,7 @@ public class CommandRecomand extends Command implements ICommand{
 		
 		
 		
-		return true;
+		return ;
 	}
 
 	@Override

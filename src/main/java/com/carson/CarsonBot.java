@@ -2,7 +2,6 @@ package com.carson;
 
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,13 +11,12 @@ import com.carson.classes.FileIO;
 import com.carson.classes.Googler;
 import com.carson.classes.Gumbo;
 import com.carson.classes.Messanger;
-import com.carson.classes.PhotoStream;
 import com.carson.classes.ProfanityChecker;
 import com.carson.classes.RunCMD;
 import com.carson.classes.SendHelp;
 import com.carson.classes.VerifyAwaiting;
 import com.carson.commandManagers.Register;
-import com.carson.db.PlanetSim;
+import com.carson.commands.main.ps.PlanetSim;
 import com.carson.lavaplayer.GuildMusicManager;
 import com.carson.tic.Tac;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
@@ -121,9 +119,6 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 		if( 
 				
 				
-				ps(event) ||
-				
-					
 				
 				
 				startHangman(event) ||
@@ -136,9 +131,6 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 				
 				dndStart(event) ||
 				dnd(event) ||
-				
-				purge(event) ||
-				
 				
 				playYoutubeLink(event) || 
 				playYoutubeKeywords(event)|| 
@@ -341,10 +333,6 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 	}
 
 
-	//planet sim 
-	private boolean ps(MessageReceivedEvent event) {
-		return ps.ps(event);
-	}
 		
 	//dnd
 	private boolean dnd(MessageReceivedEvent event) {
@@ -364,7 +352,13 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 			
 			while(true) {
 				if(text.length() == i) {
+					try {
 					dX = Integer.valueOf(temp);
+					}catch (java.lang.NumberFormatException e) {
+						sendMessage(event.getChannel(), "sorry, that input is not allowed");
+						return true;
+					}
+					
 					break;
 				}else if(text.charAt(i) == 'd') {
 					Xd = Integer.valueOf(temp);
@@ -537,18 +531,6 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 		
 		IChannel channel = event.getChannel();
 		switch(event.getMessage().getContent()) {
-			case "cb-watching":
-				client.changePresence(StatusType.ONLINE, ActivityType.WATCHING," your every move");
-				sendMessage(channel, "changed presence");
-				System.out.println("EVENT: presence changed to Watching your every move");
-				return true;
-			
-			case "cb-old":
-				client.changePresence(StatusType.ONLINE, ActivityType.PLAYING," OLD VERSION OF BOT");
-				sendMessage(channel, "changed presence");
-				System.out.println("EVENT: presence changed to Playing OLD VERSION OF BOT");
-				return true;
-				
 			
 				
 			case "cb-s":
@@ -741,31 +723,6 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 	
 
 
-	//purge *int* messages
-	private boolean purge(MessageReceivedEvent event) {
-		if(!event.getMessage().getContent().startsWith("~purge ")) {
-			return false;
-		}
-		String integer = event.getMessage().getContent().substring(7, event.getMessage().getContent().length());
-		if(isInteger(integer)) {
-			int in = Integer.valueOf(integer);
-			if(in>99) {
-				sendMessage(event.getChannel(), "sorry, Discord rate limits bulk deletes to 100 messages at a time. I'l delete the last 100 for you anyway"
-						+ "");
-			}
-			List<IMessage> list = event.getChannel().getMessageHistory(in);
-			event.getChannel().bulkDelete(list);
-			sendMessage(event.getChannel(), "done!");
-		}else {
-			
-			sendMessage(event.getChannel(), " not a valid command. ");
-			System.out.println("ERROR:" + event.getMessage().getContent() + " threw an error when trying to purge");
-		}
-		
-		
-		
-		return true;
-	}
 	
 	
 	//start dnd game
@@ -786,12 +743,6 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 	
 	
 	
-	
-	
-	//OTHER
-	
-	
-	//test for integer in a string
 	private static boolean isInteger(String s) {
 	    try { 
 	        Integer.parseInt(s); 
@@ -802,6 +753,12 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 	    }
 	    return true;
 	}
+	
+	//OTHER
+	
+	
+	//test for integer in a string
+	
 	
 
 	

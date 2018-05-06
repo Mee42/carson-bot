@@ -19,9 +19,9 @@ public class CommandMemberCount extends Command implements ICommand{
 	}
 
 	@Override
-	public boolean run(MessageReceivedEvent event) {
+	public void run(MessageReceivedEvent event) {
 		sendMessage(event.getChannel(), " Current Member count:**" + event.getGuild().getTotalMemberCount() + "**! ");
-		return true;
+		return ;
 	}
 
 	@Override

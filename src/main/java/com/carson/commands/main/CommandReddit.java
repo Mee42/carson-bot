@@ -26,7 +26,7 @@ public class CommandReddit extends Command implements ICommand{
 	}
 
 	@Override
-	public boolean run(MessageReceivedEvent event) {
+	public void run(MessageReceivedEvent event) {
 		String[] args = event.getMessage().getContent().split(" ");
 		
 		List<String> pics;
@@ -50,7 +50,7 @@ public class CommandReddit extends Command implements ICommand{
 			e1.printStackTrace();
 		}
 		
-		return true;
+		return ;
 	}
 
 	@Override

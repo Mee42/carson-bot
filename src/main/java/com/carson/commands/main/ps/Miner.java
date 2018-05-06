@@ -1,4 +1,4 @@
-package com.carson.db;
+package com.carson.commands.main.ps;
 
 public class Miner {
 	

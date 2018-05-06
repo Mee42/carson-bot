@@ -3,19 +3,19 @@ ALL CARSON BOT COMMANDS
 
 help
 ping 
-ps -- METHOD 
+ps  
 hangman -- METHOD 
 memberCount
 gumbo -- METHOD
 dnd -- METHOD 
-purge -- BROKEN_METHOD
+purge -- BROKEN_CLASS
 music commands -- METHODS 
 recommend
 google  
 ifuuny
 reddit  
 tic -- METHODS 
-cb commands -- METHOD 
+cb commands -- METHODS AND CLASSES 
 music commands -- METHOD
 
 

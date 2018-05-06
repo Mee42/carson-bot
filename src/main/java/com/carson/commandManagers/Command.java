@@ -15,6 +15,7 @@ public class Command{
 		client = c;
 	}
 	
+	
 	protected void sendMessage(IChannel c, String t) {
 		new Messanger(client).sendMessage(c, t);
 	}

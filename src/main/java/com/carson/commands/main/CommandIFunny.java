@@ -22,7 +22,7 @@ public class CommandIFunny extends Command implements ICommand{
 	}
 
 	@Override
-	public boolean run(MessageReceivedEvent event) {
+	public void run(MessageReceivedEvent event) {
 		
 		List<String> pics;
 		try {
@@ -41,7 +41,7 @@ public class CommandIFunny extends Command implements ICommand{
 			System.out.println("ERROR: running ~IFunny threw a IOExecption");
 			e1.printStackTrace();
 		}
-		return true;
+		return ;
 	}
 
 	@Override

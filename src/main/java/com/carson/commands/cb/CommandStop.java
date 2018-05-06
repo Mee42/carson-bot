@@ -1,4 +1,4 @@
-package com.carson.commands.main;
+package com.carson.commands.cb;
 
 import com.carson.commandManagers.Command;
 import com.carson.commandManagers.ICommand;
@@ -6,38 +6,32 @@ import com.carson.commandManagers.ICommand;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class CommandPing extends Command implements ICommand {
+public class CommandStop extends Command implements ICommand{
 
-	
-	
-	public CommandPing(IDiscordClient client) {
-		super(client);
-		
+	public CommandStop(IDiscordClient c) {
+		super(c);
 	}
-	
+
 	@Override
 	public boolean test(MessageReceivedEvent event) {
-		return event.getMessage().getContent().equals("~ping");
+		return (event.getMessage().getContent().equals("cb-s") || event.getMessage().getContent().equals("cb-stop"));
 	}
 
 	@Override
 	public void run(MessageReceivedEvent event) {
-		sendMessage(event.getChannel(), "ping is:" + client.getShards().get(0).getResponseTime());		
-		return ;
+		sendMessage(event, "Shuting down");
 	}
 
 	@Override
 	public String getName() {
-		return "~ping";
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public String getDisciption() {
-		return "says the current shard ping";
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	
-	
-	
-	
 }

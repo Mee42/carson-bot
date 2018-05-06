@@ -22,7 +22,7 @@ public class CommandStatus extends Command implements ICommand{
 	}
 
 	@Override
-	public boolean run(MessageReceivedEvent event) {
+	public void run(MessageReceivedEvent event) {
 		String temp = "voice channels:\n";
 		List<IVoiceChannel> vc = client.getConnectedVoiceChannels();
 		for(IVoiceChannel v : vc) {
@@ -30,7 +30,7 @@ public class CommandStatus extends Command implements ICommand{
 		}
 		sendMessage(event, temp);
 		sendMessage(event, "minutes sense boot time: " + ((System.currentTimeMillis() - bootTime) / 60000) + "  hours:" + (((System.currentTimeMillis() - bootTime) / 60000)/60));
-		return false;
+		return;
 	}
 
 	@Override
