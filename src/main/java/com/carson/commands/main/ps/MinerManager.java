@@ -52,7 +52,7 @@ public class MinerManager {
 	
 	
 	
-	public EmbedObject extract(int mode) {  
+	public EmbedObject extract(int mode) {
 		DB database = mClient.getDB("miningDB");
 		DBCollection minersCollection = database.getCollection("miners");
 		EmbedBuilder builder = new EmbedBuilder();

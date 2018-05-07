@@ -208,7 +208,7 @@ public class Miner {
 	
 	
 	public String getStuff() {
-		return "oil:" + oil+ "\nmetal:"  + metal+ "\ncoal" + coal+ "\nsilicon" + silicon+ "\nneo:" + neo;
+		return "metal:"  + metal+ "\ncoal" + coal+ "\noil:" + oil+ "\nsilicon" + silicon+ "\nneo:" + neo;
 	}
 		
 	public boolean empty() {
