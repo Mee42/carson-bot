@@ -25,9 +25,5 @@ run() runs the command
 the two get() methods return the name and discription. this is mainly 
 for the help method, which isn't hardcoded
 
-setting the name to "hidden" causes it to not show up in the help menu
-
-
-
 
 

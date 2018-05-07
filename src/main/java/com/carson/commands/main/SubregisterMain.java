@@ -32,6 +32,7 @@ public class SubregisterMain extends Subregister{
 				.addCommand(new CommandLeave(c))
 				.addCommand(new CommandPlayLocal(c, m))
 				.addCommand(new CommandSkip(c,m))
+				.addCommand(new CommandYoutubeKeywords(c,m))
 				
 				.addCommand(new CommandDndStart(c,d))
 				.addCommand(new CommandDndTwo(c,d))
