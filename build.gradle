@@ -7,6 +7,13 @@
  */
 
 // Apply the java-library plugin to add support for Java Library
+
+plugins {
+  id 'com.github.johnrengelman.shadow' version '2.0.4'
+  id 'java'
+}
+
+
 apply plugin: 'java-library'
 
 repositories {
@@ -24,6 +31,10 @@ dependencies {
     compile "com.github.austinv11:Discord4J:2.10.1"
     compile 'com.sedmelluq:lavaplayer:1.2.62'
     compile 'org.mongodb:mongo-java-driver:2.12.3'
-    
-    }
+}
 
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.carson.main.Main'
+    }
+}

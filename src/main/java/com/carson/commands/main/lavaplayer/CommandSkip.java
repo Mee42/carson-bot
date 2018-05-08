@@ -1,18 +1,15 @@
 package com.carson.commands.main.lavaplayer;
 
-import com.carson.commandManagers.Command;
 import com.carson.commandManagers.ICommand;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class CommandSkip extends Command implements ICommand {
+public class CommandSkip extends MusicCommand implements ICommand {
 
-	LavaplayerMain m;
 	
 	public CommandSkip(IDiscordClient c, LavaplayerMain m) {
-		super(c);
-		this.m = m;
+		super(c,m);
 	}
 
 	@Override

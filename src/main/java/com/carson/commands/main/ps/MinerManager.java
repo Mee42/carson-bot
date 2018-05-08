@@ -118,7 +118,7 @@ public class MinerManager {
 		}
 				
 				
-				
+		
 		return builder.build();
 	}
 	
@@ -157,6 +157,9 @@ public class MinerManager {
 		
 		DBObject minerDBO = cursorMiners.one();
 		DBObject personDBO = cursorPeople.one();
+		cursorMiners.close();
+		cursorPeople.close();
+		
 		
 		Miner miner = DBOtoMiner(minerDBO);
 		Person person = DBOtoPerson(personDBO);
@@ -211,6 +214,7 @@ public class MinerManager {
 				new Person("318783502768144384").addPlanet("earth"), //yellowtoad
 				new Person("378915849391570964").addPlanet("earth"), //Blastoise
 				new Person("334513103838511115").addPlanet("earth"), //fodder
+				new Person("294903134902419456").addPlanet("earth") //aaron
 				
 		};
 		

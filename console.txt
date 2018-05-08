@@ -1,56 +1,18 @@
-16:29:07.696: [INFO][main][sx.blah.discord.Discord4J] - Discord4J v2.10.1 be2318c (https://github.com/austinv11/Discord4J)
-16:29:07.697: [INFO][main][sx.blah.discord.Discord4J] - A Java binding for the official Discord API, forked from the inactive https://github.com/nerd/Discord4J. Copyright (c) 2017, Licensed under GNU LGPLv3
+16:06:14.217: [INFO][main][sx.blah.discord.Discord4J] - Discord4J v2.10.1 be2318c (https://github.com/austinv11/Discord4J)
+16:06:14.218: [INFO][main][sx.blah.discord.Discord4J] - A Java binding for the official Discord API, forked from the inactive https://github.com/nerd/Discord4J. Copyright (c) 2017, Licensed under GNU LGPLv3
 BOOT: bot started
-16:29:12.765: [INFO][HttpClient@824344271-20][sx.blah.discord.Discord4J] - Websocket Connected.
-16:29:13.033: [INFO][Dispatch Handler][sx.blah.discord.Discord4J] - Connected to Discord Gateway v6. Receiving 5 guilds.
-MESSAGE:AwesomeCarson123:kepler(Planet Sim - intersystem_relations)   xp:5552
-MESSAGE:TheEnderKing71:does <@364897415637106700> agree?(Planet Sim - intersystem_relations)   xp:2903
-MESSAGE:AwesomeCarson123:~dnd(Carson-Bot - commands)   xp:1626
-EVENT: timed out
-EVENT: running ~dnd
-BOT_MESSAGE:what dice do you want to role?(format: XdY, X and Y can be multi-digit(Carson-Bot - commands)
-EVENT: running null
-BOT_MESSAGE:please fix your inputs(Carson-Bot - commands)
-MESSAGE:AwesomeCarson123:3d4(Carson-Bot - commands)   xp:1629
-EVENT: running null
-10
-BOT_MESSAGE:You got:10(Carson-Bot - commands)
-MESSAGE:AwesomeCarson123:~dnd(Carson-Bot - commands)   xp:1638
-EVENT: running ~dnd
-BOT_MESSAGE:what dice do you want to role?(format: XdY, X and Y can be multi-digit(Carson-Bot - commands)
-EVENT: running null
-BOT_MESSAGE:please fix your inputs(Carson-Bot - commands)
-MESSAGE:AwesomeCarson123:d(Carson-Bot - commands)   xp:1649
-EVENT: running null
-BOT_MESSAGE:I can't proccess that, please fix your input(Carson-Bot - commands)
-MESSAGE:AwesomeCarson123:f(Carson-Bot - commands)   xp:1664
-EVENT: running null
-BOT_MESSAGE:please fix your inputs(Carson-Bot - commands)
-MESSAGE:AwesomeCarson123:d(Carson-Bot - commands)   xp:1668
-EVENT: running null
-BOT_MESSAGE:I can't proccess that, please fix your input(Carson-Bot - commands)
-MESSAGE:AwesomeCarson123:d(Carson-Bot - commands)   xp:1676
-EVENT: running null
-BOT_MESSAGE:I can't proccess that, please fix your input(Carson-Bot - commands)
-MESSAGE:AwesomeCarson123:s(Carson-Bot - commands)   xp:1678
-EVENT: running null
-BOT_MESSAGE:please fix your inputs(Carson-Bot - commands)
-MESSAGE:AwesomeCarson123:3d4(Carson-Bot - commands)   xp:1692
-EVENT: running null
-8
-BOT_MESSAGE:You got:8(Carson-Bot - commands)
-MESSAGE:AceSkipper:yeh(Planet Sim - mining)   xp:452
-MESSAGE:AceSkipper:ps mine(Planet Sim - mining)   xp:462
+16:06:19.110: [INFO][HttpClient@1363621595-22][sx.blah.discord.Discord4J] - Websocket Connected.
+16:06:19.268: [INFO][16:08:09.512: [ERROR][Event Dispatcher Handler][sx.blah.discord.Discord4J] - Unhandled exception caught dispatching event MessageReceivedEvent
+java.lang.NullPointerException
+	at com.carson.classes.Logger.log(LogMESSAGE:karxn:well(McPoland - spam-me-xd-get-to-300)   xp:3501
+MESSAGE:karxn:each msg(McPoland - spam-me-xd-get-to-300)   xp:3507
+MESSAGE:karxn:is 1 ping(McPoland - spam-me-xd-get-to-300)   xp:3510
+MESSAGE:karxn:xD(McPoland - spam-me-xd-get-to-300)   xp:3522
+MESSAGE:karxn:ps mine(Planet Sim - mining)   xp:353
 EVENT: running ps
-mining for :364897415637106700
+mining for :422191638736142346
 found one user
-BOT_MESSAGE:sorry, there was an error mining for you. You may have mined before this hour(Planet Sim - mining)
-MESSAGE:AceSkipper:yes(Planet Sim - intersystem_relations)   xp:466
-MESSAGE:TheEnderKing71:ok(Planet Sim - intersystem_relations)   xp:2905
-MESSAGE:TheEnderKing71:ya know(Planet Sim - intersystem_relations)   xp:2917
-MESSAGE:AceSkipper:?(Planet Sim - intersystem_relations)   xp:480
-MESSAGE:TheEnderKing71:if everyone is in the same system then they are more vulnerable(Planet Sim - intersystem_relations)   xp:2922
-MESSAGE:AceSkipper:k(Planet Sim - intersystem_relations)   xp:493
-MESSAGE:AwesomeCarson123:more people to hide with(Planet Sim - intersystem_relations)   xp:5557
-MESSAGE:TheEnderKing71:well, just making sure you knew(Planet Sim - intersystem_relations)   xp:2936
-16:31:07.382: [INFO][Thread-13][sx.blah.discord.Discord4J] - Shard 0 websocket disconnected with status code 1001 and reason "Shutdown".
+planets:[earth]
+mined on earth
+BOT_MESSAGE:Mined for karxn(Planet Sim - mining)
+16:22:42.769: [INFO][Thread-12][sx.blah.discord.Discord4J] - Shard 0 websocket disconnected with status code 1001 and reason "Shutdown".

@@ -29,7 +29,11 @@ public class SendHelp {
 //		builder.appendField(commands, "thats it!", false);
 		
 		for(ICommand c :reg.getCommands()) {
-			builder.appendField(c.getName(), c.getDisciption(), false);
+			try{
+				builder.appendField(c.getName(), c.getDisciption(), false);
+			}catch( IllegalArgumentException e) {
+				
+			}
 		}
 		dm.sendMessage(builder.build());
 	

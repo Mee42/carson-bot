@@ -66,7 +66,6 @@ public class CarsonBot { // Curl+shift + / (on num pad)
     private Register reg;
     
     
-    private PlanetSim ps;
     
 	public void startup(IDiscordClient client, boolean locked) {
 		this.locked = locked;
@@ -80,12 +79,10 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 		
 		
 		messanger = new Messanger(client);
-		ps = PlanetSim.make(client, messanger);
 		
 		System.out.println("BOOT: bot started");
 //		client.changeAvatar(Image.forFile(new File("C:\\Users\\Carson\\Desktop\\discord\\carson-bot\\profile.jpg")));
 		
-		LavaplayerMain m = new LavaplayerMain();
 		
 		
         
@@ -131,7 +128,7 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 				
 				dnd(event) ||
 				
-				playYoutubeLink(event) || 
+
 				playYoutubeKeywords(event)|| 				
 				
 				
@@ -394,20 +391,7 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 	
 	
 	
-	//play youtube
-	private boolean playYoutubeLink(MessageReceivedEvent event) {
-		String text = event.getMessage().getContent();
-		if(!text.startsWith("v~link ")) {
-			return false;
-		}
-		System.out.println("EVENT: playing a youtube video from link");
-		String url = text.substring(7,text.length());
-		playLink(event.getChannel(),url);
-		
-		
-		
-		return false;
-	}
+	
 	
 	//hangmanOne
 	private boolean hangmanOne(MessageReceivedEvent event) {

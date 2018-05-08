@@ -4,20 +4,16 @@ import java.io.File;
 import java.util.List;
 
 import com.carson.classes.FileIO;
-import com.carson.commandManagers.Command;
 import com.carson.commandManagers.ICommand;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.util.EmbedBuilder;
 
-public class CommandPlayLocal extends Command implements ICommand{
-	
-	private LavaplayerMain m;
+public class CommandPlayLocal extends MusicCommand implements ICommand{
 	
 	public CommandPlayLocal(IDiscordClient c, LavaplayerMain m) {
-		super(c);
-		this.m = m;
+		super(c,m);
 	}
 
 	@Override
