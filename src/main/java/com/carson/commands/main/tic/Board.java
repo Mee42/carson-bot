@@ -1,4 +1,4 @@
-package com.carson.tic;
+package com.carson.commands.main.tic;
 
 public class Board {
 	

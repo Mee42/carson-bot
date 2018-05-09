@@ -18,8 +18,8 @@ import com.carson.classes.VerifyAwaiting;
 import com.carson.commandManagers.Register;
 import com.carson.commands.main.lavaplayer.LavaplayerMain;
 import com.carson.commands.main.ps.PlanetSim;
+import com.carson.commands.main.tic.Tac;
 import com.carson.lavaplayer.GuildMusicManager;
-import com.carson.tic.Tac;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
@@ -47,8 +47,6 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 	private IDiscordClient client;
 	private Messanger messanger;
 	
-	private Tac tac = new Tac();
-	private VerifyAwaiting tacV = new VerifyAwaiting();
 	private String moves = "";
 	
 	
@@ -100,8 +98,8 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 		
 		
 		
-		//lruns the register. 
-				reg.testCommands(event);
+		//runs the register. 
+		reg.testCommands(event);
 		
 		if(event.getMessage().getContent().equals("~help"))
 			SendHelp.sendHelp(event, reg);
@@ -129,13 +127,8 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 				dnd(event) ||
 				
 
-				playYoutubeKeywords(event)|| 				
 				
 				
-				
-				
-				tic1(event) ||
-				tic2(event) ||
 				
 				cbCommands(event)
 				
@@ -160,11 +153,7 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 		messanger.sendMessage(channel, message);
     }
 	
-	//send message without console print (used for tic tac toe board, mainly)
-	private void sendMessageClean(IChannel channel, String message) {
-		messanger.sendMessageClean(channel, message);
-		
-	}
+	
 	
 	
 	//checks to see if the command will be allowed to run
@@ -422,22 +411,6 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 	
 	
 	
-	//play a youtube video from keywords	
-	private boolean playYoutubeKeywords(MessageReceivedEvent event) {
-		String text = event.getMessage().getContent();
-		if(!(text.startsWith("v~youtube "))) {
-			return false;
-		}
-		System.out.println("EVENT: youtube played with keywords");
-		String url = new Googler().GoogleYoutube(text.substring(10,text.length()));
-		System.out.println(url);
-		playLink(event.getChannel(),url);
-		
-		
-		return true;
-	}
-	
-	
 	
 	
 
@@ -521,13 +494,7 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 				sendMessage(channel,"started");
 				return true;
 			
-				
-			case "cb-tic-kill":
-				tacV.setActive(false);
-				tac = new Tac();
-				sendMessage(channel, "killed");
-				System.out.println("EVENT: reset tac");
-				return true;
+		
 			
 			case "cb-our-songs":
 				
@@ -580,113 +547,11 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 		
 	}
 	
-	//start tic game
-	private boolean tic2(MessageReceivedEvent event) {
-		if(!tacV.verify(event)) {
-			return false;
-		}
-		
-		String text = event.getMessage().getContent();
-		
-		if(isInteger(text) && Integer.valueOf(text) < 10) {
-			sendMessageClean(event.getChannel(),tac.moveNext(Integer.valueOf(text)));
-			
-			if(tac.checkWin() == 1) {
-				sendMessage(event.getChannel(), "I Won");
-				tacV.setActive(false);
-				tac = new Tac();
-				moves = "";
-			}else if(tac.checkWin() == 2) {
-				sendMessage(event.getChannel(), "You Won! time to recode the entire stupid bot *fuckingsmarthuman*");
-				tacV.setActive(false);
-				tac = new Tac();
-				System.out.println("ERROR: someone won tictactoe. shit. take a look at there sick moves:" + moves);
-				sendMessage(client.getOrCreatePMChannel(client.getUserByID(293853365891235841L)), "ERROR: someone won tictactoe. shit. take a look at there sick moves:" + moves);
-			}else if(tac.checkWin() == -1) {
-				sendMessage(event.getChannel(), "It was a draw. Better luck next time");
-				tacV.setActive(false);
-				tac = new Tac();
-				moves = "";
-			}else {
-				moves+=text;
-				sendMessageClean(event.getChannel(), "What is your next move?");
-			}
-		}
-		
-		
-		
-		
-		return true;
-		
-		
-	}
 	
-	
-	//continue tic game
-	private boolean tic1(MessageReceivedEvent event) {
-		String text = event.getMessage().getContent();
-		if(!text.equals("~tic")) {
-			return false;
-		}
-		if(tacV.getActive()) {
-			sendMessage(event.getChannel(),"Sorry, Someone is using the Tic Tac Toe game right now.");
-			System.out.println("EVENT:" +tacV.getInitalEvent().getAuthor().getName() + " is using the ticTacToe game right now, so " + event.getAuthor().getName() + " can't");
-			return false;
-		}
-		
-		
-		tacV.set(event);
-		if((int)(Math.random()*2+1) == 2) {
-			sendMessageClean(event.getChannel(),tac.start(0));
-		}else{
-			sendMessageClean(event.getChannel(),tac.start(-1));
-		}
-		return true;
-	}
-
-
 	
 	
 
 	
-	
-
-
-//	
-//	
-//	//start dnd game
-//	private boolean dndStart(MessageReceivedEvent event) {
-//		if(!event.getMessage().getContent().equals("~dnd")) {
-//			return false;
-//		}
-//		
-//		System.out.println("EVENT: started dnd role");
-//		sendMessage(event.getChannel(),"what dice do you want to role?(format: XdY, X and Y can be multi-digit");
-//		dnd.set(event);
-//		return true;
-//		
-//		
-//	}
-	
-	
-	
-	
-	
-	private static boolean isInteger(String s) {
-	    try { 
-	        Integer.parseInt(s); 
-	    } catch(NumberFormatException e) { 
-	        return false; 
-	    } catch(NullPointerException e) {
-	        return false;
-	    }
-	    return true;
-	}
-	
-	//OTHER
-	
-	
-	//test for integer in a string
 	
 	
 

@@ -30,13 +30,16 @@ public class SubregisterCB extends Subregister{
 	
 	@Override
 	public void testCommands(MessageReceivedEvent  event) {
+		
 		long id = event.getAuthor().getLongID();
 		
-		if(id != 317104272405823489L || id != 317104272405823489L || id != 279412525051674624L) {
+		if(!(id == 317104272405823489L || id == 317104272405823489L || id == 293853365891235841L)) {
 			return;
 		}
+		System.out.println("testing commands for SubregisterCB");
 		
 		for(ICommand c : commands) {
+			System.out.println("testing:" + c.getName() );
 			if(c.test(event)) {
 				System.out.println("EVENT: running " + c.getName());
 				c.run(event);

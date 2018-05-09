@@ -5,6 +5,9 @@ import com.carson.commands.main.dnd.*;
 import com.carson.commands.main.dnd.DndObject;
 import com.carson.commands.main.lavaplayer.*;
 import com.carson.commands.main.ps.CommandPS;
+import com.carson.commands.main.tic.CommandTicStart;
+import com.carson.commands.main.tic.CommandTicTwo;
+import com.carson.commands.main.tic.TicObject;
 
 import sx.blah.discord.api.IDiscordClient;
 
@@ -16,6 +19,8 @@ public class SubregisterMain extends Subregister{
 		
 		LavaplayerMain m = new LavaplayerMain();
 		DndObject d = new DndObject();
+		TicObject v = new TicObject();
+		
 		
 		return new SubregisterMain(c)
 				.addCommand(new CommandPing(c))
@@ -37,6 +42,11 @@ public class SubregisterMain extends Subregister{
 				
 				.addCommand(new CommandDndStart(c,d))
 				.addCommand(new CommandDndTwo(c,d))
+				
+				.addCommand(new CommandTicStart(c,v))
+				.addCommand(new CommandTicTwo(c,v))
+				
+				
 				;
 		
 	}

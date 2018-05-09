@@ -5,13 +5,14 @@ import com.carson.commandManagers.ICommand;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import sx.blah.discord.util.RateLimitException;
 
 public class CommandNick extends Command implements ICommand{
 	  
 
 	public CommandNick(IDiscordClient c) {
 		super(c);
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	
@@ -28,14 +29,20 @@ public class CommandNick extends Command implements ICommand{
 
 	@Override
 	public boolean test(MessageReceivedEvent event) {
-		return event.getMessage().getContent().startsWith("cb-changeNick");
-
+		System.out.println("testing for:" + event.getMessage().getContent());
+		return event.getMessage().getContent().startsWith("cb-nick");
 	}
 
 	@Override
 	public void run(MessageReceivedEvent event) {
-		String text = event.getMessage().getContent().split(" ")[1];
-		event.getGuild().setUserNickname(client.getOurUser(), text);
+		try {
+			String text = event.getMessage().getContent().split(" ")[1];
+			event.getGuild().setUserNickname(client.getOurUser(), text);
+		}catch (ArrayIndexOutOfBoundsException e) {
+			sendMessage(event,"you need an argument");
+		}catch (RateLimitException ef) {
+			sendMessage(event,"you are updating it to fast");
+		}
 	}
 
 	@Override
