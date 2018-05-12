@@ -1,20 +1,6 @@
-13:20:57.419: [INFO][main][sx.blah.discord.Discord4J] - Discord4J v2.10.1 be2318c (https://github.com/austinv11/Discord4J)
-13:20:57.420: [INFO][main][sx.blah.discord.Discord4J] - A Java binding for the official Discord API, forked from the inactive https://github.com/nerd/Discord4J. Copyright (c) 2017, Licensed under GNU LGPLv3
-BOOT: bot started
-13:21:02.365: [INFO][HttpClient@26277950-22][sx.blah.discord.Discord4J] - Websocket Connected.
-13:21:02.518: [INFO][Dispatch Handler][sx.blah.discord.Discord4J] - Connected to Discord Gateway v6. Receiving 7 guilds.
-MESSAGE:AwesomeCarson123:cb-emoji(Carson-Bot - commands)   xp:2235
-EVENT: running cb-emoji
-BOT_MESSAGE:<:carson_bot:444911243547901952>(Carson-Bot - commands)
-MESSAGE:AwesomeCarson123:ps mine(Planet Sim - mining)   xp:9474
-EVENT: running ps
-BOT_MESSAGE:sorry, there was an error mining for you. You may have mined before this hour(Planet Sim - mining)
-MESSAGE:AwesomeCarson123:cb-emoji(Planet Sim - mining)   xp:9486
-EVENT: running cb-emoji
-BOT_MESSAGE:<:carson_bot:444911243547901952>(Planet Sim - mining)
-MESSAGE:AwesomeCarson123:YaY(Planet Sim - mining)   xp:9491
-MESSAGE:AwesomeCarson123:I can use emoji's cross server(Planet Sim - mining)   xp:9498
-MESSAGE:AwesomeCarson123:cb-emoji(Planet Sim - mining)   xp:9509
-EVENT: running cb-emoji
-BOT_MESSAGE:<:carson_bot:444911243547901952>(Planet Sim - mining)
-13:22:35.329: [INFO][Thread-12][sx.blah.discord.Discord4J] - Shard 0 websocket disconnected with status code 1001 and reason "Shutdown".
+14:02:03.259: [INFO][main][sx.blah.discord.Discord4J] - Discord4J v2.10.1 be2318c (https://github.com/austinv11/Discord4J)
+14:02:03.261: [INFO][main][sx.blah.discord.Discord4J] - A Java binding for the official Discord API, forked from the inactive https://github.com/nerd/Discord4J. Copyright (c) 2017, Licensed under GNU LGPLv3
+faulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+Exception in thread "Thread-2" java.lang.NullPointerException
+	at com.carson.main.CleanThread.run(CleanThread.java:20)
