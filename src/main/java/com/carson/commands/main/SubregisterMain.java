@@ -1,13 +1,12 @@
 package com.carson.commands.main;
 
 import com.carson.commandManagers.Subregister;
+import com.carson.commands.cb.CommandMakeEmoji;
 import com.carson.commands.main.dnd.*;
-import com.carson.commands.main.dnd.DndObject;
+import com.carson.commands.main.hangman.*;
 import com.carson.commands.main.lavaplayer.*;
 import com.carson.commands.main.ps.CommandPS;
-import com.carson.commands.main.tic.CommandTicStart;
-import com.carson.commands.main.tic.CommandTicTwo;
-import com.carson.commands.main.tic.TicObject;
+import com.carson.commands.main.tic.*;
 
 import sx.blah.discord.api.IDiscordClient;
 
@@ -20,7 +19,7 @@ public class SubregisterMain extends Subregister{
 		LavaplayerMain m = new LavaplayerMain();
 		DndObject d = new DndObject();
 		TicObject v = new TicObject();
-		
+		HangmanObject h = new HangmanObject();
 		
 		return new SubregisterMain(c)
 				.addCommand(new CommandPing(c))
@@ -46,7 +45,11 @@ public class SubregisterMain extends Subregister{
 				.addCommand(new CommandTicStart(c,v))
 				.addCommand(new CommandTicTwo(c,v))
 				
+				.addCommand(new CommandHangmanStart(c,h))
+				.addCommand(new CommandHangmanOne(c,h))
+				.addCommand(new CommandHangmanTwo(c,h))
 				
+				.addCommand(new CommandMakeEmoji(c))
 				;
 		
 	}

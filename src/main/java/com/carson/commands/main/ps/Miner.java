@@ -34,6 +34,18 @@ public class Miner {
 		this.neo = Integer.parseInt(a[4].toString());
 	}
 	
+	
+	public Miner(int[] a) {
+		this.oil = a[0];
+		this.metal = a[1];
+		this.coal= a[2];
+		this.silicon= a[3];
+		this.neo= a[4];
+		
+		
+		
+	}
+	
 	public int[] StoreMiner() {
 		return new int[] {oil,metal,coal,silicon,neo};
 	}

@@ -2,28 +2,21 @@ package com.carson;
 
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.carson.classes.FileIO;
-import com.carson.classes.Googler;
 import com.carson.classes.Gumbo;
 import com.carson.classes.Messanger;
 import com.carson.classes.ProfanityChecker;
 import com.carson.classes.RunCMD;
 import com.carson.classes.SendHelp;
-import com.carson.classes.VerifyAwaiting;
 import com.carson.commandManagers.Register;
-import com.carson.commands.main.lavaplayer.LavaplayerMain;
-import com.carson.commands.main.ps.PlanetSim;
-import com.carson.commands.main.tic.Tac;
 import com.carson.lavaplayer.GuildMusicManager;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
-import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
@@ -34,11 +27,7 @@ import sx.blah.discord.handle.obj.ActivityType;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IMessage;
-import sx.blah.discord.handle.obj.IUser;
-import sx.blah.discord.handle.obj.IVoiceChannel;
 import sx.blah.discord.handle.obj.StatusType;
-import sx.blah.discord.util.EmbedBuilder;
-import sx.blah.discord.util.audio.AudioPlayer;
 
 public class CarsonBot { // Curl+shift + / (on num pad)
 	
@@ -47,16 +36,9 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 	private IDiscordClient client;
 	private Messanger messanger;
 	
-	private String moves = "";
 	
 	
 	
-	private VerifyAwaiting hangman = new VerifyAwaiting();
-	private String hangmanText = "";
-	private boolean hangmanBoolean = false;
-	private List<Character> hangmanDone = new ArrayList<Character>();
-	
-	private VerifyAwaiting dnd = new VerifyAwaiting();
 	
 	private static final AudioPlayerManager playerManager = new DefaultAudioPlayerManager();
     private static final Map<Long, GuildMusicManager> musicManagers  = new HashMap<>();
@@ -86,7 +68,9 @@ public class CarsonBot { // Curl+shift + / (on num pad)
         
         //this enables the logger
 //        ((Discord4J.Discord4JLogger) Discord4J.LOGGER).setLevel(Level.TRACE);
-        reg = Register.build(client);
+		
+		
+        reg = Register.build(client); //puts the subregisters into the reg. and inports the client
         
         
 	}
@@ -116,21 +100,14 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 				
 				
 				
-				startHangman(event) ||
-				hangmanTwo(event) || 
-				hangmanOne(event)|| 
+				gumbo(event) ||  //needs to be ported
+				
+				
+			
 				
 				
 				
-				gumbo(event) || 
-				
-				dnd(event) ||
-				
-
-				
-				
-				
-				cbCommands(event)
+				cbCommands(event) //needs to be moved
 				
 				) 
 		
@@ -179,27 +156,7 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 	
 	
 	
-	//start hangman game
-	private boolean startHangman(MessageReceivedEvent event) {
-		if(!event.getMessage().getContent().equals("~hangman")) {
-			return false;
-		}
-		
-		if(hangman.set(event)) {
-			System.out.println("EVENT:starting hangman game with" + event.getAuthor().getName());
-			sendMessage(event.getChannel(), "Nice! Now go check your DM's");
-			sendMessage(event.getAuthor().getOrCreatePMChannel(), "What do you want your word to be?");
-		}else {
-			sendMessage(event.getChannel(), "Sorry, someone is already using hangman right now. ");
-			System.out.println(event.getAuthor().getName() + " tryed to use the hangman bot, but " + hangman.getInitalEvent().getAuthor().getName()+ " is already using it");
-		}
-		
-		
-		
-		
-		
-		return true;
-	}
+	
 	
 	//gumbo script
 	private boolean gumbo(MessageReceivedEvent event) {
@@ -251,164 +208,13 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 		
 	}
 	
-	//hangmanTwo
-	private boolean hangmanTwo(MessageReceivedEvent event) {
-		
-		IUser author = event.getAuthor();
-		String text = event.getMessage().getContent();
-		IChannel channel = event.getChannel();
-		
-		
-		if(hangmanBoolean && hangman.verifyFlop(event, author) &&!channel.isPrivate() && text.length() == 1) {
-			
-			
-			char letter = text.charAt(0);
-			
-			for(int i = 0;i<hangmanText.length();i++) {
-				if(letter == hangmanText.charAt(i)) {
-					if(hangmanDone.get(i) == '-') {
-						hangmanDone.set(i, letter);
-					}else {
-						sendMessage(channel,"you already sent that character");
-					}
-				}
-				
-				
-			}
-			
-			
-			String temp = "";
-			for(int q = 0;q<hangmanDone.size();q++) {
-				temp+=hangmanDone.get(q);
-			}
-			
-			if(temp.equals(hangmanText)) {
-				sendMessage(channel,"Correct! the word was: **" + hangmanText + "**. The winner was " + author.getName()+". They get 500 XP!");
-				new File("C:\\users\\carson\\desktop\\discord\\carson-bot\\ranks\\" + event.getGuild().getName() + "\\").mkdirs();
-				FileIO fR = new FileIO("C:\\users\\carson\\desktop\\discord\\carson-bot\\ranks\\" + event.getGuild().getName() + "\\" + author.getName() + ".txt");
-				long xp = Long.valueOf(fR.readList().get(0));
-				xp+= 500;
-				fR.write(String.valueOf(xp));
-				
-				System.out.println("EVENT:hangman game ended, " + author.getName() + " won");
-				hangman.setActive(false);
-			}else {
-				temp = "";
-				for(int q = 0;q<hangmanDone.size();q++) {
-					temp = temp +" " + hangmanDone.get(q);
-				}
-				
-				sendMessage(channel,"the word is:```" + temp + "```");
-			}
-			
-			
-			return true;
-			
-			
-		}
-		
-		
-		
-		
-		return false;
-	}
+	
 
 
-		
-	//dnd
-	private boolean dnd(MessageReceivedEvent event) {
-		String text = event.getMessage().getContent();
-		
-		
-		if(dnd.verify(event)) {
-			
-			if(text.length()<=2) {
-				return false;
-			}
-			
-			int Xd = 0;
-			int dX = 0;
-			int i =0;
-			String temp = "";
-			
-			while(true) {
-				if(text.length() == i) {
-					try {
-					dX = Integer.valueOf(temp);
-					}catch (java.lang.NumberFormatException e) {
-						sendMessage(event.getChannel(), "sorry, that input is not allowed");
-						return true;
-					}
-					
-					break;
-				}else if(text.charAt(i) == 'd') {
-					Xd = Integer.valueOf(temp);
-					temp = "";
-					i++;
-				}else {
-					temp+= text.charAt(i);
-					i++;
-				}
-				
-				
-				
-			}
-				System.out.println("EVENT: dnd roll:");
+	
+	
+	
 
-		
-		
-			
-			int total = 0;
-			List<Integer> number = new ArrayList<Integer>();
-		
-			for(int i1 = 0;i1<Xd;i1++) {
-				int temp1 = (int)(Math.random()*dX+1);
-				number.add(temp1);
-				total+=temp1;
-				
-			}
-			System.out.println(total);
-			sendMessage(event.getChannel(),"You got:" + total);
-			
-			dnd.setActive(false);
-			return true;
-		}
-		
-		return false;
-	}
-
-	
-	
-	
-	
-	
-	//hangmanOne
-	private boolean hangmanOne(MessageReceivedEvent event) {
-		if(hangman.verifyFromPM(event)) {
-			System.out.println("EVENT: hangman word found");
-			hangmanText = event.getMessage().getContent();
-			sendMessage(event.getChannel(), "Great!");
-			hangmanBoolean = true;
-			String temp = "";
-			String text = event.getMessage().getContent();
-			
-			for(int i = 0;i<text.length();i++) {
-				hangmanDone.add('-');
-			}
-			
-			temp = "";
-			for(int q = 0;q<hangmanDone.size();q++) {
-				temp = temp +" " + hangmanDone.get(q);
-			}
-			
-			sendMessage(hangman.getInitalEvent().getChannel(),"the word is:```" + temp + "```");
-			
-			return true;
-		}else {
-			return false;
-		}
-	}
-	
 	
 	
 	
@@ -472,11 +278,7 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 		
 			
 				
-			case "cb-hangman-kill":
-				sendMessage(hangman.getInitalEvent().getChannel(),"this hangman game has been forceable killed");
-				System.out.println("EVENT:force killed hangman game");
-				hangman.setActive(false);
-				return true;
+			
 				
 				
 			case "cb-pc-shutdown":
@@ -581,44 +383,6 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 	    }
 	 
 	
-	 private  void playLink(final IChannel channel, final String trackUrl) {
-        GuildMusicManager musicManager = getGuildAudioPlayer(channel.getGuild());
-
-       
-        
-        playerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
-            @Override
-            public void trackLoaded(AudioTrack track) {
-               sendMessage(channel, "Adding to queue " + track.getInfo().title);
-
-                play(musicManager, track);
-            }
-
-            @Override
-            public void playlistLoaded(AudioPlaylist playlist) {
-                AudioTrack firstTrack = playlist.getSelectedTrack();
-
-                if (firstTrack == null) {
-                    firstTrack = playlist.getTracks().get(0);
-                }
-
-                sendMessage(channel, "Adding to queue " + firstTrack.getInfo().title + " (first track of playlist " + playlist.getName() + ")");
-
-                play(musicManager, firstTrack);
-            }
-
-            @Override
-            public void noMatches() {
-                sendMessage(channel, "Nothing found by " + trackUrl);
-            }
-
-            @Override
-            public void loadFailed(FriendlyException exception) {
-                sendMessage(channel, "Could not play: " + exception.getMessage());
-            }
-        });
-    }
-
 	 private boolean playFile(final IChannel channel, final File file) {
 		 
 	        GuildMusicManager musicManager = getGuildAudioPlayer(channel.getGuild());

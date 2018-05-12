@@ -1,6 +1,5 @@
 package com.carson.commands.main.ps;
 
-import com.carson.classes.Messanger;
 import com.carson.commandManagers.*;
 
 import sx.blah.discord.api.IDiscordClient;
@@ -28,8 +27,7 @@ public class CommandPS extends Command implements ICommand{
 		IChannel channel = event.getChannel();
 		switch(args[1]) {
 		case "mine":
-			if(!new PlanetSim(event.getClient(), new Messanger(event.getClient()))
-			.manager.mineFor(event)) {
+			if(!MinerManager.SmineFor(event)) {
 				sendMessage(event, "sorry, there was an error mining for you. You may have mined before this hour");
 			}else {
 				sendMessage(event, "Mined for " + event.getAuthor().getDisplayName(event.getGuild()));
@@ -152,7 +150,7 @@ public class CommandPS extends Command implements ICommand{
 			
 		}
 		mode = Integer.parseInt(modeS);
-		event.getChannel().sendMessage(new PlanetSim(event.getClient(),new Messanger(event.getClient())).manager.extract(mode));
+		event.getChannel().sendMessage(MinerManager.Sextract(mode));
 		return true;
 	}
 	
@@ -164,10 +162,7 @@ public class CommandPS extends Command implements ICommand{
 		//ps admin command args  
 		//0   1      2      3    
 //length:     1   2      3      4
-		MinerManager manager = new PlanetSim(
-									event.getClient(),
-									new Messanger(event.getClient())
-									).manager;
+		MinerManager manager = new MinerManager(event.getClient());
 		
 		String[] args = event.getMessage().getContent().split(" ");
 		IChannel channel = event.getChannel();
@@ -215,6 +210,29 @@ public class CommandPS extends Command implements ICommand{
 					sendMessage(event.getChannel(),manager.getEntrys("miners"));
 					
 					return true;
+				case "mine":
+					
+					if(!MinerManager.SAdminMineFor(args[3])) {
+						sendMessage(event, "well, shit. there was an error with the DB, not the time. id:" + args[3]);
+					}else {
+						sendMessage(event, "done!");
+					}
+					
+					
+					return true;
+					
+				case "add":
+					try {
+						String type = args[3];
+						String playerId = args[4];
+						int ammount = Integer.parseInt(args[5]);
+						new MinerManager(client).fix(playerId, type, ammount);
+						sendMessage(event, "looks like nothing failed");
+					}catch (Exception e) {
+						sendMessage(event, "something happened, I'm not sure what. please use proper sintax");
+					}
+					
+					return true;
 				case "help":
 					sendMessage(channel, "```admin comands:\n"
 							+ "delete\n"
@@ -222,6 +240,8 @@ public class CommandPS extends Command implements ICommand{
 							+ "\t-miners\n"
 							+ "\t-both\n"
 							+ "addsystem player_id system_name\n"
+							+ "mine *player_id*\n"
+							+ "add <metal/coal/oil/neo/silicon> *player_id* *int_ammount*\n"
 							+ "getDB```");
 					return true;
 				default:

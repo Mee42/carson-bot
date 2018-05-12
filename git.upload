@@ -1,6 +1,15 @@
 #!bin/bash
+
+
 git config --global user.email "carson42g@gmail.com"
 git config --global user.name "Mee42"
 git add .
-git commit -m 'commit'
+
+if [ $# -eq 0 ]
+then
+	git commit -m $1
+else
+	git commit -m 'commit'
+fi
+
 git push origin master

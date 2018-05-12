@@ -29,7 +29,6 @@ public class CommandNick extends Command implements ICommand{
 
 	@Override
 	public boolean test(MessageReceivedEvent event) {
-		System.out.println("testing for:" + event.getMessage().getContent());
 		return event.getMessage().getContent().startsWith("cb-nick");
 	}
 

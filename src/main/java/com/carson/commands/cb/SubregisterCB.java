@@ -16,6 +16,8 @@ public class SubregisterCB extends Subregister{
 				.addCommand(new CommandSetPlaying(c))
 				.addCommand(new CommandNick(c))
 				.addCommand(new CommandStop(c))
+				
+				
 				;
 	}
 	
@@ -36,10 +38,8 @@ public class SubregisterCB extends Subregister{
 		if(!(id == 317104272405823489L || id == 317104272405823489L || id == 293853365891235841L)) {
 			return;
 		}
-		System.out.println("testing commands for SubregisterCB");
 		
 		for(ICommand c : commands) {
-			System.out.println("testing:" + c.getName() );
 			if(c.test(event)) {
 				System.out.println("EVENT: running " + c.getName());
 				c.run(event);

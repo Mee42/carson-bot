@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import com.carson.classes.Messanger;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -50,7 +51,10 @@ public class MinerManager {
 		return mineFor(event.getAuthor().getStringID());
 	}
 	
-	
+	public MinerManager(IDiscordClient c){
+		client = c;
+		mClient = MinerManager.getClient();
+	}
 	
 	public EmbedObject extract(int mode) {
 		DB database = mClient.getDB("miningDB");
@@ -122,8 +126,17 @@ public class MinerManager {
 		return builder.build();
 	}
 	
-	
-	
+	public static boolean SmineFor(MessageReceivedEvent event) {
+		
+		if(event.getChannel().getLongID() != 434858429618847751L) {
+			new Messanger(event.getClient()).sendMessage(event.getChannel(), "boi ur trying to mine here lol u can only mine in the channel called mining lol");
+			System.out.println("DEBUG: mined in wrong channel");
+			return false;
+		}
+		
+		
+		return new MinerManager(event.getClient()).mineFor(event);
+	}
 	
 	public String getEntrys(String collection) {
 		DB database = mClient.getDB("miningDB");
@@ -137,6 +150,29 @@ public class MinerManager {
 	}
 	
 	public boolean mineFor(String id) {
+		DBCollection miners = mClient.getDB("miningDB").getCollection("miners");
+		
+		
+		
+		
+		DBCursor cursorMiners = miners.find(new BasicDBObject("_id", id));
+		
+	
+		
+		DBObject minerDBO = cursorMiners.one();
+		cursorMiners.close();
+		
+		
+		
+		if(String.valueOf(minerDBO.get("time")).equals(getHour())) {
+			return false;
+		}
+		
+		return mine(id);
+	}
+	
+	
+	private boolean mine(String id) {
 		System.out.println("mining for :" + id);
 		DB database = mClient.getDB("miningDB");
 		
@@ -164,10 +200,7 @@ public class MinerManager {
 		Miner miner = DBOtoMiner(minerDBO);
 		Person person = DBOtoPerson(personDBO);
 		
-		if(String.valueOf(minerDBO.get("time")).equals(getHour())) {
-			return false;
-		}
-		
+	
 		
 		List<String> planets = person.getPlanets();
 		System.out.println("planets:" + planets);
@@ -201,6 +234,10 @@ public class MinerManager {
 		return true;
 	}
 	
+	public boolean adminMineFor(String id) {
+		return mine(id);
+	}
+	
 	public void hardcodePopulatePeople() {
 		DB database = mClient.getDB("miningDB");
 		DBCollection collection_people = database.getCollection("people");
@@ -229,14 +266,6 @@ public class MinerManager {
 		DB database = mClient.getDB("miningDB");
 		DBCollection collection = database.getCollection("miners");
 		collection.drop();
-//		String[] playerIDs = new String[] {
-//				"279412525051674624",
-//				"293853365891235841",
-//				"317104272405823489"};
-//		
-//		for(String id : playerIDs) {
-//			collection.insert(minerToDBO(new Miner(), id));
-//		}
 		
 		DBCollection people = database.getCollection("people");
 		
@@ -288,8 +317,62 @@ public class MinerManager {
 		return String.valueOf(calendar.get(Calendar.HOUR));
 	}
 	
+	public static EmbedObject Sextract(int mode) {
+		return new MinerManager().extract(mode);
+		
+	}
 	
+	public boolean fix(String id, String type, int ammount) throws Exception{
+		
+		
+		System.out.println("fixing:" +  id + " type:" + type + " amount" + ammount);
+				
+		DBObject idObject = new BasicDBObject("_id", id);
+		
+		DBCursor cursorMiners = mClient.getDB("miningDB").getCollection("miners").find(idObject);
+		
+		
+		
+		DBObject minerDBO = cursorMiners.one();
+		cursorMiners.close();
+		
+		
+		Miner miner = DBOtoMiner(minerDBO);
+		
+		
+		int[] items = miner.StoreMiner();
+		int item;
+		
+		if(type.equals("metal")) {
+			item = 1;
+		}else if(type.equals("oil")) {
+			item = 0;
+		}else if(type.equals("coal")) {
+			item = 2;
+		}else if(type.equals("silicon")) {
+			item = 3;
+		}else if(type.equals("neo")) {
+			item = 4;
+		}else {
+			throw new Exception();
+		}
+		
+		items[item] = items[item] + ammount;
+		Miner updated = new Miner(items);
+		
+		mClient.getDB("miningDB").getCollection("miners").findAndModify(minerDBO, minerToDBO(updated, id));
+		
+		return true;
+	}
 	
+	public static boolean SAdminMineFor(String id) {
+		return new MinerManager().adminMineFor(id);
+	}
+	
+	//used for extraction
+	public MinerManager() {
+		mClient = MinerManager.getClient();
+	}
 	
 	
 	
