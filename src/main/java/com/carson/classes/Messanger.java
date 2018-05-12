@@ -6,12 +6,15 @@ import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.RequestBuffer;
 
 public class Messanger {
-	IDiscordClient client;
+//	IDiscordClient client;
 	
 	
 	
 	public Messanger(IDiscordClient c) {
-		this.client = c;
+//		this.client = c;
+	}
+	public Messanger() {
+		
 	}
 	
 	//sends a message
@@ -20,7 +23,6 @@ public class Messanger {
 
 		Logger.logBot(channel, message);
         // this is so it can repeat sending messages when rate limited
-		
         RequestBuffer.request(() -> {
             try{
                 channel.sendMessage(message);
@@ -39,8 +41,8 @@ public class Messanger {
 	//send message without console print (used for tic tac toe board, mainly)
 	public void sendMessageClean(IChannel channel, String message) {
 		Logger.logBotClean(channel, message);
-        // this is so it can repeat sending messages when rate limited
 		
+        // this is so it can repeat sending messages when rate limited
         RequestBuffer.request(() -> {
             try{
                 channel.sendMessage(message);

@@ -1,7 +1,6 @@
 package com.carson.commands.main;
 
 import com.carson.commandManagers.Subregister;
-import com.carson.commands.cb.CommandMakeEmoji;
 import com.carson.commands.main.dnd.*;
 import com.carson.commands.main.hangman.*;
 import com.carson.commands.main.lavaplayer.*;
@@ -49,7 +48,11 @@ public class SubregisterMain extends Subregister{
 				.addCommand(new CommandHangmanOne(c,h))
 				.addCommand(new CommandHangmanTwo(c,h))
 				
-				.addCommand(new CommandMakeEmoji(c))
+				.addCommand(new CommandGetEmoji(c))
+				
+				.addCommand(new CommandRemind(c))
+				
+				.addCommand(new CommandGetID(c))
 				;
 		
 	}

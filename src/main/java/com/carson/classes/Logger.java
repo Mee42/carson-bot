@@ -60,10 +60,14 @@ public class Logger {
 			
 		}else {
 			FileIO f = new FileIO("/home/carson/discord/files/logger/dm/" + channel.getName() + ".txt");
+
 			new File("/home/carson/discord/files/logger/dm/").mkdirs();
+
 			f.create();
+
 			f.addln("BOT_MESSAGE::" + text );
-			System.out.println("BOT_MESSAGE:"  + text +"(" + channel.getGuild().getName() +" - " +channel.getName() + ")");
+
+			System.out.println("BOT_MESSAGE:"  + text +"(dm - " + channel.getUsersHere().get(0).getName() + ")");
 		}
 	
 	}

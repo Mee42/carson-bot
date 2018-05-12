@@ -1,5 +1,9 @@
 package com.carson.commands.cb;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.carson.classes.SendHelp;
 import com.carson.commandManagers.ICommand;
 import com.carson.commandManagers.Subregister;
 
@@ -16,7 +20,7 @@ public class SubregisterCB extends Subregister{
 				.addCommand(new CommandSetPlaying(c))
 				.addCommand(new CommandNick(c))
 				.addCommand(new CommandStop(c))
-				
+				.addCommand(new CommandStop(c))
 				
 				;
 	}
@@ -28,6 +32,14 @@ public class SubregisterCB extends Subregister{
 	
 	public SubregisterCB() {
 		super();
+	}
+	
+	@Override
+	public List<ICommand> getCommands(SendHelp.HelpTypes h) {
+		if(h.equals(SendHelp.HelpTypes.ADMIN)) {
+			return commands;
+		}
+		return new ArrayList<ICommand>();
 	}
 	
 	@Override

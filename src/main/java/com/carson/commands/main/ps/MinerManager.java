@@ -138,11 +138,11 @@ public class MinerManager {
 		return new MinerManager(event.getClient()).mineFor(event);
 	}
 	
-	public String getEntrys(String collection) {
+	public EmbedObject getEntrys(String collection) {
 		DB database = mClient.getDB("miningDB");
 		DBCollection c = database.getCollection(collection);
 		
-		return c.find().toArray().toString();
+		return new PsListParser(client).parseBuilder(c.find().toArray(),collection).build();
 		
 		
 		

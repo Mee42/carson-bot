@@ -206,8 +206,8 @@ public class CommandPS extends Command implements ICommand{
 					
 					
 				case "getDB":
-					sendMessage(event.getChannel(),manager.getEntrys("people"));
-					sendMessage(event.getChannel(),manager.getEntrys("miners"));
+					event.getChannel().sendMessage(manager.getEntrys("people"));
+					event.getChannel().sendMessage(manager.getEntrys("miners"));
 					
 					return true;
 				case "mine":

@@ -8,7 +8,7 @@ public class CleanThread extends Thread{
 	
 	IDiscordClient client;
 	CarsonBot cb;
-	static int exitCode = 999;
+	static int exitCode = 0;
 	
 	public CleanThread(IDiscordClient client, CarsonBot carsonBot) {
 		this.client = client;
@@ -18,14 +18,12 @@ public class CleanThread extends Thread{
 	@Override
 	public void run() {
 		client.getChannelByID(439890985653370896L).sendMessage("Carson Bot is shutting down");
-		
+		System.out.println("bot shutdown  code:" + exitCode);
 	}
 	
 	public static void systemExit(int code) {
-		
-		
-		
-		
+		exitCode = code;
+		System.exit(code);
 	}
 	
 	

@@ -1,6 +1,48 @@
-14:02:03.259: [INFO][main][sx.blah.discord.Discord4J] - Discord4J v2.10.1 be2318c (https://github.com/austinv11/Discord4J)
-14:02:03.261: [INFO][main][sx.blah.discord.Discord4J] - A Java binding for the official Discord API, forked from the inactive https://github.com/nerd/Discord4J. Copyright (c) 2017, Licensed under GNU LGPLv3
-faulting to no-operation (NOP) logger implementation
-SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
-Exception in thread "Thread-2" java.lang.NullPointerException
-	at com.carson.main.CleanThread.run(CleanThread.java:20)
+19:40:01.049: [INFO][main][sx.blah.discord.Discord4J] - Discord4J v2.10.1 be2318c (https://github.com/austinv11/Discord4J)
+19:40:01.051: [INFO][main][sx.blah.discord.Discord4J] - A Java binding for the official Discord API, forked from the inactive https://github.com/nerd/Discord4J. Copyright (c) 2017, Licensed under GNU LGPLv3
+BOOT: bot started
+19:40:07.095: [INFO][HttpClient@709299203-22][sx.blah.discord.Discord4J] - Websocket Connected.
+19:40:07.398: [INFO][Dispatch Handler][sx.blah.discord.Discord4J] - Connected to Discord Gateway v6. Receiving 7 guilds.
+MESSAGE:AwesomeCarson123:~id @everyone(Carson-Bot - commands)   xp:2694
+EVENT: running ~id @mention
+4
+BOT_MESSAGE:Carson has an id of: `293853365891235841`\nCarson-Bot has an id of: `425376884843347980`\nChris has an id of: `279412525051674624`\nIsha has an id of: `398876612701192212`\n(Carson-Bot - commands)
+MESSAGE:AwesomeCarson123:~id <@!398876612701192212>(Carson-Bot - commands)   xp:2702
+EVENT: running ~id @mention
+1
+BOT_MESSAGE:Isha has an id of: `398876612701192212`\n(Carson-Bot - commands)
+MESSAGE:AwesomeCarson123:~id <@&441385457394384896>(Carson-Bot - commands)   xp:2716
+EVENT: running ~id @mention
+0
+BOT_MESSAGE:no users found(Carson-Bot - commands)
+MESSAGE:AwesomeCarson123:~id <@&441358132787281920>(Carson-Bot - commands)   xp:2725
+EVENT: running ~id @mention
+2
+BOT_MESSAGE:Carson has an id of: `293853365891235841`\nChris has an id of: `279412525051674624`\n(Carson-Bot - commands)
+MESSAGE:AwesomeCarson123:nice(Carson-Bot - commands)   xp:2731
+MESSAGE:AwesomeCarson123:~id <@&441385457394384896>(Carson-Bot - commands)   xp:2737
+EVENT: running ~id @mention
+1
+BOT_MESSAGE:Carson-Bot has an id of: `425376884843347980`\n(Carson-Bot - commands)
+MESSAGE:AwesomeCarson123:nice!(Carson-Bot - commands)   xp:2752
+MESSAGE:AwesomeCarson123:~id <@&428634729143730176>(Planet Sim - bot-dev)   xp:10585
+EVENT: running ~id @mention
+9
+BOT_MESSAGE:Vodka Pochinki has an id of: `378915849391570964`\nYellowToad has an id of: `318783502768144384`\nfodder has an id of: `334513103838511115`\nThe Holy Peanut has an id of: `260739564895731715`\nThe Narrator has an id of: `317104272405823489`\nAceSkipper has an id of: `364897415637106700`\nCarson has an id of: `293853365891235841`\nNinjab123 has an id of: `294903134902419456`\nkarxn has an id of: `422191638736142346`\n(Planet Sim - bot-dev)
+MESSAGE:AwesomeCarson123:~id <@&400844791778246668> <@&430834393062572052> <@&430523005811032095> <@&416374077897441281>(McPoland - yuo-can-into-mcbots)   xp:1255
+EVENT: running ~id @mention
+2
+BOT_MESSAGE:McPolandball has an id of: `318783502768144384`\nMcClarinetball has an id of: `243814596555571204`\n(McPoland - yuo-can-into-mcbots)
+MESSAGE:AwesomeCarson123:~id <@&401160415335415809>(McPoland - yuo-can-into-mcbots)   xp:1264
+EVENT: running ~id @mention
+7
+BOT_MESSAGE:LMG MOUNTED AND LOADED has an id of: `196108317313990656`\nheat haze daze has an id of: `334513103838511115`\nMcWeeabooball has an id of: `378915849391570964`\n(╯°□°）╯︵ ┻━┻ has an id of: `248978342886375434`\nMcBenball has an id of: `291574242485469186`\nЗападный шпион has an id of: `422135882909351939`\nMcClarinetball has an id of: `243814596555571204`\n(McPoland - yuo-can-into-mcbots)
+MESSAGE:AwesomeCarson123:~id <@&416375026091032578>(McPoland - yuo-can-into-mcbots)   xp:1271
+EVENT: running ~id @mention
+0
+BOT_MESSAGE:no users found(McPoland - yuo-can-into-mcbots)
+MESSAGE:AwesomeCarson123:~id <@!425376884843347980> <@&400844791778246668>(McPoland - yuo-can-into-mcbots)   xp:1281
+EVENT: running ~id @mention
+2
+BOT_MESSAGE:girlfriend boi's bot has an id of: `425376884843347980`\nMcPolandball has an id of: `318783502768144384`\n(McPoland - yuo-can-into-mcbots)
+MESSAGE:Moist Cans:COMMUNIST(McPoland - yuo-can-into-mcbots)   xp:195

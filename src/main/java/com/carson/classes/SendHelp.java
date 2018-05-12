@@ -21,14 +21,14 @@ public class SendHelp {
 		
 		builder.appendDescription("***use ~help*** *command_name* ***to get more detailed information***");
 		
-//		String commands = "";
-//		for(ICommand c : reg.getCommands()) {
-//			commands+="\n" + c.getName();
-//		}
-//		
-//		builder.appendField(commands, "thats it!", false);
+
 		
-		for(ICommand c :reg.getCommands()) {
+		for(ICommand c :
+			reg.getCommands((
+					event.getAuthor().getStringID() == "293853365891235841" || 
+					event.getAuthor().getStringID() == "279412525051674624"
+				) ? HelpTypes.ADMIN : HelpTypes.PLAIN )
+			){
 			try{
 				builder.appendField(c.getName(), c.getDisciption(), false);
 			}catch( IllegalArgumentException e) {
@@ -40,4 +40,7 @@ public class SendHelp {
 		
 		
 	}
+	
+	public enum HelpTypes {ADMIN, PLAIN}
+	
 }

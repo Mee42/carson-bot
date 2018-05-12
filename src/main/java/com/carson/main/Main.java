@@ -37,12 +37,15 @@ public class Main {
 	        {
 	        	//Could not create/open the file
 	        }
-	        
+	        String token = "";
 	    	
+	    	try {
+	    		token = FileIO.use(new File("/home/carson/discord/jars/key")).readList().get(0);
+	    	}catch(Exception e) {
+	    		System.out.println("threw a " + e.getClass().getName() + " when trying to read from key");
+	    		CleanThread.systemExit(2);
+	    	}
 	    	
-	    	String token = "NDI1Mzc2ODg0ODQzMzQ3OTgw.DausAg.osGH1q2Z92DCehPY2ny8b772NvI";
-	    	
-	      
 	        IDiscordClient client = BotUtils.getBuiltDiscordClient(token);
 
 

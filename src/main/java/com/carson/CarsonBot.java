@@ -8,12 +8,13 @@ import java.util.Map;
 
 import com.carson.classes.FileIO;
 import com.carson.classes.Gumbo;
+import com.carson.classes.Logger;
 import com.carson.classes.Messanger;
 import com.carson.classes.ProfanityChecker;
-import com.carson.classes.RunCMD;
 import com.carson.classes.SendHelp;
 import com.carson.commandManagers.Register;
 import com.carson.lavaplayer.GuildMusicManager;
+import com.carson.main.CleanThread;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
@@ -80,13 +81,17 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 	@EventSubscriber
     public void onMessageReceived(MessageReceivedEvent event){
 		
+		//prints the message to the console, as well as the text logs
+		Logger.log(event);
+
 		
 		
 		//runs the register. 
 		reg.testCommands(event);
 		
-		if(event.getMessage().getContent().equals("~help"))
+		if(event.getMessage().getContent().equals("~help")) {
 			SendHelp.sendHelp(event, reg);
+		}
 		
 		//check for profanity is some servers. note - needs to make configuring this a bot action, not hardcoded
 		if(ProfanityChecker.check(event)) {return;} 
@@ -245,58 +250,14 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 			case "cb-stop":
 			
 			
-				sendMessage(channel,"shuting down");
+				channel.sendMessage("shuting down");
+				
 				System.out.println("EVENT:shuting down the bot");
-				this.client.changePresence(StatusType.OFFLINE);
-				System.exit(0);
+				CleanThread.systemExit(0);
 				return true;
-				
-			case "cb-lock":
-				sendMessage(channel,"locked");
-				locked = true;
-				System.out.println("EVENT:bot locked");
-				client.changePresence(StatusType.ONLINE, ActivityType.PLAYING,"CURRENTLY LOCKED");
-				return true;
-			
-			case "cb-unlock":
-				sendMessage(channel,"unlocked" );
-				System.out.println("EVENT:bot unlocked");
-				client.changePresence(StatusType.ONLINE, ActivityType.WATCHING," your every move");
-				locked = false;
-				return true;
-			
-			case "cb-getlock":
-			case "cb-getLock":
-				if(locked) {
-					sendMessage(channel,"locked");
-				}else {
-					sendMessage(channel,"unlocked");
-				}
-				System.out.println("EVENT: sent onlyMe status, which is:" + locked);
-				return true;
-			
 		
-			
 				
 			
-				
-				
-			case "cb-pc-shutdown":
-				RunCMD.run("\"C:\\Users\\Carson\\Desktop\\shutdown.bat");
-				System.out.println("EVENT:ran shutdown command");
-				return true;
-			case "cb-pc-nh-kill":
-				RunCMD.runAdmin("taskkill /IM NiceHashMinerLegacy.exe");
-				sendMessage(channel,"killed");
-				System.out.println("EVENT:killed nicehash");
-				return true;
-			case "cb-pc-nh-start":
-				RunCMD.run("\"C:\\Users\\Carson\\Desktop\\discord\\carson-bot\\batch\\nh-start.bat\"");
-				System.out.println("EVENT:started nicehash");
-				sendMessage(channel,"started");
-				return true;
-			
-		
 			
 			case "cb-our-songs":
 				
@@ -319,27 +280,7 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 				
 				
 				return true;
-			case "cb-help":
-				System.out.println("EVENT: sent cb help message");
-				sendMessage(channel,"help:\n"
-						+ "watching\n"
-						+ "s\n"
-						+ "stop\n"
-						+ "lock\n"
-						+ "unlock\n"
-						+ "getlock\n"
-						+ "hangman-kill\n"
-						+ "pc-shutdown\n"
-						+ "pc-nh-start\n"
-						+ "pc-nh-kill\n"
-						+ "status\n"
-						+ "old\n"
-						+ "tic-kill\n"
-						+ "out-songs\n"
-						+ "help"		
-						+ "");
 			
-				
 				
 			default:
 				return false;
