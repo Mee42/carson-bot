@@ -5,10 +5,10 @@ git config --global user.email "carson42g@gmail.com"
 git config --global user.name "Mee42"
 git add .
 
-if [ $# -eq 0 ]
+if [ "$1" != "" ];
 then
-	echo 'using' $1
-	git commit -m $1
+	echo 'using' "$1"
+	git commit -m "$1"
 else
 	git commit -m 'commit'
 	echo 'using commit'
