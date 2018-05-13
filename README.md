@@ -26,4 +26,4 @@ the two get() methods return the name and discription. this is mainly
 for the help method, which isn't hardcoded
 
 
-
+If you want to summit a command just send me code for a test() function and a run() function, both are passed MessageReceivrdEvent objects
