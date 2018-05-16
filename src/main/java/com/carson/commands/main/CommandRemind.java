@@ -33,7 +33,7 @@ public class CommandRemind extends Command implements ICommand{
 			 
 		      @Override
 			 public void run() {
-				 new Messanger().sendMessage(event.getAuthor().getOrCreatePMChannel(), "reminder sent");
+				 new Messanger(client).sendMessage(event.getAuthor().getOrCreatePMChannel(), "reminder sent");
 
 		    	  
 				 System.out.println("reminded");

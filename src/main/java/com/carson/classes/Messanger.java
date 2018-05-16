@@ -13,9 +13,9 @@ public class Messanger {
 	public Messanger(IDiscordClient c) {
 //		this.client = c;
 	}
-	public Messanger() {
-		
-	}
+//	public Messanger() {
+//		
+//	}
 	
 	//sends a message
 	public void sendMessage(IChannel channel, String message) {

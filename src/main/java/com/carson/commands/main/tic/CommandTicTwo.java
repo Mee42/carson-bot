@@ -5,6 +5,8 @@ import com.carson.commandManagers.ICommand;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import sx.blah.discord.handle.obj.IMessage;
+import sx.blah.discord.util.RequestBuffer;
 
 public class CommandTicTwo extends Command implements ICommand{
 
@@ -17,7 +19,11 @@ public class CommandTicTwo extends Command implements ICommand{
 
 	@Override
 	public boolean test(MessageReceivedEvent event) {
-		// TODO Auto-generated method stub
+
+		if(isInteger(event.getMessage().getContent()) && 
+				Integer.valueOf(event.getMessage().getContent()) < 10) {
+			return t.v.getActive();
+		}
 		return false;
 	}
 
@@ -25,8 +31,9 @@ public class CommandTicTwo extends Command implements ICommand{
 	public void run(MessageReceivedEvent event) {
 		String text = event.getMessage().getContent();
 		
-		if(isInteger(text) && Integer.valueOf(text) < 10) {
-			sendMessageClean(event.getChannel(),t.tac.moveNext(Integer.valueOf(text)));
+			
+			String next = t.tac.moveNext(Integer.valueOf(text));
+			client.getMessageByID(t.messageID).edit(next);
 			
 			if(t.tac.checkWin() == 1) {
 				sendMessage(event.getChannel(), "I Won");
@@ -46,9 +53,15 @@ public class CommandTicTwo extends Command implements ICommand{
 				t.moves = "";
 			}else {
 				t.moves+=text;
-				sendMessageClean(event.getChannel(), "What is your next move?");
+				
+				if(t.moves.length() >= 3 ) {
+					sendMessage(event,next);
+				}
+			
+				sendMessage(event.getChannel(), "What is your next move?");
+				
 			}
-		}
+		
 	}
 
 	@Override

@@ -43,7 +43,7 @@ public class Logger {
 			new File("/home/carson/discord/files/logger/dm/").mkdirs();
 			f.create();
 			f.addln(author.getName() + ":" + text );
-			System.out.print("MESSAGE:" + author.getName() + ":" + text +"(" + event.getGuild().getName() +" - " +channel.getName() + ")");
+			System.out.print("MESSAGE:" + author.getName() + ":" + text +"(dm - " + event.getChannel().getUsersHere().get(0).getName() + ")");
 		}
 	}
 	

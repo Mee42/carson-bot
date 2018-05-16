@@ -5,12 +5,10 @@ import sx.blah.discord.handle.obj.IUser;
 
 public class VerifyAwaiting {
 	private MessageReceivedEvent event;
-	private long timestamp;	
 	private boolean active = false;
 	
 	public VerifyAwaiting(MessageReceivedEvent event) {
 		this.event = event;
-		timestamp = System.currentTimeMillis() / 1000;
 		active = true;
 	}
 	
@@ -23,7 +21,6 @@ public class VerifyAwaiting {
 	public boolean set(MessageReceivedEvent newEvent) {
 		if(!active) {
 			this.event = newEvent;
-			timestamp = System.currentTimeMillis() / 1000;
 			active = true;
 			return true;
 		}else {
@@ -44,14 +41,8 @@ public class VerifyAwaiting {
 		if(!newEvent.getChannel().equals(event.getChannel()))
 			return false;
 		
-		if(System.currentTimeMillis()/1000   >  timestamp + 100) {
-			active = false;
-			System.out.println("EVENT: timed out");
-			return false;
-
-		}
 		
-		timestamp = System.currentTimeMillis() / 1000;
+		
 		return true;
 	}
 	
@@ -65,15 +56,6 @@ public class VerifyAwaiting {
 		if(!newEvent.getChannel().equals(event.getChannel()))
 			return false;
 		
-		if(System.currentTimeMillis()/1000   >  timestamp + 100) {
-			System.out.println("EVENT: timed out");
-			active = false;
-			System.out.println("EVENT: timed out");
-
-			return false;
-		}
-		
-		timestamp = System.currentTimeMillis() / 1000;
 		return true;
 		
 		
@@ -94,15 +76,6 @@ public class VerifyAwaiting {
 			return false;
 		}
 		
-		if(System.currentTimeMillis()/1000   >  timestamp + 100) {
-			active = false;
-			timestamp = System.currentTimeMillis() /1000;
-			System.out.println("EVENT: timed out");
-
-			return false;
-		}
-		
-		timestamp = System.currentTimeMillis() / 1000;
 		return true;
 	}
 	
@@ -112,13 +85,6 @@ public class VerifyAwaiting {
 	}
 	
 	public boolean getActive() {
-		
-		if(System.currentTimeMillis()/1000   >  timestamp + 100) {
-			active = false;
-			timestamp = System.currentTimeMillis() /1000;
-			System.out.println("EVENT: timed out");
-		}
-		timestamp = System.currentTimeMillis() / 1000;
 		return active;
 	}
 	

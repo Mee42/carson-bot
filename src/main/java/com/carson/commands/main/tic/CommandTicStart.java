@@ -33,10 +33,11 @@ public class CommandTicStart extends Command implements ICommand{
 		
 		t.v.set(event);
 		if((int)(Math.random()*2+1) == 2) {
-			sendMessageClean(event.getChannel(),t.tac.start(0));
+			t.messageID = event.getChannel().sendMessage(t.tac.start(0)).getLongID();
 		}else{
-			sendMessageClean(event.getChannel(),t.tac.start(-1));
+			t.messageID = event.getChannel().sendMessage(t.tac.start(-1)).getLongID();
 		}
+		t.moves = "";
 		
 	}
 

@@ -207,6 +207,7 @@ public class MinerManager {
 		
 		DBObject minerDBO = cursorMiners.one();
 		DBObject personDBO = cursorPeople.one();
+		DBObject personDBOUpdated = cursorPeople.one();
 		cursorMiners.close();
 		cursorPeople.close();
 		
@@ -217,6 +218,7 @@ public class MinerManager {
 	
 		
 		List<String> planets = person.getPlanets();
+		int planetNo = 0;
 		System.out.println("planets:" + planets);
 		for(String planet : planets) {
 			switch(planet) {
@@ -240,11 +242,16 @@ public class MinerManager {
 					
 				default:
 					System.out.println("couldn't find " + planet);
+					
+					
+					personDBOUpdated.removeField("planet_" + planetNo);
+					
 					break;
 			}
 			
 		}
 		miners.findAndModify(minerDBO, minerToDBO(miner, person.getId()));
+		collection_people.findAndModify(personDBO,personDBOUpdated );
 		return true;
 	}
 	

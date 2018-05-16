@@ -6,4 +6,5 @@ public class TicObject {
 	public VerifyAwaiting v = new VerifyAwaiting();
 	public Tac tac = new Tac();
 	public String moves;
+	long messageID;
 }
