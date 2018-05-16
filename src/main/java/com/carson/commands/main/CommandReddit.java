@@ -19,10 +19,18 @@ public class CommandReddit extends Command implements ICommand{
 	@Override
 	public boolean test(MessageReceivedEvent event) {
 		String[] args = event.getMessage().getContent().split(" ");
-		if(args.length != 2) 
+		if(args.length == 0) 
 			return false;
+		if(!args[0].equals("~reddit")) {
+			return false;
+		}
+		if(args.length == 1) {
+			sendMessage(event, " you need a subreddit. ex: ~reddit *subreddit* ");
+			return false;
+		}
+		return true;
 		
-		return args[0].equals("~reddit");
+		
 	}
 
 	@Override

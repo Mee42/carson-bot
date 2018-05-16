@@ -22,12 +22,12 @@ public class Board {
 	
 	
 	public String printBoard() {
-		return "**Game board:\t\t\tPositions:**\n```"
-				+ getChar(board[0]) + " | " + getChar(board[1]) + " | " + getChar(board[2]) + "\t\t0 | 1 | 2\n"
-				+ "----------\t\t----------\n"
-				+ getChar(board[3]) + " | " + getChar(board[4]) + " | " + getChar(board[5]) + "\t\t3 | 4 | 5\n"
-				+ "----------\t\t----------\n"
-				+ getChar(board[6]) + " | " + getChar(board[7]) + " | " + getChar(board[8]) + "\t\t6 | 7 | 8"
+		return "**Game board:\t\t\t   Positions:**\n```"
+				+ ' '+getChar(board[0]) + " | " + getChar(board[1]) + " | " + getChar(board[2]) + "\t\t0 | 1 | 2\n"
+				+ "-----------\t\t-----------\n"
+				+ ' '+getChar(board[3]) + " | " + getChar(board[4]) + " | " + getChar(board[5]) + "\t\t3 | 4 | 5\n"
+				+ "-----------\t\t-----------\n"
+				+ ' '+getChar(board[6]) + " | " + getChar(board[7]) + " | " + getChar(board[8]) + "\t\t6 | 7 | 8"
 				+"```"
 				;
 	}
