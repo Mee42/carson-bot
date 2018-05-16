@@ -17,6 +17,8 @@ import com.mongodb.MongoClient;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.internal.json.objects.EmbedObject;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import sx.blah.discord.handle.obj.IChannel;
+import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.EmbedBuilder;
 import sx.blah.discord.util.RequestBuffer;
 import sx.blah.discord.util.RequestBuffer.RequestFuture;
@@ -57,6 +59,9 @@ public class MinerManager {
 	}
 	
 	public EmbedObject extract(int mode) {
+		
+		
+		
 		DB database = mClient.getDB("miningDB");
 		DBCollection minersCollection = database.getCollection("miners");
 		EmbedBuilder builder = new EmbedBuilder();
@@ -68,7 +73,8 @@ public class MinerManager {
 		DBCursor miners = minersCollection.find();
 		List<DBObject> objects= miners.toArray();
 		
-		if(objects.size() == 0) {
+		if(objects.size() == 0 || mode == -4) {
+			System.out.println("DEBUG: mode 4 passed or no objects. returning mode:" + 4 + " objects.size:" + objects.size());
 			return builder.build();
 		}
 		
@@ -85,25 +91,22 @@ public class MinerManager {
 			mode = 1;
 		}
 		
-		System.out.println("mode:" + mode);
+		System.out.println("DEBUG:mode:" + mode);
 		for(int i = 0;i<mode;i++) {
 			
 			Miner m = DBOtoMiner(objects.get(i));
-			System.out.println("m.empty:" + m.empty());
+			System.out.println("DEBUG:m.empty:" + m.empty());
 			if(!m.empty()) {
 				
 				long id = Long.valueOf(
 						String.valueOf(
 						objects.get(i)
 						.get("_id")));
-				RequestFuture<String> nameFuture =  RequestBuffer.request(() -> {
-					 return client.fetchUser(id).getName();
-				 });
-				String name = nameFuture.get();
 				
-				
-				 
-				System.out.println("id:"  + id + " name: " + name);
+				System.out.println("DEBUG:id:" + id);
+//				String name =client.getUserByID(id).getName();
+				String name = client.fetchUser(id).getName();
+				System.out.println("DEBUG:id:"  + id + " name: " + name);
 				
 				builder.appendField(
 						name,   //gets the name of the user with the id in the miner object
@@ -150,28 +153,39 @@ public class MinerManager {
 	}
 	
 	public boolean mineFor(String id) {
+		
 		DBCollection miners = mClient.getDB("miningDB").getCollection("miners");
 		
-		
-		
-		
 		DBCursor cursorMiners = miners.find(new BasicDBObject("_id", id));
-		
 	
-		
 		DBObject minerDBO = cursorMiners.one();
 		cursorMiners.close();
-		
-		
 		
 		if(String.valueOf(minerDBO.get("time")).equals(getHour())) {
 			return false;
 		}
+		RequestBuffer.request(() -> {
+			try{
+	            
+	        
+			
+			client.getChannelByID(443168645510856704L).sendMessage( //this is the cb-log channel in ps
+				client.getUserByID(Long.parseLong(id)).getDisplayName( //gets the name for the user
+							client.getGuildByID(428613801269788687L) //for the planet sim guild
+							) + " mined at :" + getHour()); //sends the hour
+	        } catch (DiscordException e){
+	            System.err.println("Message could not be sent with error: ");
+	            e.printStackTrace();
+	        }
+	
+			});
 		
 		return mine(id);
 	}
 	
 	
+	
+
 	private boolean mine(String id) {
 		System.out.println("mining for :" + id);
 		DB database = mClient.getDB("miningDB");

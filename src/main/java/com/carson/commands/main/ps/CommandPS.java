@@ -35,6 +35,7 @@ public class CommandPS extends Command implements ICommand{
 			return;
 		
 		case "extract":
+			System.out.println("DEBUG: extracting");
 			long id = event.getAuthor().getLongID();
 			if(!(id == 293853365891235841L || id == 317104272405823489L || id ==279412525051674624L)) {
 				sendMessage(event, "you lack perms to run that command. please contact <@279412525051674624> or <@317104272405823489> or <@293853365891235841>");
@@ -128,7 +129,8 @@ public class CommandPS extends Command implements ICommand{
 
 	
 	private boolean extract(MessageReceivedEvent event) {
-		int mode;
+		System.out.println("DEBUG:extracting");
+		int mode = -4;
 		String modeS = "-3";
 		try {
 			modeS = event.getMessage().getContent().split(" ")[2];
@@ -141,16 +143,16 @@ public class CommandPS extends Command implements ICommand{
 		}else if(modeS.equalsIgnoreCase("half")) {
 			modeS = "-1";
 		}else {
-			try {
-				mode = Integer.parseInt(modeS);
-			} catch (NumberFormatException e) {
-				sendMessage(event.getChannel(), "not a vaild argument");
-				return true;
-			}
+			
 			
 		}
-		mode = Integer.parseInt(modeS);
-		event.getChannel().sendMessage(MinerManager.Sextract(mode));
+		try {
+			mode = Integer.parseInt(modeS);
+		} catch (NumberFormatException e) {
+			sendMessage(event.getChannel(), "not a vaild argument");
+			return true;
+		}
+		event.getChannel().sendMessage(new MinerManager(client).extract(mode));
 		return true;
 	}
 	

@@ -19,9 +19,7 @@ public class SubregisterCB extends Subregister{
 				.addCommand(new CommandStatus(c))
 				.addCommand(new CommandSetPlaying(c))
 				.addCommand(new CommandNick(c))
-				.addCommand(new CommandStop(c))
-				.addCommand(new CommandStop(c))
-				
+				.addCommand(new CommandRestart(c))
 				;
 	}
 	

@@ -242,21 +242,10 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 		}
 		
 		
-		IChannel channel = event.getChannel();
 		switch(event.getMessage().getContent()) {
 			
 				
-			case "cb-s":
-			case "cb-stop":
 			
-			
-				channel.sendMessage("shuting down");
-				
-				System.out.println("EVENT:shuting down the bot");
-				CleanThread.systemExit(0);
-				return true;
-		
-				
 			
 			
 			case "cb-our-songs":

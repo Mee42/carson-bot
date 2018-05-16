@@ -317,7 +317,8 @@ public class FileIO {
 		
 		System.out.println(path);
 		
-		File newFile = new File(path + "\\" + name);
+		File newFile = new File(path + "/" + name); // for linux
+//		File newFile = new File(path + "\\" + name); // for windows
 		
 		System.out.println(newFile.getAbsolutePath());
 		

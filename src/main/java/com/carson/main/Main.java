@@ -16,7 +16,7 @@ public class Main {
 	    public static void main(String[] args){
 	    	
 	    	
-	    	File f = new File("console.txt");
+	    	File f = new File("/home/carson/discord/jars/console.txt");
 	    	FileIO.use(f).write("");
 	    	
 	        try //this is for

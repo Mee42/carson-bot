@@ -53,7 +53,7 @@ public class CommandGetID extends Command implements ICommand{
 				
 			}
 			
-			System.out.println(users.size());
+			sendMessage(event, users.size() + " users found");
 			for(IUser user : users) {
 				message+=user.getDisplayName(event.getGuild()) + " has an id of: `" +user.getStringID() +"`\n";
 				if(message.length() > 1800) {
@@ -75,7 +75,7 @@ public class CommandGetID extends Command implements ICommand{
 
 	@Override
 	public String getName() {
-		return "~id @mention";
+		return "~id *mention people or roles*";
 	}
 
 	@Override

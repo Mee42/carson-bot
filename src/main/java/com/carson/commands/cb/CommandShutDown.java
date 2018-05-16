@@ -20,7 +20,11 @@ public class CommandShutDown extends Command implements ICommand{
 
 	@Override
 	public void run(MessageReceivedEvent event) {
-		CleanThread.systemExit(0);
+//		CleanThread.systemExit(0);
+		sendMessage(event,"shutting down");
+		
+		
+		System.exit(0);
 	}
 
 	@Override
