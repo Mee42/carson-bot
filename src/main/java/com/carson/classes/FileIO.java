@@ -305,7 +305,7 @@ public class FileIO {
 		
 		int count = (path.length() - path.replaceAll(fileName, "").length()) / fileName.length();
 		
-		System.out.println(count);
+//		System.out.println(count);
 		
 		if(count != 1) {
 			System.out.println("path has folders w/the same name");
@@ -315,12 +315,12 @@ public class FileIO {
 		
 		path = path.replace(fileName,"");
 		
-		System.out.println(path);
+//		System.out.println(path);
 		
 		File newFile = new File(path + "/" + name); // for linux
 //		File newFile = new File(path + "\\" + name); // for windows
 		
-		System.out.println(newFile.getAbsolutePath());
+//		System.out.println(newFile.getAbsolutePath());
 		
 		
 		file.renameTo(newFile);

@@ -31,7 +31,7 @@ import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.handle.obj.StatusType;
 
 public class CarsonBot { // Curl+shift + / (on num pad)
-	
+	//VERSION: 0-3-0
 	//variables
 	private boolean locked;
 	private IDiscordClient client;
