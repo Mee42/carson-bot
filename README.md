@@ -3,27 +3,13 @@ a bot made for just general commands
 written in java, using Discord4J
 I'm still learning Java, so my code isn't the greatest.... 
 
+Commands are sorted into Command objects implementing ICommand and registered in their respective subregisters
 
-The CarsonBot class contains all of the event handlers, currently only 
-MessageReceivedEvent, and after running a couple checks sends it to the 
-register.
-
-the register then sends it to each subRegister, which sends it to each 
-ICommand.
-
-a command extends Command and implements ICommand
-ICommand has a couple methods:
-
-boolean test(event)
-void run(event)
-String getName()
-String getDiscription()
+Feel free to write a command or two, but I want to write all the main code myself. If you have recommendations, post them in `Issues` or contact me via discord (below)
 
 
-test() should return true if the command should be called
-run() runs the command
-the two get() methods return the name and discription. this is mainly 
-for the help method, which isn't hardcoded
+Discord Account (as of right not): AwesomeCarson123#5069
 
+Account ID: 293853365891235841
 
-If you want to summit a command just send me code for a test() function and a run() function, both are passed MessageReceivrdEvent objects
+[Discord Server](discord.gg/xDQt7e7)
