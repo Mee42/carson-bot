@@ -244,7 +244,7 @@ public class MinerManager {
 					System.out.println("couldn't find " + planet);
 					
 					
-					personDBOUpdated.removeField("planet_" + planetNo);
+					
 					
 					break;
 			}
