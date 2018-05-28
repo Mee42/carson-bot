@@ -132,6 +132,7 @@ public class MinerManager {
 	public static boolean SmineFor(MessageReceivedEvent event) {
 		
 		if(event.getChannel().getLongID() != 434858429618847751L) {
+		if(event.getGuild().getLongID() == 449905910807003147L) {return false;}
 			new Messanger(event.getClient()).sendMessage(event.getChannel(), "boi ur trying to mine here lol u can only mine in the channel called mining lol");
 			System.out.println("DEBUG: mined in wrong channel");
 			return false;
