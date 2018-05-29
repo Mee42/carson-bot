@@ -15,17 +15,23 @@ public class CommandPS extends Command implements ICommand{
 
 	@Override
 	public boolean test(MessageReceivedEvent event) {
+<<<<<<< HEAD
 		if(event.getGuild().getLongID() == 449905910807003147L) {
 			return false;
 		}
+=======
+>>>>>>> bfe642c6299568e95339e22381fffcc0fb5c267c
 		return event.getMessage().getContent().startsWith("ps");
 	}
 
 	@Override
 	public void run(MessageReceivedEvent event) {
+<<<<<<< HEAD
 		if(event.getGuild().getLongID() == 449905910807003147L) {
 			return;
 		}
+=======
+>>>>>>> bfe642c6299568e95339e22381fffcc0fb5c267c
 		String[] args = event.getMessage().getContent().split(" ");
 		if(args.length == 0) {return ;} //if the message doesn't have content
 		if(args.length == 1) {printHelp(event);return;} //prints the help message if there is no other arguments
@@ -34,9 +40,12 @@ public class CommandPS extends Command implements ICommand{
 		switch(args[1]) {
 		case "mine":
 			if(!MinerManager.SmineFor(event)) {
+<<<<<<< HEAD
 				if(event.getGuild().getLongID() == 449905910807003147L) {
 					return;
 				}
+=======
+>>>>>>> bfe642c6299568e95339e22381fffcc0fb5c267c
 				sendMessage(event, "sorry, there was an error mining for you. You may have mined before this hour");
 			}else {
 				sendMessage(event, "Mined for " + event.getAuthor().getDisplayName(event.getGuild()));

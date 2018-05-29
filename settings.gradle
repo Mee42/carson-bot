@@ -15,4 +15,8 @@ include 'api'
 include 'services:webservice'
 */
 
+<<<<<<< HEAD
 rootProject.name = 'Carson-BotCopy'
+=======
+rootProject.name = 'Carson-Bot'
+>>>>>>> bfe642c6299568e95339e22381fffcc0fb5c267c
