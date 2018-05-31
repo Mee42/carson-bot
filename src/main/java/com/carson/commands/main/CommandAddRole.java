@@ -6,7 +6,6 @@ import com.carson.commandManagers.ICommand;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
-import sx.blah.discord.handle.obj.IRole;
 
 public class CommandAddRole extends Command implements ICommand {
 
@@ -28,11 +27,7 @@ public class CommandAddRole extends Command implements ICommand {
 	public void run(MessageReceivedEvent event) {
 		try {
 			String roleStr = event.getMessage().getContent().split(" ")[1];
-<<<<<<< HEAD
 			event.getGuild().getRolesByName(roleStr).get(0);
-=======
-			IRole role = event.getGuild().getRolesByName(roleStr).get(0);
->>>>>>> bfe642c6299568e95339e22381fffcc0fb5c267c
 			
 			FileIO.use("/home/carson/discord/files/brass-addable").add("\n" + roleStr);
 			sendMessage(event, "added");

@@ -1,14 +1,11 @@
 package com.carson.commands.main;
 
-import java.io.File;
 
 import com.carson.commandManagers.Command;
 import com.carson.commandManagers.ICommand;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
-import sx.blah.discord.handle.obj.IRole;
-import sx.blah.discord.util.Image;
 
 public class CommandGetEmoji extends Command implements ICommand{
 
