@@ -22,7 +22,7 @@ public class CommandPS extends Command implements ICommand{
 
 	@Override
 	public void run(MessageReceivedEvent event) {
-		if(event.getGuild().getLongID() == 428613801269788687L) {return;}
+		if(event.getGuild().getLongID() != 428613801269788687L) {return;}
 
 		String[] args = event.getMessage().getContent().split(" ");
 		if(args.length == 0) {return ;} //if the message doesn't have content
