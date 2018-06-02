@@ -12,4 +12,4 @@ Discord Account (as of right not): AwesomeCarson123#5069
 
 Account ID: 293853365891235841
 
-[Discord Server](htpps://www.discord.gg/xDQt7e7)
+[Discord Server](www.discord.gg/xDQt7e7)
