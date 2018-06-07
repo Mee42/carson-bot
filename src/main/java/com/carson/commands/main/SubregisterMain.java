@@ -59,6 +59,8 @@ public class SubregisterMain extends Subregister{
 				.addCommand(new CommandGetRoles(c))
 				.addCommand(new CommandGetRole(c))
 				.addCommand(new CommandAddRole(c))
+				
+				.addCommand(new CommandGetDeleted(c))
 				;
 		
 	}

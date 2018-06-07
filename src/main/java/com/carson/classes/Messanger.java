@@ -17,6 +17,10 @@ public class Messanger {
 //		
 //	}
 	
+	public Messanger() {
+		
+	}
+	
 	//sends a message
 	public void sendMessage(IChannel channel, String message) {
 		

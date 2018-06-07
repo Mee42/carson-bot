@@ -2,6 +2,7 @@ package com.carson;
 
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,9 @@ import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.EventSubscriber;
+import sx.blah.discord.handle.impl.events.guild.channel.message.MessageDeleteEvent;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import sx.blah.discord.handle.impl.events.guild.channel.message.MessageSendEvent;
 import sx.blah.discord.handle.obj.ActivityType;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
@@ -37,7 +40,7 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 	private IDiscordClient client;
 	private Messanger messanger;
 	
-	
+	public static List<IMessage> deletedMessages = new ArrayList<>();
 	
 	
 	
@@ -77,7 +80,15 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 	}
 	
 	
-	
+	@EventSubscriber
+	public void onMessageDeleted(MessageDeleteEvent event) {
+		IMessage message = event.getMessage();
+		if(event.getGuild().getLongID() != 400786190619639839L) {
+			return;
+		}
+		deletedMessages.add(message);
+		new Messanger().sendMessage(event.getChannel(), "*a message was deleted* use ~getdeleted 1 to get it");
+	}
 	@EventSubscriber
     public void onMessageReceived(MessageReceivedEvent event){
 		
