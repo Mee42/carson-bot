@@ -33,25 +33,28 @@ public class CommandGetRole extends Command implements ICommand{
 			sendMessage(event, "please be in <#449912350267539456>");
 			return;
 		}
-		try {
-			String roleRequest = event.getMessage().getContent().split(" ")[1];
+			String[] messageSplit = event.getMessage().getContent().split(" ",2);
+			if(messageSplit.length != 2) {
+				sendMessage(event,"there was an error. try ~getroles to see avalible roles");
+				return;
+			}
+
+			String roleRequest= messageSplit[1];
 			for(IRole role : getRoles(client)) {
-				if(role.getName().equals(roleRequest)) {
+				if(role.getName().equals(roleRequest)) { 
 					event.getAuthor().addRole(role);
 					sendMessage(event, "added your role:" + roleRequest);
 					return;
 				}
 			}
-		}catch (Exception e) {
-			sendMessage(event,"there was an error. try ~getroles to see avalible roles");
-			e.printStackTrace();
-			return;
-		}
+			sendMessage(event, "we could not find that role");
+			
+		
 	}
 	
 	public static List<IRole> getRoles(IDiscordClient client){
 		
-		List<String> roleStr = FileIO.use("/home/carson/discord/files/brass-addable").readList();
+		List<String> roleStr = FileIO.use("/home/carson/discord/files/brass-addable.all").readList();
 		List<IRole> roles = new ArrayList<>();
 		for(String str : roleStr) {
 			for(IRole role : client.getGuildByID(449905910807003147L).getRolesByName(str)) {
