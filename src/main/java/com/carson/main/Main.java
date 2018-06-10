@@ -16,13 +16,13 @@ public class Main {
 	    public static void main(String[] args){
 	    	
 	    	
-	    	File f = new File("/home/carson/discord/jars/console.txt");
-	    	FileIO.use(f).write("");
+	    	File consoleFile = new File("console.txt");
+	    	FileIO.use(consoleFile).write("");
 	    	
-	        try //this is for
+	        try //this is for streaming the console to a file
 	        {
-	        	FileOutputStream fout= new FileOutputStream(f);
-	        	FileOutputStream ferr= new FileOutputStream(f);
+	        	FileOutputStream fout= new FileOutputStream(consoleFile);
+	        	FileOutputStream ferr= new FileOutputStream(consoleFile);
 	        	
 	        	MultiOutputStream multiOut= new MultiOutputStream(System.out, fout);
 	        	MultiOutputStream multiErr= new MultiOutputStream(System.err, ferr);
@@ -40,10 +40,9 @@ public class Main {
 	        String token = "";
 	    	
 	    	try {
-	    		token = FileIO.use(new File("/home/carson/discord/jars/key")).readList().get(0);
+	    		token = FileIO.use(new File("/home/carson/java/jars/key")).readList().get(0);
 	    	}catch(Exception e) {
 	    		System.out.println("threw a " + e.getClass().getName() + " when trying to read from key");
-	    		CleanThread.systemExit(2);
 	    	}
 	    	
 	        IDiscordClient client = BotUtils.getBuiltDiscordClient(token);
@@ -54,17 +53,17 @@ public class Main {
 	        client.getDispatcher().registerListener(cb);
 	        CleanThread hook = new CleanThread(client, cb);
 	        Runtime.getRuntime().addShutdownHook(hook);
+	        
+	        
+	        //all this does in inport the client and locked status
+	        cb.startup(client, false);
+	        
+	        
 	        // Only login after all events are registered otherwise some may be missed.
-	        
-	        try {
-				Thread.sleep(4000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-	        
 	        client.login();
 	        
-	        cb.startup(client, false);
+	        
+	        
 	        
 	        
 	        

@@ -1,15 +1,15 @@
 package com.carson.commands.main;
 
+
 import com.carson.commandManagers.Command;
 import com.carson.commandManagers.ICommand;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import sx.blah.discord.handle.obj.IMessage;
 
 public class CommandPing extends Command implements ICommand {
 
-	
-	
 	public CommandPing(IDiscordClient client) {
 		super(client);
 		
@@ -22,7 +22,10 @@ public class CommandPing extends Command implements ICommand {
 
 	@Override
 	public void run(MessageReceivedEvent event) {
-		sendMessage(event.getChannel(), "ping is:" + client.getShards().get(0).getResponseTime());		
+		long time = System.nanoTime();
+		IMessage message = sendMessage(event.getChannel(), "pinging :ping_pong:");	
+		long ping = System.nanoTime() - time;
+		message.edit("pinged :ping_pong:   ping:" + ping + "nanoseconds");
 		return ;
 	}
 

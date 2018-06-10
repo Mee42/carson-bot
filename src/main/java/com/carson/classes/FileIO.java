@@ -11,7 +11,6 @@ import java.util.*;
 
 
 
-//Version 0.4.7
 public class FileIO {
 	
 	private File file;

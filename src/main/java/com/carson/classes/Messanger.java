@@ -2,6 +2,7 @@ package com.carson.classes;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IChannel;
+import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.RequestBuffer;
 
@@ -22,19 +23,21 @@ public class Messanger {
 	}
 	
 	//sends a message
-	public void sendMessage(IChannel channel, String message) {
+	public IMessage sendMessage(IChannel channel, String message) {
 		
 
 		Logger.logBot(channel, message);
         // this is so it can repeat sending messages when rate limited
         RequestBuffer.request(() -> {
             try{
-                channel.sendMessage(message);
+                return channel.sendMessage(message);
             } catch (DiscordException e){
                 System.err.println("Message could not be sent with error: ");
                 e.printStackTrace();
             }
+			return null;
         });
+        return null;
 
 		
 		

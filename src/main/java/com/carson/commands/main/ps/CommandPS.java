@@ -15,9 +15,11 @@ public class CommandPS extends Command implements ICommand{
 
 	@Override
 	public boolean test(MessageReceivedEvent event) {
-		if(event.getGuild().getLongID() == 428613801269788687L) {return false;}
-
-		return event.getMessage().getContent().startsWith("ps");
+		return false;
+//		
+//		if(event.getGuild().getLongID() == 428613801269788687L) {return false;}
+//
+//		return event.getMessage().getContent().startsWith("ps");
 	}
 
 	@Override

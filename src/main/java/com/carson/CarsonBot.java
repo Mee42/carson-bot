@@ -27,6 +27,7 @@ import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageDeleteEvent;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageSendEvent;
+import sx.blah.discord.handle.impl.events.shard.LoginEvent;
 import sx.blah.discord.handle.obj.ActivityType;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
@@ -55,6 +56,12 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 		this.locked = locked;
 		this.client = client;
 		
+		
+	}
+	
+	
+	@EventSubscriber
+	public void onStartup(LoginEvent event) {
 		if(locked) {
 			client.changePresence(StatusType.ONLINE, ActivityType.WATCHING," your every move");
 		}else {
@@ -75,8 +82,8 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 		
 		
         reg = Register.build(client); //puts the subregisters into the reg. and inports the client
-        
-        
+
+	
 	}
 	
 	
@@ -100,7 +107,7 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 		//runs the register. 
 		reg.testCommands(event);
 		
-		if(event.getMessage().getContent().equals("~help")) {
+		if(event.getMessage().getContent().equals("~help")) { //sends the help message. needs to be here, because we need to be able to pass the register to the help command
 			SendHelp.sendHelp(event, reg);
 		}
 		
@@ -111,24 +118,9 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 		if(checkLock(event)){return;}
 
 
-		if( 
-				
-				
-				
-				
-				gumbo(event) ||  //needs to be ported
-				
-				
-			
-				
-				
-				
-				cbCommands(event) //needs to be moved
-				
-				) 
-		
-		
-				{
+		if( gumbo(event) ||  //needs to be ported TODO
+		cbCommands(event) //needs to be moved TODO
+				) {
 			return;
 		}
 		
@@ -174,7 +166,7 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 	
 	
 	
-	//gumbo script
+	//gumbo script TODO NEEDS TO BE CONVERTED
 	private boolean gumbo(MessageReceivedEvent event) {
 		IMessage message = event.getMessage();
 		String text = message.getContent();

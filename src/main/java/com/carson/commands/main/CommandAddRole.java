@@ -29,7 +29,7 @@ public class CommandAddRole extends Command implements ICommand {
 			String roleStr = event.getMessage().getContent().split(" ")[1];
 			event.getGuild().getRolesByName(roleStr).get(0);
 			
-			FileIO.use("/home/carson/discord/files/brass-addable").add("\n" + roleStr);
+			FileIO.use("/home/carson/java/files/brass-roles").add("\n" + roleStr);
 			sendMessage(event, "added");
 		}catch(Exception e) {
 			sendMessage(event, "there was an error. try using ~addrole *role name*");

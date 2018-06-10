@@ -54,7 +54,7 @@ public class CommandGetRole extends Command implements ICommand{
 	
 	public static List<IRole> getRoles(IDiscordClient client){
 		
-		List<String> roleStr = FileIO.use("/home/carson/discord/files/brass-addable.all").readList();
+		List<String> roleStr = FileIO.use("/home/carson/java/files/brass-roles").readList();
 		List<IRole> roles = new ArrayList<>();
 		for(String str : roleStr) {
 			for(IRole role : client.getGuildByID(449905910807003147L).getRolesByName(str)) {

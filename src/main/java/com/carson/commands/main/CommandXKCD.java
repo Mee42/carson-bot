@@ -59,7 +59,7 @@ public class CommandXKCD extends Command implements ICommand{
 
 //		int no =(int)(Math.random() * 1800 + 100);
 		
-		FileIO file = new FileIO("/home/carson/discord/files/xkcd/" + no);
+		FileIO file = new FileIO("/home/carson/java/files/xkcd/" + no);
 		FileIO alt = new FileIO("/home/carson/discord/files/xkcd/alt/" + no);
 		
 		if(file.exists() && alt.exists()) {
