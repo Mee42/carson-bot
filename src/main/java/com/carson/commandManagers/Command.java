@@ -21,9 +21,7 @@ public class Command{
 		return new Messanger(client).sendMessage(c, t);
 	}
 	
-	protected void sendMessageClean(IChannel c, String t) {
-		new Messanger(client).sendMessageClean(c, t);
-	}
+	
 	protected IMessage sendMessage(MessageReceivedEvent event, String text) {
 		return sendMessage(event.getChannel(), text);
 	}

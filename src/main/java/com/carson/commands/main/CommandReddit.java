@@ -46,7 +46,7 @@ public class CommandReddit extends Command implements ICommand{
 					
 					redditTemp = redditTemp + " " + pic + "\n\n\n";
 					if(redditTemp.length()>1000) {
-						sendMessageClean(event.getChannel(),redditTemp);
+						sendMessage(event.getChannel(),redditTemp);
 						redditTemp = "";
 					}
 			}

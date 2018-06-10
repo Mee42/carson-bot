@@ -8,7 +8,7 @@ import java.util.*;
 
 
 //to add:
-
+//v 5
 
 
 public class FileIO {
@@ -197,9 +197,31 @@ public class FileIO {
 		
 	}
 	public String readString() {
+		try {
+			if(!exists()) {
+				System.err.println("file does not exist, sending back nothing");
+				return "";
+			}
+			FileReader fr = new FileReader(file);
 		
-		return readList().toString();
-		
+			BufferedReader br = new BufferedReader(fr);
+			
+			String text = "";
+			String line;
+			while ((line = br.readLine()) != null)
+		    {
+		      text+= line ;
+		    }
+			fr.close();
+		    br.close();
+		    return text;
+		    
+	    } catch (Exception e ) {
+	    	System.err.println("catched Execption in readList()");
+			e.printStackTrace();
+			
+	    }
+		return "";
 		
 	}
 	

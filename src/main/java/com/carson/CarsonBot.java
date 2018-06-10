@@ -2,47 +2,29 @@ package com.carson;
 
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import com.carson.classes.FileIO;
-import com.carson.classes.Gumbo;
-import com.carson.classes.Logger;
-import com.carson.classes.Messanger;
-import com.carson.classes.ProfanityChecker;
-import com.carson.classes.SendHelp;
+import com.carson.classes.*;
 import com.carson.commandManagers.Register;
+import com.carson.dataObject.DataGetter;
+import com.carson.dataObject.GuildDataOrginizer;
 import com.carson.lavaplayer.GuildMusicManager;
-import com.carson.main.CleanThread;
-import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
-import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
-import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
+import com.sedmelluq.discord.lavaplayer.player.*;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
-import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
-import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import com.sedmelluq.discord.lavaplayer.track.*;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.EventSubscriber;
-import sx.blah.discord.handle.impl.events.guild.channel.message.MessageDeleteEvent;
-import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
-import sx.blah.discord.handle.impl.events.guild.channel.message.MessageSendEvent;
+import sx.blah.discord.handle.impl.events.guild.channel.message.*;
 import sx.blah.discord.handle.impl.events.shard.LoginEvent;
-import sx.blah.discord.handle.obj.ActivityType;
-import sx.blah.discord.handle.obj.IChannel;
-import sx.blah.discord.handle.obj.IGuild;
-import sx.blah.discord.handle.obj.IMessage;
-import sx.blah.discord.handle.obj.StatusType;
+import sx.blah.discord.handle.obj.*;
 
 public class CarsonBot { // Curl+shift + / (on num pad)
 	//VERSION: 0-3-0
 	//variables
-	private boolean locked;
 	private IDiscordClient client;
 	private Messanger messanger;
 	
 	public static List<IMessage> deletedMessages = new ArrayList<>();
-	
 	
 	
 	private static final AudioPlayerManager playerManager = new DefaultAudioPlayerManager();
@@ -51,9 +33,7 @@ public class CarsonBot { // Curl+shift + / (on num pad)
     private Register reg;
     
     
-    
-	public void startup(IDiscordClient client, boolean locked) {
-		this.locked = locked;
+	public void startup(IDiscordClient client) {
 		this.client = client;
 		
 		
@@ -62,15 +42,10 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 	
 	@EventSubscriber
 	public void onStartup(LoginEvent event) {
-		if(!locked) {
 			client.changePresence(StatusType.ONLINE, ActivityType.WATCHING," your every move");
-		}else {
-			client.changePresence(StatusType.DND, ActivityType.PLAYING," IM LOCKED");
-		}
 		
 		
 		messanger = new Messanger(client);
-		
 		System.out.println("BOOT: bot started");
 //		client.changeAvatar(Image.forFile(new File("C:\\Users\\Carson\\Desktop\\discord\\carson-bot\\profile.jpg")));
 		
@@ -82,8 +57,10 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 		
 		
         reg = Register.build(client); //puts the subregisters into the reg. and inports the client
-
-	
+        
+        DataGetter.getInstance()
+        .importFromJson(); //starts up the data getter. takes the data from the json file
+        
 	}
 	
 	
@@ -96,6 +73,8 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 		deletedMessages.add(message);
 		new Messanger().sendMessage(event.getChannel(), "*a message was deleted* use ~getdeleted 1 to get it");
 	}
+	
+	
 	@EventSubscriber
     public void onMessageReceived(MessageReceivedEvent event){
 		
@@ -114,9 +93,7 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 		//check for profanity is some servers. note - needs to make configuring this a bot action, not hardcoded
 		if(ProfanityChecker.check(event)) {return;} 
 		
-		//checks to see if the bot is locked. may be removed soon
-		if(checkLock(event)){return;}
-
+		
 
 		if( gumbo(event) ||  //needs to be ported TODO
 		cbCommands(event) //needs to be moved TODO
@@ -141,22 +118,7 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 	
 	
 	
-	//checks to see if the command will be allowed to run
-	private boolean checkLock(MessageReceivedEvent event) {
-		if(!locked) {
-			return false;
-		}
-		
-		if(event.getChannel().isPrivate() && event.getAuthor().getLongID() != 293853365891235841L ) {
-			return true;
-		}
-		if(event.getAuthor().getLongID() == 293853365891235841L || event.getGuild().getLongID() == 432560125299916810L) {
-			return false;
-		}
-
-		return true;
-	}
-
+	
 	
 	
 	

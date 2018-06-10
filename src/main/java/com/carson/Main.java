@@ -1,13 +1,12 @@
-package com.carson.main;
+package com.carson;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 
-import com.carson.CarsonBot;
-import com.carson.classes.FileIO;
-import com.carson.classes.MultiOutputStream;
+import com.carson.classes.*;
+import com.carson.main.*;
 
 import sx.blah.discord.api.IDiscordClient;
 
@@ -56,7 +55,7 @@ public class Main {
 	        
 	        
 	        //all this does in inport the client and locked status
-	        cb.startup(client, false);
+	        cb.startup(client);
 	        
 	        
 	        // Only login after all events are registered otherwise some may be missed.

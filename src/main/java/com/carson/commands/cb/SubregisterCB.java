@@ -6,6 +6,7 @@ import java.util.List;
 import com.carson.classes.SendHelp;
 import com.carson.commandManagers.ICommand;
 import com.carson.commandManagers.Subregister;
+import com.carson.dataObject.GuildDataOrginizer;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
@@ -13,20 +14,15 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 public class SubregisterCB extends Subregister{
 
 	
-	@Override
-	public Subregister build(IDiscordClient c) {
-		return new SubregisterCB()
-				.addCommand(new CommandStatus(c))
-				.addCommand(new CommandSetPlaying(c))
-				.addCommand(new CommandNick(c))
-				.addCommand(new CommandRestart(c))
-				.addCommand(new CommandShutDown(c))
-				;
-	}
 	
 	
 	public  SubregisterCB(IDiscordClient c) {
 		super(c);
+		addCommand(new CommandStatus(client));
+		addCommand(new CommandSetPlaying(client));
+		addCommand(new CommandNick(client));
+		addCommand(new CommandRestart(client));
+		addCommand(new CommandShutDown(client));
 	}
 	
 	public SubregisterCB() {

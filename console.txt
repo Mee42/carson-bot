@@ -1,6 +1,30 @@
-13:38:16.778835: [INFO][main][sx.blah.discord.Discord4J] - Discord4J v2.10.1 be2318c (https://github.com/austinv11/Discord4J)
-13:38:16.782342: [INFO][main][sx.blah.discord.Discord4J] - A Java binding for the official Discord API, forked from the inactive https://github.com/nerd/Discord4J. Copyright (c) 2017, Licensed under GNU LGPLv3
-13:38:18.023552: [INFO][HttpClient@251310844-23][sx.blah.discord.Discord4J] - Websocket Connected.
-13:38:18.218909: [INFO][DispatcException in thread "Thread-1" java.lang.NullPointerException
-	at com.carson.main.CleanThread.run(CleanThread.java:19)
-8.429712: [INFO][Thread-11][sx.blah.discord.Discord4J] - Shard 0 websocket disconnected with status code 1001 and reason "Shutdown".
+16:19:42.054298: [INFO][main][sx.blah.discord.Discord4J] - Discord4J v2.10.1 be2318c (https://github.com/austinv11/Discord4J)
+16:19:42.055901: [INFO][main][sx.blah.discord.Discord4J] - A Java binding for the official Discord API, forked from the inactive https://github.com/nerd/Discord4J. Copyright (c) 2017, Licensed under GNU LGPLv3
+16:19:43.390370: [INFO][HttpClient@776216093-23][sx.blah.discord.Discord4J] - Websocket Connected.
+16:19:43.555103: [INFO][Dispatch Handler][sx.blah.discord.Discord4J] - Connected to Discord Gateway v6. Receiving 11 guilds.
+BOOT: bot started
+MESSAGE:AwesomeCarson123:~rank(Discord4J - testing)
+EVENT: running null
+BOT_MESSAGE:XP for AwesomeCarson123 is:`8`(Discord4J - testing)
+
+MESSAGE:AwesomeCarson123:ayy(Discord4J - testing)
+MESSAGE:dec:sorry dan i can't hear you i'm too busy being drip fed EXCLUSIVE trailers(Discord4J - general)
+MESSAGE:AwesomeCarson123:woah(Brass Players' Discord - instrument_gallery)
+MESSAGE:AwesomeCarson123:~memebers(Brass Players' Discord - bot-stuff)
+MESSAGE:AwesomeCarson123:~members(Brass Players' Discord - bot-stuff)
+EVENT: running ~members
+BOT_MESSAGE: Current Member count:**121**! (Brass Players' Discord - bot-stuff)
+
+MESSAGE:AwesomeCarson123:?(Brass Players' Discord - bot-stuff)
+MESSAGE:Austin:Sony usually has pretty good conferences(Discord4J - general)
+MESSAGE:AwesomeCarson123:~rank <@279412525051674624>(Brass Players' Discord - instrument_gallery)
+EVENT: running null
+BOT_MESSAGE:TheEnderKing71 has `0` XP\n(Brass Players' Discord - instrument_gallery)
+
+MESSAGE:Austin:But it's all exclusives so...(Discord4J - general)
+MESSAGE:dec:all consoles really have over pcs nowadays are exclusives and accessibility, the architecture's pretty much the same so it's the only thing holding them apart(Discord4J - general)
+MESSAGE:AwesomeCarson123:~rank(Brass Players' Discord - instrument_gallery)
+EVENT: running null
+BOT_MESSAGE:XP for AwesomeCarson123 is:`15`(Brass Players' Discord - instrument_gallery)
+
+MESSAGE:Austin:They get a lot more hate then they should tbh(Discord4J - general)

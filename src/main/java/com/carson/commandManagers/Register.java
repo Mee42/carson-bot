@@ -8,6 +8,7 @@ import com.carson.classes.SendHelp;
 import com.carson.commands.cb.SubregisterCB;
 import com.carson.commands.main.SubregisterMain;
 import com.carson.commands.main.lavaplayer.LavaplayerMain;
+import com.carson.dataObject.GuildDataOrginizer;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
@@ -19,8 +20,8 @@ public class Register {
 	
 	public Register buildRegister(IDiscordClient c) {
 		return new Register()
-				.addSubregister(new SubregisterMain(c).build(c))
-				.addSubregister(new SubregisterCB(c).build(c))
+				.addSubregister(new SubregisterMain(c))
+				.addSubregister(new SubregisterCB(c))
 				;
 		
 		

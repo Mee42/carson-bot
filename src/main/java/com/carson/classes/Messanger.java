@@ -45,21 +45,6 @@ public class Messanger {
 	}
 	
 	
-	//send message without console print (used for tic tac toe board, mainly)
-	public void sendMessageClean(IChannel channel, String message) {
-		Logger.logBotClean(channel, message);
-		
-        // this is so it can repeat sending messages when rate limited
-        RequestBuffer.request(() -> {
-            try{
-                channel.sendMessage(message);
-            } catch (DiscordException e){
-                System.err.println("Message could not be sent with error: ");
-                e.printStackTrace();
-            }
-        });
-		
-		
-	}
+	
 	
 }
