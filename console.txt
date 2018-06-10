@@ -1,53 +1,15 @@
-16:26:19.306696: [INFO][main][sx.blah.discord.Discord4J] - Discord4J v2.10.1 be2318c (https://github.com/austinv11/Discord4J)
-16:26:19.308416: [INFO][main][sx.blah.discord.Discord4J] - A Java binding for the official Discord API, forked from the inactive https://github.com/nerd/Discord4J. Copyright (c) 2017, Licensed under GNU LGPLv3
-16:26:20.396744: [INFO][HttpClient@1435515402-23][sx.blah.discord.Discord4J] - Websocket Connected.
-16:26:20.627213: [INFO][DispatException in thread "Thread-1" sx.blah.discord.util.DiscordException: Attempt to send message before shard is reaMESSAGE:Arsen:rust(Discord4J - general)
-MESSAGE:Arsen:hoh(Discord4J - general)
-MESSAGE:Austin:Minecraft has an ok development community(Discord4J - general)
-MESSAGE:Arsen:rust is at the top of its horribleness game(Discord4J - general)
-MESSAGE:Arsen:ye but i meant the player commies(Discord4J - general)
-MESSAGE:YellowToad:https://discord.gg/b63eMJc(McPoland - suggested-servers)
-MESSAGE:AwesomeCarson123:@here can someone help me with something real quick?(Carson-Bot - general_chat)
-MESSAGE:dec:rust <:marj_haha:414623093865316352>(Discord4J - general)
-MESSAGE:trumpet:What is it?(Carson-Bot - general_chat)
-MESSAGE:Austin:<@120566787728211969> I've been thinking of trying fortnite(Discord4J - general)
-MESSAGE:Austin:Thumbs up or down(Discord4J - general)
-MESSAGE:danthonywalker:we should form a squad(Discord4J - general)
-MESSAGE:AwesomeCarson123:discord.gg/vRm8QWF(Carson-Bot - general_chat)
-MESSAGE:AwesomeCarson123:join this(Carson-Bot - general_chat)
-BOT_MESSAGE:Welcome <@!260739564895731715> to Carson=Bot=Temp\ncurrent members:`5`(Carson=Bot=Temp - general)
+17:07:47.865960: [INFO][main][sx.blah.discord.Discord4J] - Discord4J v2.10.1 be2318c (https://github.com/austinv11/Discord4J)
+17:07:47.867503: [INFO][main][sx.blah.discord.Discord4J] - A Java binding for the official Discord API, forked from the inactive https://github.com/nerd/Discord4J. Copyright (c) 2017, Licensed under GNU LGPLv3
+17:07:48.947386: [INFO][HttpClient@1882929344-23][sx.blah.discord.Discord4J] - Websocket Connected.
+17:07:49.323192: [INFO][Dispatch Handler][sx.blah.discord.Discord4J] - Connected to Discord Gateway v6. Receiving 12 guilds.
+BOOT: bot started
+MESSAGE:AwesomeCarson123:~rank @everyone(ANARCHY - diksbjdus)
+EVENT: running ~rank
+BOT_MESSAGE:Fury2112 has `0` XP\nThe Narrator has `59` XP\nYellowToad has `107` XP\nAceSkipper has `0` XP\nJn???? ????d?? H?????? ?? has `111` XP\nAwesomeCarson123 has `72` XP\nautin has `8` XP\nCarson-bot has `0` XP\nkarxn has `419` XP\n(ANARCHY - diksbjdus)
 
-MESSAGE:The Holy Peanut:(Carson=Bot=Temp - general)
-MESSAGE:Austin:We should form a Roblox server(Discord4J - general)
-MESSAGE:Arsen:down(Discord4J - general)
-MESSAGE:AwesomeCarson123:ayy it worked(Carson=Bot=Temp - general)
-MESSAGE:dec:i'm no a big fan of fortshite(Discord4J - general)
-MESSAGE:Arsen:lol(Discord4J - general)
-MESSAGE:Arsen:same here hec(Discord4J - general)
-MESSAGE:AwesomeCarson123:nevermind I got it(Carson-Bot - general_chat)
-MESSAGE:danthonywalker:tried it, didn't find anything, died(Discord4J - general)
-MESSAGE:dec:i get why it's so popular, i just don't like third person arcadey games(Discord4J - general)
-MESSAGE:danthonywalker:didn't play agan(Discord4J - general)
-MESSAGE:Austin:I can't possibly support ping tho(Discord4J - general)
-MESSAGE:AwesomeCarson123:thanks <@260739564895731715>(Carson=Bot=Temp - general)
-MESSAGE:AwesomeCarson123:byee(Carson=Bot=Temp - general)
-MESSAGE:Austin:*pubg(Discord4J - general)
-MESSAGE:AwesomeCarson123:~rank(Carson=Bot=Temp - general)
-EVENT: running null
-BOT_MESSAGE:XP for AwesomeCarson123 is:`15`(Carson=Bot=Temp - general)
-
-MESSAGE:danthonywalker:but i still have it installed in case someone asks which never happens cause i got no friends(Discord4J - general)
-MESSAGE:Austin:I'll play with you sometime dan(Discord4J - general)
-MESSAGE:dec:pubg is utter, utter garbage now(Discord4J - general)
-MESSAGE:jamcat1123:What even(Carson-Bot - general)
-MESSAGE:Austin:If I get around to trying it(Discord4J - general)
-MESSAGE:AwesomeCarson123:~rank(Carson-Bot - general)
-EVENT: running null
-BOT_MESSAGE:XP for AwesomeCarson123 is:`16`(Carson-Bot - general)
-
-MESSAGE:dec:they've massively fucked it in the past two updates somehow(Discord4J - general)
-MESSAGE:Austin:They're also suing epic games for ripping them off(Discord4J - general)
-MESSAGE:Austin:Which is stupid(Discord4J - general)
-MESSAGE:AwesomeCarson123:*minecraft hunger games*(Discord4J - general)
-MESSAGE:dec:hitreg is completely fucked, regions are ping unlocked, server tickrate is still like 20 or some shit, gunplay is janky af, the company doesn't know what their priorities are(Discord4J - general)
-MESSAGE:Austin:I used to love mc survival games back in the day tbh(Discord4J - general)
+MESSAGE:AwesomeCarson123:~leaderboard(ANARCHY - diksbjdus)
+EVENT: running ~leaderboard, or ~lb
+MESSAGE:AwesomeCarson123:shoot(ANARCHY - diksbjdus)
+MESSAGE:YellowToad:hhmmm(McPoland - mcpoland)
+MESSAGE:karxn:sdf(ANARCHY - diksbjdus)
+MESSAGE:karxn:f(ANARCHY - diksbjdus)

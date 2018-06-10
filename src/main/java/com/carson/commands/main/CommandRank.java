@@ -31,13 +31,21 @@ public class CommandRank extends Command implements ICommand{
 			
 			StringBuilder builder = new StringBuilder();
 			for(IUser person : peopleMentioned) {
-				builder.append(person.getName() + " has `" + CommandRank.getXPForUser(person.getLongID()) + "` XP\n");
+				String name = person.getName();
+				if(name.length() > 30) {
+					name = name.substring(0, 25);
+				}
+				builder.append(name + " has `" + CommandRank.getXPForUser(person.getLongID()) + "` XP\n");
 				if(builder.length() > 1500) {
 					builder.append("I can't send any more people as of right now, discord limits message length");
 					break;
 				}
 			}
-			sendMessage(event, builder.toString());
+			if(builder.length() != 0) {
+				sendMessage(event, builder.toString());
+			}else {
+				sendMessage(event, "no one could be found");
+			}
 		}
 	}
 	
@@ -48,14 +56,12 @@ public class CommandRank extends Command implements ICommand{
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return "~rank";
 	}
 
 	@Override
 	public String getDisciption() {
-		// TODO Auto-generated method stub
-		return null;
+		return "gets your rank (global, not server-based). mention someone to get their rank";
 	}
 
 }

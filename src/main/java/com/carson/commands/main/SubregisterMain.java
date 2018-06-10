@@ -66,7 +66,7 @@ public class SubregisterMain extends Subregister{
 				addCommand(new CommandGetDeleted(client));
 				
 				addCommand(new CommandRank(client));
-				
+				addCommand(new CommandLeaderboard(client));
 		
 	}
 

@@ -62,6 +62,10 @@ public class GuildData {
 			return id;
 		}
 
+		public List<UserData> getUsers() {
+			return users;
+		}
+
 //no methods will edit any data or do any processing to keep in compliance with the POJO  requirements, and to make it safer to convert to JSON
 
 }
