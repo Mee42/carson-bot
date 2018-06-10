@@ -62,7 +62,7 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 	
 	@EventSubscriber
 	public void onStartup(LoginEvent event) {
-		if(locked) {
+		if(!locked) {
 			client.changePresence(StatusType.ONLINE, ActivityType.WATCHING," your every move");
 		}else {
 			client.changePresence(StatusType.DND, ActivityType.PLAYING," IM LOCKED");
