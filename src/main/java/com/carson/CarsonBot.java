@@ -15,6 +15,7 @@ import com.sedmelluq.discord.lavaplayer.track.*;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.*;
+import sx.blah.discord.handle.impl.events.guild.member.UserJoinEvent;
 import sx.blah.discord.handle.impl.events.shard.LoginEvent;
 import sx.blah.discord.handle.obj.*;
 
@@ -74,6 +75,12 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 		new Messanger().sendMessage(event.getChannel(), "*a message was deleted* use ~getdeleted 1 to get it");
 	}
 	
+	
+	@EventSubscriber
+	public void onUserJoin(UserJoinEvent event) {
+		sendMessage(event.getGuild().getSystemChannel(), "Welcome " + event.getUser().toString() + " to " + event.getGuild().getName() + "\n"
+				+ "current members:`" + event.getGuild().getTotalMemberCount() + "`");
+	}
 	
 	@EventSubscriber
     public void onMessageReceived(MessageReceivedEvent event){

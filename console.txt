@@ -1,30 +1,53 @@
-16:19:42.054298: [INFO][main][sx.blah.discord.Discord4J] - Discord4J v2.10.1 be2318c (https://github.com/austinv11/Discord4J)
-16:19:42.055901: [INFO][main][sx.blah.discord.Discord4J] - A Java binding for the official Discord API, forked from the inactive https://github.com/nerd/Discord4J. Copyright (c) 2017, Licensed under GNU LGPLv3
-16:19:43.390370: [INFO][HttpClient@776216093-23][sx.blah.discord.Discord4J] - Websocket Connected.
-16:19:43.555103: [INFO][Dispatch Handler][sx.blah.discord.Discord4J] - Connected to Discord Gateway v6. Receiving 11 guilds.
-BOOT: bot started
-MESSAGE:AwesomeCarson123:~rank(Discord4J - testing)
+16:26:19.306696: [INFO][main][sx.blah.discord.Discord4J] - Discord4J v2.10.1 be2318c (https://github.com/austinv11/Discord4J)
+16:26:19.308416: [INFO][main][sx.blah.discord.Discord4J] - A Java binding for the official Discord API, forked from the inactive https://github.com/nerd/Discord4J. Copyright (c) 2017, Licensed under GNU LGPLv3
+16:26:20.396744: [INFO][HttpClient@1435515402-23][sx.blah.discord.Discord4J] - Websocket Connected.
+16:26:20.627213: [INFO][DispatException in thread "Thread-1" sx.blah.discord.util.DiscordException: Attempt to send message before shard is reaMESSAGE:Arsen:rust(Discord4J - general)
+MESSAGE:Arsen:hoh(Discord4J - general)
+MESSAGE:Austin:Minecraft has an ok development community(Discord4J - general)
+MESSAGE:Arsen:rust is at the top of its horribleness game(Discord4J - general)
+MESSAGE:Arsen:ye but i meant the player commies(Discord4J - general)
+MESSAGE:YellowToad:https://discord.gg/b63eMJc(McPoland - suggested-servers)
+MESSAGE:AwesomeCarson123:@here can someone help me with something real quick?(Carson-Bot - general_chat)
+MESSAGE:dec:rust <:marj_haha:414623093865316352>(Discord4J - general)
+MESSAGE:trumpet:What is it?(Carson-Bot - general_chat)
+MESSAGE:Austin:<@120566787728211969> I've been thinking of trying fortnite(Discord4J - general)
+MESSAGE:Austin:Thumbs up or down(Discord4J - general)
+MESSAGE:danthonywalker:we should form a squad(Discord4J - general)
+MESSAGE:AwesomeCarson123:discord.gg/vRm8QWF(Carson-Bot - general_chat)
+MESSAGE:AwesomeCarson123:join this(Carson-Bot - general_chat)
+BOT_MESSAGE:Welcome <@!260739564895731715> to Carson=Bot=Temp\ncurrent members:`5`(Carson=Bot=Temp - general)
+
+MESSAGE:The Holy Peanut:(Carson=Bot=Temp - general)
+MESSAGE:Austin:We should form a Roblox server(Discord4J - general)
+MESSAGE:Arsen:down(Discord4J - general)
+MESSAGE:AwesomeCarson123:ayy it worked(Carson=Bot=Temp - general)
+MESSAGE:dec:i'm no a big fan of fortshite(Discord4J - general)
+MESSAGE:Arsen:lol(Discord4J - general)
+MESSAGE:Arsen:same here hec(Discord4J - general)
+MESSAGE:AwesomeCarson123:nevermind I got it(Carson-Bot - general_chat)
+MESSAGE:danthonywalker:tried it, didn't find anything, died(Discord4J - general)
+MESSAGE:dec:i get why it's so popular, i just don't like third person arcadey games(Discord4J - general)
+MESSAGE:danthonywalker:didn't play agan(Discord4J - general)
+MESSAGE:Austin:I can't possibly support ping tho(Discord4J - general)
+MESSAGE:AwesomeCarson123:thanks <@260739564895731715>(Carson=Bot=Temp - general)
+MESSAGE:AwesomeCarson123:byee(Carson=Bot=Temp - general)
+MESSAGE:Austin:*pubg(Discord4J - general)
+MESSAGE:AwesomeCarson123:~rank(Carson=Bot=Temp - general)
 EVENT: running null
-BOT_MESSAGE:XP for AwesomeCarson123 is:`8`(Discord4J - testing)
+BOT_MESSAGE:XP for AwesomeCarson123 is:`15`(Carson=Bot=Temp - general)
 
-MESSAGE:AwesomeCarson123:ayy(Discord4J - testing)
-MESSAGE:dec:sorry dan i can't hear you i'm too busy being drip fed EXCLUSIVE trailers(Discord4J - general)
-MESSAGE:AwesomeCarson123:woah(Brass Players' Discord - instrument_gallery)
-MESSAGE:AwesomeCarson123:~memebers(Brass Players' Discord - bot-stuff)
-MESSAGE:AwesomeCarson123:~members(Brass Players' Discord - bot-stuff)
-EVENT: running ~members
-BOT_MESSAGE: Current Member count:**121**! (Brass Players' Discord - bot-stuff)
-
-MESSAGE:AwesomeCarson123:?(Brass Players' Discord - bot-stuff)
-MESSAGE:Austin:Sony usually has pretty good conferences(Discord4J - general)
-MESSAGE:AwesomeCarson123:~rank <@279412525051674624>(Brass Players' Discord - instrument_gallery)
+MESSAGE:danthonywalker:but i still have it installed in case someone asks which never happens cause i got no friends(Discord4J - general)
+MESSAGE:Austin:I'll play with you sometime dan(Discord4J - general)
+MESSAGE:dec:pubg is utter, utter garbage now(Discord4J - general)
+MESSAGE:jamcat1123:What even(Carson-Bot - general)
+MESSAGE:Austin:If I get around to trying it(Discord4J - general)
+MESSAGE:AwesomeCarson123:~rank(Carson-Bot - general)
 EVENT: running null
-BOT_MESSAGE:TheEnderKing71 has `0` XP\n(Brass Players' Discord - instrument_gallery)
+BOT_MESSAGE:XP for AwesomeCarson123 is:`16`(Carson-Bot - general)
 
-MESSAGE:Austin:But it's all exclusives so...(Discord4J - general)
-MESSAGE:dec:all consoles really have over pcs nowadays are exclusives and accessibility, the architecture's pretty much the same so it's the only thing holding them apart(Discord4J - general)
-MESSAGE:AwesomeCarson123:~rank(Brass Players' Discord - instrument_gallery)
-EVENT: running null
-BOT_MESSAGE:XP for AwesomeCarson123 is:`15`(Brass Players' Discord - instrument_gallery)
-
-MESSAGE:Austin:They get a lot more hate then they should tbh(Discord4J - general)
+MESSAGE:dec:they've massively fucked it in the past two updates somehow(Discord4J - general)
+MESSAGE:Austin:They're also suing epic games for ripping them off(Discord4J - general)
+MESSAGE:Austin:Which is stupid(Discord4J - general)
+MESSAGE:AwesomeCarson123:*minecraft hunger games*(Discord4J - general)
+MESSAGE:dec:hitreg is completely fucked, regions are ping unlocked, server tickrate is still like 20 or some shit, gunplay is janky af, the company doesn't know what their priorities are(Discord4J - general)
+MESSAGE:Austin:I used to love mc survival games back in the day tbh(Discord4J - general)
