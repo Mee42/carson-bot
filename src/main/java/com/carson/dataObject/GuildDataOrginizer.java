@@ -33,7 +33,7 @@ public class GuildDataOrginizer {
 	    	Gson gson = new GsonBuilder().create();
 	        String json =gson.toJson(this);
 	        FileIO.use(jsonFile).write(json);
-	        System.err.println("sterilized");
+//	        System.err.println("sterilized"); //i think this should sterilize everything something changed /shrug
 	        return json;
 	    }
 	    

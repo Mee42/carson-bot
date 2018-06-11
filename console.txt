@@ -1,22 +1,22 @@
-19:54:25.297420: [INFO][main][sx.blah.discord.Discord4J] - Discord4J v2.10.1 be2318c (https://github.com/austinv11/Discord4J)
-19:54:25.299340: [INFO][main][sx.blah.discord.Discord4J] - A Java binding for the official Discord API, forked from the inactive https://github.com/nerd/Discord4J. Copyright (c) 2017, Licensed under GNU LGPLv3
-19:54:26.350153: [INFO][HttpClient@163541471-26][sx.blah.discord.Discord4J] - Websocket Connected.
-19:54:26.527107: [INFO][Dispatcsterilized
+20:03:06.571988: [INFO][main][sx.blah.discord.Discord4J] - Discord4J v2.10.1 be2318c (https://github.com/austinv11/Discord4J)
+20:03:06.573687: [INFO][main][sx.blah.discord.Discord4J] - A Java binding for the official Discord API, forked from the inactive https://github.com/nerd/Discord4J. Copyright (c) 2017, Licensed under GNU LGPLv3
+20:03:07.590505: [INFO][HttpClient@1832288129-26][sx.blah.discord.Discord4J] - Websocket Connected.
+20:03:07.866116: [INFO][Dispatsterilized
+20:03:09.908964: [ERROR][Event Dispatcher Handler][sx.blah.discord.Discord4J] - Unhandled exception caught dispatching event MessageReceivedEvent
+sx.blah.discord.util.DiscordException: AttMESSAGE:AwesomeCarson123:~lb(Discord4J - testing)
+EVENT: running ~leaderboard, or ~lb
+MESSAGE:AwesomeCarson123:good channel(Carson-Bot - general_chat)
+essage(Channel.java:459)
+	at sx.blah.discord.handle.impl.obj.Channel.sendMessage(Channel.java:454)
+	at sx.blah.discord.handle.impl.obj.Channel.sendMessage(Channel.java:444)
+	at com.carson.commands.main.CommandLeaderboard.run(CommandLeaderboard.java:78)
+	at com.carson.commandManagers.Subregister.testCommands(Subregister.java:48)
+	at com.carson.commandManagers.Register.testCommands(Register.java:62)
+	at com.carson.CarsonBot.onMessageReceived(CarsonBot.java:105)
+	at sx.blah.discord.api.events.EventDispatcher$MethodEventHandler.handle(EventDispatcher.java:680)
+	at sx.blah.discord.api.events.EventDispatcher.lambda$null$17(EventDispatcher.java:610)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1135)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:844)
 sterilized
 sterilized
-sterilized
-sterilized
-sterilized
-sterilized
-iving 12 guilds.
-BOOT: bot started
-MESSAGE:autin:is it for every message(Carson-Bot - general_chat)
-MESSAGE:AwesomeCarson123:~rank(Carson-Bot - general_chat)
-EVENT: running ~rank
-BOT_MESSAGE:XP for AwesomeCarson123 is:`22`(Carson-Bot - general_chat)
-
-MESSAGE:autin:?(Carson-Bot - general_chat)
-MESSAGE:AwesomeCarson123:yeah(Carson-Bot - general_chat)
-MESSAGE:autin:ahh(Carson-Bot - general_chat)
-MESSAGE:autin:ok(Carson-Bot - general_chat)
-MESSAGE:AwesomeCarson123:gunna be a spammer and make a ~getJSON command(Carson-Bot - general_chat)

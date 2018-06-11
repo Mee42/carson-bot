@@ -65,6 +65,8 @@ public class SubregisterMain extends Subregister{
 				
 				addCommand(new CommandRank(client));
 				addCommand(new CommandLeaderboard(client));
+				
+				addCommand(new CommandGetJson(client));
 		
 	}
 
