@@ -25,7 +25,6 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 	private IDiscordClient client;
 	private Messanger messanger;
 	
-	public static List<IMessage> deletedMessages = new ArrayList<>();
 	
 	
 	private static final AudioPlayerManager playerManager = new DefaultAudioPlayerManager();
@@ -68,11 +67,18 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 	@EventSubscriber
 	public void onMessageDeleted(MessageDeleteEvent event) {
 		IMessage message = event.getMessage();
-		if(event.getGuild().getLongID() != 400786190619639839L) {
+		if(event.getGuild().getLongID() != 400786190619639839L) { //mcpoland
 			return;
 		}
-		deletedMessages.add(message);
-		new Messanger().sendMessage(event.getChannel(), "*a message was deleted* use ~getdeleted 1 to get it");
+		if(event.getAuthor().getLongID() ==318783502768144384L) { //yellow toad
+			return;
+		}
+		if(event.getAuthor().getLongID() ==422191638736142346L) { //karxn
+			return;
+		}
+		long messageChannel  = 455860841611526144L;
+		
+		new Messanger().sendMessage(client.getChannelByID(messageChannel), "*a message was deleted* user:`" + event.getAuthor().getName() + "` in channel:`" + event.getChannel().getName() + "`   ```" + event.getMessage().getFormattedContent() + "```");
 	}
 	
 	

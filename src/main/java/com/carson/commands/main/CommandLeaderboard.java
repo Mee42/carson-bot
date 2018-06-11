@@ -10,6 +10,7 @@ import java.util.Random;
 import com.carson.commandManagers.*;
 import com.carson.dataObject.DataGetter;
 import com.carson.dataObject.GuildDataOrginizer;
+import com.carson.dataObject.GuildDataOrginizer.UserDataNoGuild;
 import com.carson.dataObject.UserData;
 
 import sx.blah.discord.api.IDiscordClient;
@@ -41,23 +42,36 @@ public class CommandLeaderboard extends Command implements ICommand{
 		builder.withColor(randomColor);
 		builder.withDesc("leaderboard for " + event.getGuild().getName());
 		GuildDataOrginizer  guildData = DataGetter.getInstance();
-		List<UserData> users = guildData.getGuild(event.getGuild().getLongID()).getUsers();
+//		List<UserData> users = guildData.getGuild(event.getGuild().getLongID()).getUsers(); //XP PER GUILd
+		List<UserDataNoGuild> users = guildData.getUsers();
+		System.out.println("users gotten:" + users.size());
+		
+		List<UserData> toDelete = new ArrayList<>();
+		for(UserData user : users) {
+			if(event.getGuild().getUserByID(user.getId()) == null) {
+				toDelete.add(user);
+			}
+		}
+		users.removeAll(toDelete);
 		
 		
-
+		for(UserDataNoGuild user : users) {
+			user.setName(client.getUserByID(user.getId()).getName());
+		}
+		
 		Collections.sort(users, new Comparator<UserData>(){
 
 		  public int compare(UserData o1, UserData o2)
 		  {
-		     return (o1.getXP() > o2.getXP()) ? 1 : (   (o1.getXP() == o2.getXP())? 0 : -1);
+		     return (o1.getXP() > o2.getXP()) ? -1 : (   (o1.getXP() == o2.getXP())? 0 : 1);
 		  }
 		});
 		
 		
 		int index = 1;
 		for(UserData user : users) {
-			builder.appendField(user.getName() + " has " + user.getXP() + " xp",index  + "  place!",true);
-			if(index >15) {
+			builder.appendField(user.getName() + " has " + user.getXP() + " xp",index  + "  place!",false);//TODO test inline var
+			if(index > 15) {
 				break;
 			}
 			index++;

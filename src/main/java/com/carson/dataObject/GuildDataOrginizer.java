@@ -84,6 +84,10 @@ public class GuildDataOrginizer {
 	    	return getUserData(id).incrimentXP(amount);
 	    }
 	    
+	    public List<UserDataNoGuild> getUsers() {
+	    	return users;
+	    }
+	    
 	public class UserDataNoGuild extends UserData{
 		public UserDataNoGuild(long id) {
 			super(id);
