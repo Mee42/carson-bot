@@ -16,7 +16,9 @@ public class BotUtils {
         // The ClientBuilder object is where you will attach your params for configuring the instance of your bot.
         // Such as withToken, setDaemon etc
         return new ClientBuilder()
-                .withToken(token).setMaxReconnectAttempts(9999)
+                .withToken(token)
+                .setMaxReconnectAttempts(9999)
+                .setMaxMessageCacheCount(-1)
                 .build();
 
     }

@@ -44,7 +44,6 @@ public class CommandLeaderboard extends Command implements ICommand{
 		GuildDataOrginizer  guildData = DataGetter.getInstance();
 //		List<UserData> users = guildData.getGuild(event.getGuild().getLongID()).getUsers(); //XP PER GUILd
 		List<UserDataNoGuild> users = guildData.getUsers();
-		System.out.println("users gotten:" + users.size());
 		
 		List<UserData> toDelete = new ArrayList<>();
 		for(UserData user : users) {
@@ -52,12 +51,11 @@ public class CommandLeaderboard extends Command implements ICommand{
 				toDelete.add(user);
 			}
 		}
+		toDelete.add(new UserData(client.getOurUser().getLongID()));
 		users.removeAll(toDelete);
 		
 		
-		for(UserDataNoGuild user : users) {
-			user.setName(client.getUserByID(user.getId()).getName());
-		}
+	
 		
 		Collections.sort(users, new Comparator<UserData>(){
 
@@ -70,7 +68,7 @@ public class CommandLeaderboard extends Command implements ICommand{
 		
 		int index = 1;
 		for(UserData user : users) {
-			builder.appendField(user.getName() + " has " + user.getXP() + " xp",index  + "  place!",false);//TODO test inline var
+			builder.appendField(client.getUserByID(user.getId()).getDisplayName(event.getGuild()) + " has " + user.getXP() + " xp",index  + "  place!",false);//TODO test inline var -- i think it works
 			if(index > 15) {
 				break;
 			}

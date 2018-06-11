@@ -33,6 +33,7 @@ public class GuildDataOrginizer {
 	    	Gson gson = new GsonBuilder().create();
 	        String json =gson.toJson(this);
 	        FileIO.use(jsonFile).write(json);
+	        System.err.println("sterilized");
 	        return json;
 	    }
 	    
@@ -80,8 +81,11 @@ public class GuildDataOrginizer {
 	    public long getXPForUser(long id) {
 	    	return getUserData(id).getXP();
 	    }
+	
 	    public long increaseXPForUser(long id, int amount) {
-	    	return getUserData(id).incrimentXP(amount);
+	    	long newXP = getUserData(id).incrimentXP(amount);
+	    	sterilize();
+	    	return newXP;
 	    }
 	    
 	    public List<UserDataNoGuild> getUsers() {

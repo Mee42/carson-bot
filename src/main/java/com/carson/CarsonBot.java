@@ -86,6 +86,11 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 	public void onUserJoin(UserJoinEvent event) {
 		sendMessage(event.getGuild().getSystemChannel(), "Welcome " + event.getUser().toString() + " to " + event.getGuild().getName() + "\n"
 				+ "current members:`" + event.getGuild().getTotalMemberCount() + "`");
+		
+		if(event.getGuild().getLongID() == 422570115217883136L) {
+			IRole role = event.getGuild().getRolesByName("fresh gumbo").get(0);
+//			event.getClient
+		}
 	}
 	
 	@EventSubscriber
@@ -127,16 +132,6 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 	public void sendMessage(IChannel channel, String message){
 		messanger.sendMessage(channel, message);
     }
-	
-	
-	
-	
-	
-	
-	
-	
-	//METHODS
-	
 	
 	
 	
@@ -195,15 +190,6 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 
 
 	
-	
-	
-
-	
-	
-	
-	
-
-	
 	//all carsonbot commands
 	private boolean cbCommands(MessageReceivedEvent event) {
 		
@@ -256,16 +242,6 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 		
 		
 	}
-	
-	
-	
-	
-
-	
-	
-	
-
-	
 	
 	
 		

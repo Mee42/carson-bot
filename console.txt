@@ -1,88 +1,22 @@
-18:29:01.713922: [INFO][main][sx.blah.discord.Discord4J] - Discord4J v2.10.1 be2318c (https://github.com/austinv11/Discord4J)
-18:29:01.716063: [INFO][main][sx.blah.discord.Discord4J] - A Java binding for the official Discord API, forked from the inactive https://github.com/nerd/Discord4J. Copyright (c) 2017, Licensed under GNU LGPLv3
-18:29:03.013650: [INFO][HttpClient@1174112234-26][sx.blah.discord.Discord4J] - Websocket Connected.
-18:29:03.317281: [INFO][Dispat18:40:57.601010: [ERROR][Event Dispatcher Handler][sx.blah.discord.Discord4J] - Unhandled exception caught dispatching event MessageReceivedEvent
-java.lang.NullPointerException
-	at com.carson.commands.main.CommandGetRole.test(CommandGetRole.java:23)
-	at com.carson.commandManagers.Subregister.testCommands(Subregister.java:46)
-	at com.carson.commandManagers.Register.testCommands(Register.java:62)
-	at com.carson.CarsonBot.onMessageReceived(CarsonBot.java:100)
-	at sx.blah.discord.api.events.EventDispatcher$MethodEventHandler.handle(EventDispatcher.java:680)
-	at sx.blah.discord.api.events.EventDispatcher.lambda$null$17(EventDispatcher.java:610)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1135)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
-	at java.base/java.lang.Thread.run(Thread.java:844)
-18:41:03.074837: [ERROR][Event Dispatcher Handler][sx.blah.discord.Discord4J] - Unhandled exception caught dispatching event MessageReceivedEvent
-java.lang.NullPointerException
-	at com.carson.commands.main.CommandGetRole.test(CommandGetRole.java:23)
-	at com.carson.commandManagers.Subregister.testCommands(Subregister.java:46)
-	at com.carson.commandManagers.Register.testCommands(Register.java:62)
-	at com.carson.CarsonBot.onMessageReceived(CarsonBot.java:100)
-	at sx.blah.discord.api.events.EventDispatcher$MethodEventHandler.handle(EventDispatcher.java:680)
-	at sx.blah.discord.api.events.EventDispatcher.lambda$null$17(EventDispatcher.java:610)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1135)
-	at javMESSAGE:autin:ps help(McPoland - yuo-can-into-mcbots)
-MESSAGE:autin:ps(McPoland - yuo-can-into-mcbots)
-MESSAGE:autin:ps(McPoland - yuo-can-into-mcbots)
-MESSAGE:autin:ps(McPoland - yuo-can-into-mcbots)
-MESSAGE:autin:bs(McPoland - yuo-can-into-mcbots)
-MESSAGE:THE SWOLY BIBLE:^(McPoland - mc-poll-and)
-MESSAGE:danthonywalker:tfw im enjoying competitive splatoon more than league(Discord4J - general)
-MESSAGE:YellowToad:the sad thing is this server is generally more active than daniel's server(ANARCHY - jejs)
-MESSAGE:danthonywalker:https://www.youtube.com/watch?v=sTSx7CTILNc(Discord4J - general)
-MESSAGE:autin:hmm(McPoland - mc-poll-and)
-MESSAGE:autin:someone is salt(McPoland - mc-poll-and)
-MESSAGE:karxn:more like(McPoland - mc-poll-and)
-MESSAGE:karxn:someone is toxic ?(McPoland - mc-poll-and)
-MESSAGE:karxn:jk(McPoland - mc-poll-and)
-MESSAGE:AwesomeCarson123:well the bots had only been collecting data for about 10  Minutes(Discord4J - testing)
-MESSAGE:AwesomeCarson123:thats y i have 100 - i was testing it out on another channel(Discord4J - testing)
-MESSAGE:AwesomeCarson123:~lb(McPoland - yuo-can-into-mcbots)
-EVENT: running ~leaderboard, or ~lb
-users gotten:15
-MESSAGE:AwesomeCarson123:if i have a user with weird characters in their username like ????? how do i read it correctly(Discord4J - d4j-v2-help)
-MESSAGE:AwesomeCarson123:~lb(Carson-Bot - general_chat)
-EVENT: running ~leaderboard, or ~lb
-users gotten:8
-MESSAGE:AwesomeCarson123:(Discord4J - d4j-v2-help)
-MESSAGE:AwesomeCarson123:im getting this(Discord4J - d4j-v2-help)
-MESSAGE:Techtony96:Are you storing their name? Or just getting it and sending it on an embed?(Discord4J - d4j-v2-help)
-MESSAGE:AwesomeCarson123:storying it, i Believe(Discord4J - d4j-v2-help)
-MESSAGE:Techtony96:I am trying to convert Mono<User> to Mono<Member> but I cant figure out how to use Mono guild snowflake in the other Mono. I'm trying to learn this so could someone help me figure how to use two monos together?(Discord4J - d4j-v3-help)
-MESSAGE:danthonywalker:make sure you're storing it as UTF-8(Discord4J - d4j-v2-help)
-MESSAGE:Techtony96:or whatever encoding has all the characters you are trying to store.(Discord4J - d4j-v2-help)
-MESSAGE:Techtony96:but UTF8 should be fine(Discord4J - d4j-v2-help)
-MESSAGE:danthonywalker:userMono.flatMap(user -> user.asMember(id))(Discord4J - d4j-v3-help)
-MESSAGE:AwesomeCarson123:what does discord use?(Discord4J - d4j-v2-help)
-MESSAGE:danthonywalker:UTF-8(Discord4J - d4j-v2-help)
-MESSAGE:danthonywalker:that is the standard encoding for all of web(Discord4J - d4j-v2-help)
-MESSAGE:AwesomeCarson123:so UTF8 will definitely work\nok thx(Discord4J - d4j-v2-help)
-MESSAGE:AwesomeCarson123:wdym?(McPoland - deleted-messages)
-MESSAGE:danthonywalker:make sure you store it was UTF-8 and read it as UTF-8 too(Discord4J - d4j-v2-help)
-MESSAGE:danthonywalker:oh wait(Discord4J - d4j-v3-help)
-MESSAGE:danthonywalker:i missed the mono guild thing(Discord4J - d4j-v3-help)
-MESSAGE:AwesomeCarson123:~~i have no idea how to do that~~ but il google it(Discord4J - d4j-v2-help)
-MESSAGE:danthonywalker:so do you have like a Mono<User> and a Mono<Guild> and you want to make a Mono<Member>?(Discord4J - d4j-v3-help)
-MESSAGE:Techtony96:This is what I have right now, both dont work completely:(Discord4J - d4j-v3-help)
-MESSAGE:Techtony96:```\n return getGuild().map(Guild::getId).flatMap(getAuthor().flatMap(User::asMember));\n        return getAuthor().flatMap(getGuild().map(Guild::getId).flatMap())```(Discord4J - d4j-v3-help)
-MESSAGE:Techtony96:Yes(Discord4J - d4j-v3-help)
-MESSAGE:danthonywalker:well you're returning twice(Discord4J - d4j-v3-help)
-MESSAGE:Techtony96:Those are just two attempts, I wouldnt use both(Discord4J - d4j-v3-help)
-MESSAGE:YellowToad:like(McPoland - deleted-messages)
-MESSAGE:YellowToad:does it have to be a certain formatting to store?(McPoland - deleted-messages)
-MESSAGE:danthonywalker:neither compile\nfirst:\n`getGuild().map(Guild::getId).flatMap(id -> getAuthor().flatMap(author -> author.asMember(id)))`\nsecond:\n`getAuthor().flatMap(author -> getGuild().map(Guild::getId).flatMap(author::asMember))`(Discord4J - d4j-v3-help)
-MESSAGE:YellowToad:ps mine(McPoland - spam)
-MESSAGE:AwesomeCarson123:wdym?(McPoland - deleted-messages)
-MESSAGE:AwesomeCarson123:oh(McPoland - deleted-messages)
-MESSAGE:AwesomeCarson123:so every time a message gets delivered(McPoland - deleted-messages)
-MESSAGE:AwesomeCarson123:I get an IMessage instance(McPoland - deleted-messages)
-MESSAGE:AwesomeCarson123:unchangable(McPoland - deleted-messages)
-MESSAGE:theIgloo:zipWith-lover.jar reporting for duty\n`guild.zipWith(user, (g, u) -> u.asMember(g.getId()));`(Discord4J - d4j-v3-help)
-MESSAGE:danthonywalker:hoh, that's really good(Discord4J - d4j-v3-help)
-MESSAGE:Techtony96:whaaat(Discord4J - d4j-v3-help)
-MESSAGE:danthonywalker:i didn't even think of that(Discord4J - d4j-v3-help)
-MESSAGE:Techtony96:So you get the guild and user mono at the same time?(Discord4J - d4j-v3-help)
-MESSAGE:AwesomeCarson123:and my library (discord4j) stores that instance so I can do stuff like IChannel#getMessageByLongId( id )(McPoland - deleted-messages)
-MESSAGE:danthonywalker:zipWith lets you take 2 monos and combine them using a singular function(Discord4J - d4j-v3-help)
-MESSAGE:AwesomeCarson123:so when a message is deleted \ni(McPoland - deleted-messages)
-MESSAGE:AwesomeCarson123:and I can get the original message content, then(McPoland - deleted-messages)
+19:54:25.297420: [INFO][main][sx.blah.discord.Discord4J] - Discord4J v2.10.1 be2318c (https://github.com/austinv11/Discord4J)
+19:54:25.299340: [INFO][main][sx.blah.discord.Discord4J] - A Java binding for the official Discord API, forked from the inactive https://github.com/nerd/Discord4J. Copyright (c) 2017, Licensed under GNU LGPLv3
+19:54:26.350153: [INFO][HttpClient@163541471-26][sx.blah.discord.Discord4J] - Websocket Connected.
+19:54:26.527107: [INFO][Dispatcsterilized
+sterilized
+sterilized
+sterilized
+sterilized
+sterilized
+sterilized
+iving 12 guilds.
+BOOT: bot started
+MESSAGE:autin:is it for every message(Carson-Bot - general_chat)
+MESSAGE:AwesomeCarson123:~rank(Carson-Bot - general_chat)
+EVENT: running ~rank
+BOT_MESSAGE:XP for AwesomeCarson123 is:`22`(Carson-Bot - general_chat)
+
+MESSAGE:autin:?(Carson-Bot - general_chat)
+MESSAGE:AwesomeCarson123:yeah(Carson-Bot - general_chat)
+MESSAGE:autin:ahh(Carson-Bot - general_chat)
+MESSAGE:autin:ok(Carson-Bot - general_chat)
+MESSAGE:AwesomeCarson123:gunna be a spammer and make a ~getJSON command(Carson-Bot - general_chat)
