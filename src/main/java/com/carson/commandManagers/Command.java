@@ -17,13 +17,13 @@ public class Command{
 	}
 	
 	
-	protected IMessage sendMessage(IChannel c, String t) {
-		return new Messanger(client).sendMessage(c, t);
+	protected void sendMessage(IChannel c, String t) {
+		 new Messanger(client).sendMessage(c, t);
 	}
 	
 	
-	protected IMessage sendMessage(MessageReceivedEvent event, String text) {
-		return sendMessage(event.getChannel(), text);
+	protected void sendMessage(MessageReceivedEvent event, String text) {
+		 sendMessage(event.getChannel(), text);
 	}
 	
 }

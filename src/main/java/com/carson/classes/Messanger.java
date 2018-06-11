@@ -23,25 +23,37 @@ public class Messanger {
 	}
 	
 	//sends a message
-	public IMessage sendMessage(IChannel channel, String message) {
+	public void sendMessage(IChannel channel, String message) {
 		
 
 		Logger.logBot(channel, message);
         // this is so it can repeat sending messages when rate limited
         RequestBuffer.request(() -> {
             try{
-                return channel.sendMessage(message);
+                channel.sendMessage(message);
             } catch (DiscordException e){
                 System.err.println("Message could not be sent with error: ");
                 e.printStackTrace();
             }
-			return null;
+			return ;
         });
-        return null;
-
 		
 		
 		
+	}
+	
+	public IMessage sendMessageAndGet(IChannel c, String str) {
+		Logger.logBot(c, str);
+        // this is so it can repeat sending messages when rate limited
+        return RequestBuffer.request(() -> {
+            try{
+                return c.sendMessage(str);
+            } catch (DiscordException e){
+                System.err.println("Message could not be sent with error: ");
+                e.printStackTrace();
+                return null;
+            }
+        }).get();
 	}
 	
 	

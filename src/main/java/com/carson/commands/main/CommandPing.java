@@ -1,6 +1,7 @@
 package com.carson.commands.main;
 
 
+import com.carson.classes.Messanger;
 import com.carson.commandManagers.Command;
 import com.carson.commandManagers.ICommand;
 
@@ -23,9 +24,9 @@ public class CommandPing extends Command implements ICommand {
 	@Override
 	public void run(MessageReceivedEvent event) {
 		long time = System.nanoTime();
-		IMessage message = sendMessage(event.getChannel(), "pinging :ping_pong:");	
+		IMessage message = new Messanger().sendMessageAndGet(event.getChannel(), "pinging :ping_pong:");	
 		long ping = System.nanoTime() - time;
-		message.edit("pinged :ping_pong:   ping:" + ping + "nanoseconds");
+		message.edit("pinged :ping_pong:   ping:  " + (ping/1000) + "  milliseconds");
 		return ;
 	}
 
