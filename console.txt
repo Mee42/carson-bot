@@ -1,22 +1,18 @@
-20:03:06.571988: [INFO][main][sx.blah.discord.Discord4J] - Discord4J v2.10.1 be2318c (https://github.com/austinv11/Discord4J)
-20:03:06.573687: [INFO][main][sx.blah.discord.Discord4J] - A Java binding for the official Discord API, forked from the inactive https://github.com/nerd/Discord4J. Copyright (c) 2017, Licensed under GNU LGPLv3
-20:03:07.590505: [INFO][HttpClient@1832288129-26][sx.blah.discord.Discord4J] - Websocket Connected.
-20:03:07.866116: [INFO][Dispatsterilized
-20:03:09.908964: [ERROR][Event Dispatcher Handler][sx.blah.discord.Discord4J] - Unhandled exception caught dispatching event MessageReceivedEvent
-sx.blah.discord.util.DiscordException: AttMESSAGE:AwesomeCarson123:~lb(Discord4J - testing)
-EVENT: running ~leaderboard, or ~lb
-MESSAGE:AwesomeCarson123:good channel(Carson-Bot - general_chat)
-essage(Channel.java:459)
-	at sx.blah.discord.handle.impl.obj.Channel.sendMessage(Channel.java:454)
-	at sx.blah.discord.handle.impl.obj.Channel.sendMessage(Channel.java:444)
-	at com.carson.commands.main.CommandLeaderboard.run(CommandLeaderboard.java:78)
-	at com.carson.commandManagers.Subregister.testCommands(Subregister.java:48)
-	at com.carson.commandManagers.Register.testCommands(Register.java:62)
-	at com.carson.CarsonBot.onMessageReceived(CarsonBot.java:105)
-	at sx.blah.discord.api.events.EventDispatcher$MethodEventHandler.handle(EventDispatcher.java:680)
+20:25:02.976137: [INFO][main][sx.blah.discord.Discord4J] - Discord4J v2.10.1 be2318c (https://github.com/austinv11/Discord4J)
+20:25:02.977907: [INFO][main][sx.blah.discord.Discord4J] - A Java binding for the official Discord API, forked from the inactive https://github.com/nerd/Discord4J. Copyright (c) 2017, Licensed under GNU LGPLv3
+20:25:04.209800: [INFO][HttpClient@1439292624-26][sx.blah.discord.Discord4J] - Websocket Connected.
+20:25:04.528869: [INFO][Dispat20:25:07.868553: [ERROR][Event Dispatcher Handler][sx.blah.discord.Discord4J] - Unhandled exception caught dispatching event UserJoinEvent
+sx.blah.discord.util.MissingPermissionsException: Attempt to interact with user MESSAGE:AwesomeCarson123:(Gumbosphere - gumbo-box)
+MESSAGE:AwesomeCarson123:(Gumbosphere - gumbo-box)
+BOT_MESSAGE:Welcome <@!293853365891235841> to Gumbosphere\ncurrent members:`21`(Gumbosphere - gumbo-box)
+
+added role for gumbosphere
+MESSAGE:AwesomeCarson123:gottit(Gumbosphere - gumbo-box)
+MESSAGE:AwesomeCarson123:lol(Gumbosphere - gumbo-box)
+MESSAGE:AwesomeCarson123:its working <@!279412525051674624>(Gumbosphere - gumbo-box)
+MESSAGE:autin:lul(ANARCHY - jejs)
+.api.events.EventDispatcher$MethodEventHandler.handle(EventDispatcher.java:680)
 	at sx.blah.discord.api.events.EventDispatcher.lambda$null$17(EventDispatcher.java:610)
 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1135)
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
 	at java.base/java.lang.Thread.run(Thread.java:844)
-sterilized
-sterilized

@@ -66,7 +66,6 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 	
 	@EventSubscriber
 	public void onMessageDeleted(MessageDeleteEvent event) {
-		IMessage message = event.getMessage();
 		if(event.getGuild().getLongID() != 400786190619639839L) { //mcpoland
 			return;
 		}
@@ -89,14 +88,15 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 		
 		if(event.getGuild().getLongID() == 422570115217883136L) {
 			IRole role = event.getGuild().getRolesByName("fresh gumbo").get(0);
-//			event.getClient
+			event.getUser().addRole(role);
+			System.out.println("added role for gumbosphere");
 		}
 	}
 	
 	@EventSubscriber
     public void onMessageReceived(MessageReceivedEvent event){
 		
-		//prints the message to the console, as well as the text logs
+		//prints the message to the console, as well as the text logs, and gives XP onto global XP
 		Logger.log(event);
 
 		

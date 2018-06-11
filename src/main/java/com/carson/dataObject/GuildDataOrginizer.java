@@ -16,7 +16,7 @@ public class GuildDataOrginizer {
 	    */
 	    private List<GuildData> guilds = new ArrayList<>();
 	    private List<UserDataNoGuild> users = new ArrayList<>();
-	    private String jsonFile = "/home/carson/java/files/jsonGuildDataDump.json";
+	    private transient String jsonFile = "/home/carson/java/files/jsonGuildDataDump.json";
 
 	    public GuildDataOrginizer importFromJson(){
 	    		Gson gson = new GsonBuilder().create();

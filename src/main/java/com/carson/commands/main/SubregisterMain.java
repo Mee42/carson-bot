@@ -51,8 +51,6 @@ public class SubregisterMain extends Subregister{
 				
 				addCommand(new CommandGetEmoji(client));
 				
-				addCommand(new CommandRemind(client));
-				
 				addCommand(new CommandGetID(client));
 				
 				addCommand(new CommandTicKill(client));
