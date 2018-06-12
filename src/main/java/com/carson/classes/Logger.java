@@ -13,7 +13,8 @@ public class Logger { //TODO WRITE TO STORE IN JSON (SEE MOBILE-WRITTING-OFFICAL
 	
 	public static void log(MessageReceivedEvent event) {
 		IUser author = event.getAuthor();
-		DataGetter.getInstance().increaseXPForUser(author.getLongID(), 1);
+		int xp = (int)(Math.random()*15+1);
+		DataGetter.getInstance().increaseXPForUser(author.getLongID(), xp);
 		IChannel channel = event.getChannel();
 		String text = event.getMessage().getContent();
 		text = text.replace(System.getProperty("line.separator"), "\\n");
