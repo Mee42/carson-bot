@@ -11,7 +11,13 @@ public class DataGetter {
 	}
 	
 	public static GuildDataOrginizer getInstance() {
+		if(INSTANCE == null) {
+			INSTANCE = new GuildDataOrginizer();
+			INSTANCE.importFromJson();
+			System.out.println("imported from json");
+		}	
 		return INSTANCE;
+		
 	}
 	
 }

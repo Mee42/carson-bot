@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.carson.classes.FileIO;
+import com.carson.commands.main.tac.RunningTacGame;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -17,14 +18,15 @@ public class GuildDataOrginizer {
 	    private List<GuildData> guilds = new ArrayList<>();
 	    private List<UserDataNoGuild> users = new ArrayList<>();
 	    private transient String jsonFile = "/home/carson/java/files/jsonGuildDataDump.json";
-
+	    private transient List<RunningTacGame> games = new ArrayList<>();
+	    
+	    
 	    public GuildDataOrginizer importFromJson(){
 	    		Gson gson = new GsonBuilder().create();
 	    		String json = FileIO.use(jsonFile).readString();
 	    		GuildDataOrginizer newGuildOrginizerData = gson.fromJson(json,GuildDataOrginizer.class);
 	        	this.guilds = newGuildOrginizerData.guilds;
 	        	this.users = newGuildOrginizerData.users;
-	        	
 	        	//import other data from the newGuildOrginizerData
 	        	return this;
 	    	}
@@ -38,34 +40,16 @@ public class GuildDataOrginizer {
 	    }
 	    
 	    
-	//see GuildData's (almost) identical method for elaborating on why this is written
 	    public GuildData getGuild(long id){
 	        for(GuildData guildData : guilds){
-	            if(guildData.getId() == id){return guildData;}
+	            if(guildData.getId() == id){return guildData;}//returns if there is an exisitng guild data instance
 	        }
-	        GuildData justMadeInstance = new GuildData(id);
-	        guilds.add(justMadeInstance);
-	        return justMadeInstance;
+	        GuildData justMadeInstance = new GuildData(id); //makes a new one if no one is found
+	        guilds.add(justMadeInstance);//adds it to the array
+	        return justMadeInstance; //returns it
         }
 	    
-	    @Override
-	    public String toString() {
-	    	StringBuilder builder = new StringBuilder();
-	    	builder.append("guilds:\n");
-	    	for(GuildData guild : guilds) {
-	    		builder.append(guild.toString() + "\n");
-	    	}
-	    	builder.append("users:\n");
-	    	for(UserDataNoGuild user : users) {
-	    		builder.append(user.toString() + "\n");
-	    	}
-	    	return builder.toString();
-	    }
-	    public String print() {
-	    	String data = toString();
-	    	System.out.println(data);
-	    	return data;
-	    }
+//	    
 	    
 	    public UserDataNoGuild getUserData(long id){
 		    for(UserDataNoGuild testingUser : users){
@@ -77,7 +61,7 @@ public class GuildDataOrginizer {
 	         users.add(newUser);
 	         return newUser;
 	    }
-	    
+	 
 	    public long getXPForUser(long id) {
 	    	return getUserData(id).getXP();
 	    }
@@ -91,6 +75,46 @@ public class GuildDataOrginizer {
 	    public List<UserDataNoGuild> getUsers() {
 	    	return users;
 	    }
+	    
+	    
+	    
+	    //these methods deal with running tac games
+	    
+	    public RunningTacGame getGameWithUser(long id) {//NEEDS TO CHECK FOR NULL WHEN CALLED
+	    	for(RunningTacGame game : games) {
+	    		if(game.getIdP1() == id || game.getIdP2() == id) {
+	    			return game;
+	    		}
+	    	}
+	    	return null;
+	    }
+	    
+	    
+	    
+	    
+	    public RunningTacGame getGameWithID(long id) {//NEEDS TO CHECK FOR NULL WHEN CALLED
+	    	for(RunningTacGame game : games) {
+	    		if(game.getGameId() == id) {
+	    			return game;
+	    		}
+	    	}
+	    	return null;
+	    }
+	    
+	    public RunningTacGame registerGame(RunningTacGame game) {
+	    	games.add(game);
+	    	return game;
+	    }
+	    
+	    public boolean endGame(RunningTacGame toRemove) {
+	    	if(games.contains(toRemove)) {
+	    		games.remove(toRemove);
+	    		return true;
+	    	}
+	    	return false;
+	    	
+	    }
+	    
 	    
 	public class UserDataNoGuild extends UserData{
 		public UserDataNoGuild(long id) {

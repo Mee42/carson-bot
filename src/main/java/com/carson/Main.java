@@ -16,9 +16,9 @@ public class Main {
 	    	
 	    	
 	    	File consoleFile = new File("console.txt");
-	    	FileIO.use(consoleFile).write("");
+	    	FileIO.use(consoleFile).write(""); //clears the console
 	    	
-	        try //this is for streaming the console to a file
+	        try //this is for streaming the console to a file, because....? idk
 	        {
 	        	FileOutputStream fout= new FileOutputStream(consoleFile);
 	        	FileOutputStream ferr= new FileOutputStream(consoleFile);
@@ -34,7 +34,8 @@ public class Main {
 	        }
 	        catch (FileNotFoundException ex)
 	        {
-	        	//Could not create/open the file
+	        	System.err.println("COULD NOT PRINT CONSOLE FILE");
+	        	return;
 	        }
 	        String token = "";
 	    	
@@ -42,6 +43,7 @@ public class Main {
 	    		token = FileIO.use(new File("/home/carson/java/jars/key")).readList().get(0);
 	    	}catch(Exception e) {
 	    		System.out.println("threw a " + e.getClass().getName() + " when trying to read from key");
+	    		return;
 	    	}
 	    	
 	        IDiscordClient client = BotUtils.getBuiltDiscordClient(token);

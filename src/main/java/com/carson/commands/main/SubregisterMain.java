@@ -5,8 +5,9 @@ import com.carson.commands.main.dnd.*;
 import com.carson.commands.main.hangman.*;
 import com.carson.commands.main.lavaplayer.*;
 import com.carson.commands.main.ps.CommandPS;
+import com.carson.commands.main.tac.CommandContinueTac;
+import com.carson.commands.main.tac.CommandTac;
 import com.carson.commands.main.tic.*;
-import com.carson.dataObject.GuildDataOrginizer;
 
 import sx.blah.discord.api.IDiscordClient;
 
@@ -63,9 +64,10 @@ public class SubregisterMain extends Subregister{
 				
 				addCommand(new CommandRank(client));
 				addCommand(new CommandLeaderboard(client));
-				
 				addCommand(new CommandGetJson(client));
 		
+				addCommand(new CommandTac(client));
+				addCommand(new CommandContinueTac(client));
 	}
 
 

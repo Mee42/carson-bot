@@ -6,6 +6,7 @@ import java.util.List;
 public class GuildData {
 	private final long id;
     private List<UserData> users;
+    
     //any other specific data needed
     public GuildData(long id){
         this.id = id;
