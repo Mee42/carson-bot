@@ -27,6 +27,7 @@ public class Messanger {
 		
 
 		Logger.logBot(channel, message);
+		
         // this is so it can repeat sending messages when rate limited
         RequestBuffer.request(() -> {
             try{

@@ -18,7 +18,7 @@ public class CommandContinueTac extends Command implements ICommand {
 	public boolean test(MessageReceivedEvent event) {
 		long id = event.getAuthor().getLongID();
 		
-		if(!event.getMessage().getContent().matches("[0-9]")) {System.err.println("TACDEBUG: regex failure");return false;}
+		if(!event.getMessage().getContent().matches("[0-9]")) {return false;}
 		
 		GuildDataOrginizer data = DataGetter.getInstance();
 		RunningTacGame game = data.getGameWithUser(id);

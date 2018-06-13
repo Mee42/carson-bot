@@ -18,7 +18,7 @@ public class Command{
 	
 	
 	protected void sendMessage(IChannel c, String t) {
-		 new Messanger(client).sendMessage(c, t);
+		 new Messanger().sendMessage(c, t);
 	}
 	
 	
