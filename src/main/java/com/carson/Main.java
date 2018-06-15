@@ -57,7 +57,7 @@ public class Main {
 	        
 	        
 	        //all this does in inport the client and locked status
-	        cb.startup(client);
+	        cb.importClient(client);
 	        
 	        
 	        // Only login after all events are registered otherwise some may be missed.

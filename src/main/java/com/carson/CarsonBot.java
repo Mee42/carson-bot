@@ -33,7 +33,7 @@ public class CarsonBot { // Curl+shift + / (on num pad)
     private Register reg;
     
     
-	public void startup(IDiscordClient client) {
+	public void importClient(IDiscordClient client) {
 		this.client = client;
 		
 		

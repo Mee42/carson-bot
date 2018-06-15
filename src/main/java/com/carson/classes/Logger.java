@@ -7,8 +7,7 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IUser;
 
-public class Logger { //TODO WRITE TO STORE IN JSON (SEE MOBILE-WRITTING-OFFICAL
-	
+public class Logger { 
 	
 	
 	public static void log(MessageReceivedEvent event) {
