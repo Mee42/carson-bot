@@ -4,8 +4,6 @@ package com.carson.commandManagers;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.carson.classes.SendHelp;
-import com.carson.dataObject.GuildDataOrginizer;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
@@ -37,7 +35,7 @@ public class Subregister {
 	
 	
 	
-	public List<ICommand> getCommands(SendHelp.HelpTypes h){
+	public List<ICommand> getCommands(){
 		return commands;
 	}
 	

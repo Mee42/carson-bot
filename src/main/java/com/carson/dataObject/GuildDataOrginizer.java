@@ -2,6 +2,8 @@ package com.carson.dataObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import com.carson.classes.FileIO;
 import com.carson.commands.main.tac.RunningTacGame;
@@ -20,6 +22,7 @@ public class GuildDataOrginizer {
 	    private transient String jsonFile = "/home/carson/java/files/jsonGuildDataDump.json";
 	    private transient List<RunningTacGame> games = new ArrayList<>();
 	    
+	    private ExecutorService executer; 
 	    
 	    public GuildDataOrginizer importFromJson(){
 	    		Gson gson = new GsonBuilder().create();
@@ -28,16 +31,38 @@ public class GuildDataOrginizer {
 	        	this.guilds = newGuildOrginizerData.guilds;
 	        	this.users = newGuildOrginizerData.users;
 	        	//import other data from the newGuildOrginizerData
+	        	
+	        	
+	        	//inituilize the executer
+	        	executer =  Executors.newFixedThreadPool(3);
 	        	return this;
 	    	}
 
-	    public String sterilize(){
+	    private  String privateSterilize(){
 	    	Gson gson = new GsonBuilder().create();
 	        String json =gson.toJson(this);
 	        FileIO.use(jsonFile).write(json);
 //	        System.err.println("sterilized"); //i think this should sterilize everything something changed /shrug
 	        return json;
 	    }
+	    
+	    public String getSterilze() {
+	    	return privateSterilize();
+	    }
+	    
+	    public void sterilize() { //sterilizes the object on a specerate thread, returns instantly
+	    	executer.execute(
+	    	new Runnable() {
+	    		@Override
+				public void run() {
+					privateSterilize();
+				}
+	    		
+	    	});
+	    	
+	    }
+	    
+	    
 	    
 	    
 	    public GuildData getGuild(long id){
@@ -91,7 +116,9 @@ public class GuildDataOrginizer {
 	    
 	    
 	    
-	    
+	    /*
+	     * 
+	     */
 	    public RunningTacGame getGameWithID(long id) {//NEEDS TO CHECK FOR NULL WHEN CALLED
 	    	for(RunningTacGame game : games) {
 	    		if(game.getGameId() == id) {

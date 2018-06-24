@@ -15,7 +15,6 @@ import com.carson.dataObject.UserData;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
-import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.EmbedBuilder;
 
 public class CommandLeaderboard extends Command implements ICommand{

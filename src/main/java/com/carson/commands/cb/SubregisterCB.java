@@ -3,10 +3,8 @@ package com.carson.commands.cb;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.carson.classes.SendHelp;
 import com.carson.commandManagers.ICommand;
 import com.carson.commandManagers.Subregister;
-import com.carson.dataObject.GuildDataOrginizer;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
@@ -30,10 +28,8 @@ public class SubregisterCB extends Subregister{
 	}
 	
 	@Override
-	public List<ICommand> getCommands(SendHelp.HelpTypes h) {
-		if(h.equals(SendHelp.HelpTypes.ADMIN)) {
-			return commands;
-		}
+	public List<ICommand> getCommands() {
+	
 		return new ArrayList<ICommand>();
 	}
 	

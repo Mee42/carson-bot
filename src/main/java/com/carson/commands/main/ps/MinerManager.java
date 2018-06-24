@@ -17,11 +17,9 @@ import com.mongodb.MongoClient;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.internal.json.objects.EmbedObject;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
-import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.EmbedBuilder;
 import sx.blah.discord.util.RequestBuffer;
-import sx.blah.discord.util.RequestBuffer.RequestFuture;
 
 public class MinerManager {
 	IDiscordClient client;

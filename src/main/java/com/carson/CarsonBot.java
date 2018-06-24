@@ -2,28 +2,40 @@ package com.carson;
 
 
 import java.io.File;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
-import com.carson.classes.*;
+import com.carson.classes.Gumbo;
+import com.carson.classes.Logger;
+import com.carson.classes.Messanger;
+import com.carson.classes.ProfanityChecker;
+import com.carson.classes.SendHelp;
 import com.carson.commandManagers.Register;
 import com.carson.dataObject.DataGetter;
-import com.carson.dataObject.GuildDataOrginizer;
 import com.carson.lavaplayer.GuildMusicManager;
-import com.sedmelluq.discord.lavaplayer.player.*;
+import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
+import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
+import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
-import com.sedmelluq.discord.lavaplayer.track.*;
+import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.EventSubscriber;
-import sx.blah.discord.handle.impl.events.guild.channel.message.*;
+import sx.blah.discord.handle.impl.events.guild.channel.message.MessageDeleteEvent;
+import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.impl.events.guild.member.UserJoinEvent;
 import sx.blah.discord.handle.impl.events.shard.LoginEvent;
-import sx.blah.discord.handle.obj.*;
+import sx.blah.discord.handle.obj.ActivityType;
+import sx.blah.discord.handle.obj.IChannel;
+import sx.blah.discord.handle.obj.IGuild;
+import sx.blah.discord.handle.obj.IMessage;
+import sx.blah.discord.handle.obj.IRole;
+import sx.blah.discord.handle.obj.StatusType;
 
 public class CarsonBot { // Curl+shift + / (on num pad)
-	//VERSION: 0-3-0
-	//variables
 	private IDiscordClient client;
-	private Messanger messanger;
+//	private Messanger messanger;
 	
 	
 	
@@ -45,9 +57,7 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 			client.changePresence(StatusType.ONLINE, ActivityType.WATCHING," your every move");
 		
 		
-		messanger = new Messanger(client);
 		System.out.println("BOOT: bot started");
-//		client.changeAvatar(Image.forFile(new File("C:\\Users\\Carson\\Desktop\\discord\\carson-bot\\profile.jpg")));
 		
 		
 		
@@ -56,7 +66,7 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 //        ((Discord4J.Discord4JLogger) Discord4J.LOGGER).setLevel(Level.TRACE);
 		
 		
-        reg = Register.build(client); //puts the subregisters into the reg. and inports the client
+        reg = Register.build(client); //puts the subregisters into the reg. and imports the client
         
         DataGetter.getInstance()
         .importFromJson(); //starts up the data getter. takes the data from the json file
@@ -66,10 +76,10 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 	
 	@EventSubscriber
 	public void onMessageDeleted(MessageDeleteEvent event) {
-		if(event.getGuild().getLongID() != 400786190619639839L) { //mcpoland
+		if(event.getGuild().getLongID() != 400786190619639839L) { //if server is not mcpoland, return
 			return;
 		}
-		if(event.getAuthor().getLongID() ==318783502768144384L) { //yellow toad
+		if(event.getAuthor().getLongID() ==318783502768144384L) { //if user is yellow toad, return 
 			return;
 		}
 		if(event.getAuthor().getLongID() ==422191638736142346L) { //karxn
@@ -113,12 +123,7 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 		
 		
 
-		if( gumbo(event) ||  //needs to be ported TODO
-		cbCommands(event) //needs to be moved TODO
-				) {
-			return;
-		}
-		
+	gumbo(event);		
 		
 		
 		
@@ -130,13 +135,13 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 	
 	//sends message
 	public void sendMessage(IChannel channel, String message){
-		messanger.sendMessage(channel, message);
+		new Messanger().sendMessage(channel, message);
     }
 	
 	
 	
 	
-	//gumbo script TODO NEEDS TO BE CONVERTED
+	//gumbo script TODO NEEDS TO BE CONVERTED (and fixed lol)
 	private boolean gumbo(MessageReceivedEvent event) {
 		IMessage message = event.getMessage();
 		String text = message.getContent();
@@ -190,58 +195,6 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 
 
 	
-	//all carsonbot commands
-	private boolean cbCommands(MessageReceivedEvent event) {
-		
-		
-		long id = event.getAuthor().getLongID();
-		
-		if(!(id == 398876612701192212L ||
-		   id == 293853365891235841L ||
-		   id ==279412525051674624L
-		
-				
-		 )) {
-			
-		}
-		
-		
-		switch(event.getMessage().getContent()) {
-			
-				
-			
-			
-			
-			case "cb-our-songs":
-				
-				
-				if(!(
-				id == 293853365891235841L ||
-				id == 398876612701192212L
-						)) {
-					sendMessage(event.getChannel(), "Chris, you really thought you would go ahead an listen to that? shame on you. \n`username is not in the sudoers file. This incident will be reported.`");
-					sendMessage(client.getOrCreatePMChannel(client.getUserByID(293853365891235841L)), "Chris tryed to do that thing he wasn't supposted to do. cri");
-					return true;
-				}
-				
-				List<File> files = FileIO.use(new File("/home/carson/music/Music/isha")).listFiles();
-				client.getGuildByID(432560125299916810L).getVoiceChannelsByName("for_lovers").get(0).join();
-				
-				for(File file : files) {
-					playFile(event.getChannel(), file);
-				}
-				
-				
-				return true;
-			
-				
-			default:
-				return false;
-			
-		}
-		
-		
-	}
 	
 	
 		
@@ -267,7 +220,7 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 	    }
 	 
 	
-	 private boolean playFile(final IChannel channel, final File file) {
+	 private  boolean playFile(final IChannel channel, final File file) {
 		 
 	        GuildMusicManager musicManager = getGuildAudioPlayer(channel.getGuild());
 

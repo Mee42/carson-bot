@@ -3,12 +3,8 @@ package com.carson.commandManagers;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.carson.classes.Logger;
-import com.carson.classes.SendHelp;
 import com.carson.commands.cb.SubregisterCB;
 import com.carson.commands.main.SubregisterMain;
-import com.carson.commands.main.lavaplayer.LavaplayerMain;
-import com.carson.dataObject.GuildDataOrginizer;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
@@ -43,18 +39,16 @@ public class Register {
 		return subregisters;
 	}
 	
-	public List<ICommand> getCommands(SendHelp.HelpTypes h){
+	public List<ICommand> getCommands(){
 		List<ICommand> commands = new ArrayList<ICommand>();
 		
 		for(Subregister r : subregisters) {
-			commands.addAll(r.getCommands(h));
+			commands.addAll(r.getCommands());
 		}
 		return commands;
 		
 	}
-	public List<ICommand> getCommands(){
-		return this.getCommands(SendHelp.HelpTypes.PLAIN);
-	}
+	
 	
 	
 	public void testCommands(MessageReceivedEvent  event) {

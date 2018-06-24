@@ -2,7 +2,8 @@ package com.carson.commands.main;
 
 import java.util.List;
 
-import com.carson.commandManagers.*;
+import com.carson.commandManagers.Command;
+import com.carson.commandManagers.ICommand;
 import com.carson.dataObject.DataGetter;
 import com.carson.dataObject.GuildDataOrginizer;
 

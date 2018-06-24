@@ -1,6 +1,8 @@
 package com.carson.commands.main.ps;
 
-import com.carson.commandManagers.*;
+
+import com.carson.commandManagers.Command;
+import com.carson.commandManagers.ICommand;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;

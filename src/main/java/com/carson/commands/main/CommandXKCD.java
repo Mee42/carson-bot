@@ -9,9 +9,10 @@ import java.net.URL;
 import java.util.List;
 import com.carson.classes.FileIO;
 import com.carson.classes.PhotoStream;
-import com.carson.commandManagers.*;
 
-import com.google.gson.*;
+import com.carson.commandManagers.Command;
+import com.carson.commandManagers.ICommand;
+import com.google.gson.JsonIOException;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;

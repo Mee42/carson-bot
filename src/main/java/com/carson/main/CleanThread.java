@@ -2,7 +2,6 @@ package com.carson.main;
 
 import com.carson.CarsonBot;
 import com.carson.dataObject.DataGetter;
-
 import sx.blah.discord.api.IDiscordClient;
 
 public class CleanThread extends Thread{

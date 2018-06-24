@@ -23,12 +23,7 @@ public class SendHelp {
 		
 
 		
-		for(ICommand c :
-			reg.getCommands((
-					event.getAuthor().getStringID() == "293853365891235841" || 
-					event.getAuthor().getStringID() == "279412525051674624"
-				) ? HelpTypes.ADMIN : HelpTypes.PLAIN )
-			){
+		for(ICommand c :	reg.getCommands()){
 			try{
 				builder.appendField(c.getName(), c.getDisciption(), false);
 			}catch( IllegalArgumentException e) {

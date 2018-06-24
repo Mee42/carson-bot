@@ -2,7 +2,6 @@ package com.carson.commands.main.tac;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import com.carson.commands.main.tic.Board;
 import com.carson.dataObject.DataGetter;
 
 public class RunningTacGame {
