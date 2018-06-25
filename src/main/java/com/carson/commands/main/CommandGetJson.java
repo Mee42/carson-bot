@@ -22,10 +22,10 @@ public class CommandGetJson extends Command implements ICommand{
 	public void run(MessageReceivedEvent event) {
 		String json = DataGetter.getInstance().getSterilze();
 		if(json.length() > 1900) {
-			json.substring(0, 1900);
+			json = json.substring(0, 1900);
 		}
-		
 		sendMessage(event, "```" + json + "```");
+		
 	}
 
 	@Override
