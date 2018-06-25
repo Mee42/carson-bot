@@ -7,14 +7,25 @@ public class GuildData {
 	private final long id;
     private List<UserData> users;
     
+    private String deathMessage;
+    private long deathChannel;
+    
     //any other specific data needed
     public GuildData(long id){
         this.id = id;
         users = new ArrayList<>();
-        //inituilize other data to defaults
+        deathMessage  = "[name] has left the server";
+        deathChannel = -1L;
     }
     
-    //getters and setters for data, getter for id
+    public GuildData(long id, List<UserData> users, String deathMessage) {
+		super();
+		this.id = id;
+		this.users = users;
+		this.deathMessage = deathMessage;
+	}
+
+	//getters and setters for data, getter for id
 
     //for getting UserDataPerGuild objects
     //creating new users should never be needed
@@ -33,7 +44,26 @@ public class GuildData {
          return newUser;
     }
     
-    @Override
+    
+    
+    
+    
+    public String getDeathMessage() {
+		return deathMessage;
+	}
+
+	public void setDeathMessage(String deathMessage) {
+		this.deathMessage = new String(deathMessage);
+	}
+	
+	public void setDeathChannel(long channel) {
+		this.deathChannel = channel;
+	}
+	public long getDeathChannel() {
+		return deathChannel;
+	}
+
+	@Override
     public String toString() {
     	StringBuilder builder = new StringBuilder();
     	builder.append("\tguild id:" + id);
@@ -66,6 +96,8 @@ public class GuildData {
 		public List<UserData> getUsers() {
 			return users;
 		}
+
+		
 
 //no methods will edit any data or do any processing to keep in compliance with the POJO  requirements, and to make it safer to convert to JSON
 

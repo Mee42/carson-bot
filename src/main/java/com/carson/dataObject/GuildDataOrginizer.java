@@ -22,7 +22,6 @@ public class GuildDataOrginizer {
 	    private transient String jsonFile = "/home/carson/java/files/jsonGuildDataDump.json";
 	    private transient List<RunningTacGame> games = new ArrayList<>();
 	    
-	    private ExecutorService executer; 
 	    
 	    public GuildDataOrginizer importFromJson(){
 	    		Gson gson = new GsonBuilder().create();
@@ -30,15 +29,15 @@ public class GuildDataOrginizer {
 	    		GuildDataOrginizer newGuildOrginizerData = gson.fromJson(json,GuildDataOrginizer.class);
 	        	this.guilds = newGuildOrginizerData.guilds;
 	        	this.users = newGuildOrginizerData.users;
+	        	
 	        	//import other data from the newGuildOrginizerData
 	        	
 	        	
 	        	//inituilize the executer
-	        	executer =  Executors.newFixedThreadPool(3);
 	        	return this;
 	    	}
 
-	    private  String privateSterilize(){
+	    public  String privateSterilize(){ //TOOD should be private
 	    	Gson gson = new GsonBuilder().create();
 	        String json =gson.toJson(this);
 	        FileIO.use(jsonFile).write(json);
@@ -50,17 +49,17 @@ public class GuildDataOrginizer {
 	    	return privateSterilize();
 	    }
 	    
-	    public void sterilize() { //sterilizes the object on a specerate thread, returns instantly
-	    	executer.execute(
-	    	new Runnable() {
-	    		@Override
-				public void run() {
-					privateSterilize();
-				}
-	    		
-	    	});
-	    	
-	    }
+//	    public void sterilize() { //sterilizes the object on a specerate thread, returns instantly
+//	    	executer.execute(
+//	    	new Runnable() {
+//	    		@Override
+//				public void run() {
+//					privateSterilize();
+//				}
+//	    		
+//	    	});
+//	    	
+//	    }
 	    
 	    
 	    
@@ -93,7 +92,7 @@ public class GuildDataOrginizer {
 	
 	    public long increaseXPForUser(long id, int amount) {
 	    	long newXP = getUserData(id).incrimentXP(amount);
-	    	sterilize();
+	    	privateSterilize(); //TODO has been switched off of threaded mode
 	    	return newXP;
 	    }
 	    

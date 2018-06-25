@@ -68,6 +68,8 @@ public class SubregisterMain extends Subregister{
 		
 				addCommand(new CommandTac(client));
 				addCommand(new CommandContinueTac(client));
+				
+				addCommand(new CommnadSetDeathMessage(client));
 	}
 
 

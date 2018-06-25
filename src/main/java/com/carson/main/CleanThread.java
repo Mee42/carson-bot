@@ -16,7 +16,7 @@ public class CleanThread extends Thread{
 	
 	@Override
 	public void run() {
-		DataGetter.getInstance().sterilize();
+		DataGetter.getInstance().privateSterilize();
 		client.getChannelByID(439890985653370896L).sendMessage("Carson Bot is shutting down");
 		System.out.println("bot shutdown");
 	}

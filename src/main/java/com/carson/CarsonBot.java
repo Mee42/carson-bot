@@ -25,6 +25,7 @@ import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageDeleteEvent;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.impl.events.guild.member.UserJoinEvent;
+import sx.blah.discord.handle.impl.events.guild.member.UserLeaveEvent;
 import sx.blah.discord.handle.impl.events.shard.LoginEvent;
 import sx.blah.discord.handle.obj.ActivityType;
 import sx.blah.discord.handle.obj.IChannel;
@@ -101,6 +102,20 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 			event.getUser().addRole(role);
 			System.out.println("added role for gumbosphere");
 		}
+	}
+	
+	
+	@EventSubscriber
+	public void onUserLeave(UserLeaveEvent event) {
+		String userName = event.getUser().mention();
+		long channelId = DataGetter.getInstance().getGuild(event.getGuild().getLongID()).getDeathChannel();
+		String deathMessage = DataGetter.getInstance().getGuild(event.getGuild().getLongID()).getDeathMessage();
+		if(channelId == -1L) { //if not set yet
+			channelId = event.getGuild().getSystemChannel().getLongID();
+		}
+		deathMessage = deathMessage.replace("[name]", userName);
+		
+		sendMessage(client.getChannelByID(channelId), deathMessage);
 	}
 	
 	@EventSubscriber
