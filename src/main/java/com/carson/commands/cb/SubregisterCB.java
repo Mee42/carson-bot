@@ -1,7 +1,5 @@
 package com.carson.commands.cb;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import com.carson.commandManagers.ICommand;
 import com.carson.commandManagers.Subregister;
@@ -23,15 +21,9 @@ public class SubregisterCB extends Subregister{
 		addCommand(new CommandShutDown(client));
 	}
 	
-	public SubregisterCB() {
-		super();
-	}
+
 	
-	@Override
-	public List<ICommand> getCommands() {
 	
-		return new ArrayList<ICommand>();
-	}
 	
 	@Override
 	public void testCommands(MessageReceivedEvent  event) {

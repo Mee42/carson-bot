@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.carson.commands.cb.SubregisterCB;
+import com.carson.commands.gumbocoin.SubregisterGumboCoin;
 import com.carson.commands.main.SubregisterMain;
 
 import sx.blah.discord.api.IDiscordClient;
@@ -18,6 +19,7 @@ public class Register {
 		return new Register()
 				.addSubregister(new SubregisterMain(c))
 				.addSubregister(new SubregisterCB(c))
+				.addSubregister(new SubregisterGumboCoin(c))
 				;
 		
 		

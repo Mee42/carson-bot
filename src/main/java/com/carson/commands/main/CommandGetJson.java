@@ -1,5 +1,10 @@
 package com.carson.commands.main;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.carson.commandManagers.Command;
 import com.carson.commandManagers.ICommand;
 import com.carson.dataObject.DataGetter;
@@ -21,11 +26,21 @@ public class CommandGetJson extends Command implements ICommand{
 	@Override
 	public void run(MessageReceivedEvent event) {
 		String json = DataGetter.getInstance().getSterilze();
-		if(json.length() > 1900) {
-			json = json.substring(0, 1900);
-		}
-		sendMessage(event, "```" + json + "```");
+//		if(json.length() > 1900) {
+//			json = json.substring(0, 1900);
+//		}
+//		sendMessage(event, "```" + json + "```");
 		
+		Pattern p = Pattern.compile("(?:.|\n){1,2000}");
+		Matcher m = p.matcher(json);
+		List<String> segments = new ArrayList<String>();
+		while(m.find()) {
+		    segments.add(m.group(1));
+		}
+		
+		for(String segment :segments) {
+			sendMessage(event, "```" + segment + "```");
+		}
 	}
 
 	@Override
