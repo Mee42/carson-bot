@@ -143,6 +143,8 @@ public class GuildDataOrginizer {
 	    
 	    
 	public class UserDataNoGuild extends UserData{
+		public String publicKey;
+		
 		public UserDataNoGuild(long id) {
 			super(id);
 		}
@@ -153,6 +155,17 @@ public class GuildDataOrginizer {
 			return XP;
 		}
 		
+		
+		public String getPublicKey() {
+			return publicKey;
+		}
+
+
+		public void setPublicKey(String publicKey) {
+			this.publicKey = publicKey;
+		}
+
+
 		@Override
 		public String toString() {
 			return "ID:" + id + " XP:" + XP;
