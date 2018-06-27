@@ -45,7 +45,9 @@ public class Register {
 		List<ICommand> commands = new ArrayList<ICommand>();
 		
 		for(Subregister r : subregisters) {
+			System.out.println("calling subregister");
 			commands.addAll(r.getCommands());
+			
 		}
 		return commands;
 		

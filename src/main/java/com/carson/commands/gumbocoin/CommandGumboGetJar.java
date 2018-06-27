@@ -22,7 +22,7 @@ public class CommandGumboGetJar extends Command implements ICommand{
 
 	@Override
 	public boolean test(MessageReceivedEvent event) {
-		return event.getMessage().getContent().equals("~gumbo mine");
+		return event.getMessage().getContent().equals("~gumbo get_jar");
 	}
 
 	@Override
@@ -31,6 +31,7 @@ public class CommandGumboGetJar extends Command implements ICommand{
 			event.getChannel().sendFile(
 					download("https://github.com/Mee42/GumboCoin/blob/master/GumboCoin-all.jar?raw=true")
 					);
+			sendMessage(event,"run it from the command line with `java -jar *jar file*`");
 		} catch (IOException e) {
 			e.printStackTrace();
 			sendMessage(event,"sorry, couldn't get the file for you. You can download it on github, however, at: https://github.com/Mee42/GumboCoin");
@@ -42,7 +43,7 @@ public class CommandGumboGetJar extends Command implements ICommand{
 
 	@Override
 	public String getName() {
-		return "~gumbo mine";
+		return "~gumbo get_jar";
 	}
 
 	@Override
@@ -51,7 +52,7 @@ public class CommandGumboGetJar extends Command implements ICommand{
 	}
 
 	
-	private File download(String downloadURL) throws IOException{//DONNLOADS AND RETURNS THE FILE
+	public static File download(String downloadURL) throws IOException{//DONNLOADS AND RETURNS THE FILE
 		String fileName = "GumboCoin_Miner.jar";
 	    URL website = new URL(downloadURL);
 	    try (InputStream inputStream = website.openStream())

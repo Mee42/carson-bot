@@ -15,6 +15,9 @@ public class CommandAddRole extends Command implements ICommand {
 
 	@Override
 	public boolean test(MessageReceivedEvent event) {
+		if(event.getChannel().isPrivate()) {
+			return false;
+		}
 		if(event.getAuthor().getRolesForGuild(event.getGuild()).contains(client.getRoleByID(449914019550330901L)) | event.getAuthor().getLongID() == 293853365891235841L) {
 			if(event.getMessage().getContent().startsWith("~addrole")) {
 				return true;

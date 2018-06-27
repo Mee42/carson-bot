@@ -22,12 +22,17 @@ public class SendHelp {
 		builder.appendDescription("***use ~help*** *command_name* ***to get more detailed information***");
 		
 
-		
-		for(ICommand c :	reg.getCommands()){
+		for(ICommand c : reg.getCommands()){
 			try{
-				builder.appendField(c.getName(), c.getDisciption(), false);
-			}catch( IllegalArgumentException e) {
-				
+				if(c.getName() == null || c.getDisciption() == null) {
+					
+				}else {
+					builder.appendField(c.getName(), c.getDisciption(), false);
+				}
+			}catch(IllegalArgumentException e) {
+				e.printStackTrace();
+				dm.sendMessage(builder.build());
+				builder.clearFields();
 			}
 		}
 		dm.sendMessage(builder.build());

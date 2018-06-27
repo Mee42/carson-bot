@@ -1,5 +1,8 @@
 package com.carson.commands.main;
 
+import java.util.List;
+
+import com.carson.commandManagers.ICommand;
 import com.carson.commandManagers.Subregister;
 import com.carson.commands.main.dnd.*;
 import com.carson.commands.main.hangman.*;
@@ -74,10 +77,11 @@ public class SubregisterMain extends Subregister{
 
 
 	
-	public SubregisterMain() {
-		super();
+	@Override
+	public List<ICommand> getCommands(){
+		System.out.println("SubregisterMain getCommands called");
+		return commands;
 	}
-	
 	
 	
 }

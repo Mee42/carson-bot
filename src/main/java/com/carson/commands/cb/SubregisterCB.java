@@ -1,6 +1,8 @@
 package com.carson.commands.cb;
 
 
+import java.util.List;
+
 import com.carson.commandManagers.ICommand;
 import com.carson.commandManagers.Subregister;
 
@@ -22,7 +24,11 @@ public class SubregisterCB extends Subregister{
 	}
 	
 
-	
+	@Override
+	public List<ICommand> getCommands(){
+		System.out.println("SubregisterCB getCommands called");
+		return commands;
+	}
 	
 	
 	@Override

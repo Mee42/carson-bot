@@ -20,6 +20,9 @@ public class CommandGetRole extends Command implements ICommand{
 
 	@Override
 	public boolean test(MessageReceivedEvent event) {
+		if(event.getChannel().isPrivate()) {
+			return false;
+		}
 		if(event.getGuild().getLongID() != 449905910807003147L){return false;}
 		if(event.getMessage().getContent().startsWith("~getrole")){
 			return true;
