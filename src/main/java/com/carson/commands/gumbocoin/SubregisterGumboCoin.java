@@ -11,6 +11,7 @@ public class SubregisterGumboCoin extends Subregister{
 	public SubregisterGumboCoin(IDiscordClient c) {
 		super(c);
 		//TODO add commands here
+		commands.add(new CommandGumboGetBalance(c));
 	}
 
 	

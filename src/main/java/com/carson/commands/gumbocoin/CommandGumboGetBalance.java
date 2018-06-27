@@ -22,10 +22,12 @@ public class CommandGumboGetBalance extends Command implements ICommand{
 		String[] args = event.getMessage().getContent().split(" ");
 		if(args.length != 3) {
 			sendMessage(event, "incorrect args");
+			return;
 		}
 		String publicKey = args[2];
+		System.out.println("sending\t\tget:amount_for:" + publicKey);
 		String amount = Client.sendMessage("get:amount_for:" + publicKey);
-		System.out.println(event,"heres what I got:```" + amount + +"```");
+		sendMessage(event,"heres what I got:```" + amount + "```");
 	} 
 
 	@Override
