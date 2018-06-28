@@ -21,6 +21,7 @@ public class SubregisterGumboCoin extends Subregister{
 		commands.add(new CommandGumboGetIP(c));
 		commands.add(new CommandGumboManual(c));
 		commands.add(new CommandGumboGetExe(c));
+		commands.add(new CommandGumboGeneral(c));
 	}
 	
 	
