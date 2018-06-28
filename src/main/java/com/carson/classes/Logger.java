@@ -19,9 +19,9 @@ public class Logger {
 		text = text.replace(System.getProperty("line.separator"), "\\n");
 		
 		if(!channel.isPrivate()) {
-			System.out.print("MESSAGE:" + author.getName() + ":" + text +"(" + event.getGuild().getName() +" - " +channel.getName() + ")\n");	
+			System.out.println("MESSAGE:" + author.getName() + ":" + text +"(" + event.getGuild().getName() +" - " +channel.getName() + ")");	
 		}else {
-			System.out.print("MESSAGE:" + author.getName() + ":" + text +"(dm - " + event.getChannel().getUsersHere().get(0).getName() + ")\n");
+			System.out.println("MESSAGE:" + author.getName() + ":" + text +"(dm - " + event.getChannel().getUsersHere().get(0).getName() + ")");
 		}
 	}
 	
@@ -29,9 +29,9 @@ public class Logger {
 		text = text.replace(System.getProperty("line.separator"), "\\n");
 		
 		if(!channel.isPrivate()) {
-			System.out.println("BOT_MESSAGE:"  + text +"(" + channel.getGuild().getName() +" - " +channel.getName() + ")\n");
+			System.out.println("BOT_MESSAGE:"  + text +"(" + channel.getGuild().getName() +" - " +channel.getName() + ")");
 		}else {
-			System.out.println("BOT_MESSAGE:"  + text +"(dm - " + channel.getUsersHere().get(0).getName() + ")\n");
+			System.out.println("BOT_MESSAGE:"  + text +"(dm - " + channel.getUsersHere().get(0).getName() + ")");
 		}
 	
 	}

@@ -23,7 +23,7 @@ public class CommandGumboManual extends Command implements ICommand {
 		String result = Client.sendMessage(command);
 		if(result.length() > 1999) {
 			sendMessage(event, "the result was bigger then 2,000 characters, so heres the first 2k");
-			result = result.substring(0, 1998);
+			result = result.substring(0, 1900);
 		}
 		sendMessage(event,"result:```" + result + "```");
 	

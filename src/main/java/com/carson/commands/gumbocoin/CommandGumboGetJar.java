@@ -15,22 +15,23 @@ import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
 public class CommandGumboGetJar extends Command implements ICommand{
-
+	public static String location = "/home/carson/java/files/";
+	
 	public CommandGumboGetJar(IDiscordClient c) {
 		super(c);
 	}
 
 	@Override
 	public boolean test(MessageReceivedEvent event) {
-		return event.getMessage().getContent().equals("~gumbo get_jar");
+		return event.getMessage().getContent().toLowerCase().equals("~gumbo get_jar");
 	}
 
 	@Override
 	public void run(MessageReceivedEvent event) {
 		try {
-			event.getChannel().sendFile(
-					download("https://github.com/Mee42/GumboCoin/blob/master/GumboCoin-all.jar?raw=true")
-					);
+			File f =download("https://github.com/Mee42/GumboCoin/blob/master/GumboCoin-all.jar?raw=true",location + "GumboCoinMiner.jar");
+			event.getChannel().sendFile(f);
+			f.delete();
 			sendMessage(event,"run it from the command line with `java -jar *jar file*`");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -52,8 +53,7 @@ public class CommandGumboGetJar extends Command implements ICommand{
 	}
 
 	
-	public static File download(String downloadURL) throws IOException{//DONNLOADS AND RETURNS THE FILE
-		String fileName = "GumboCoin_Miner.jar";
+	public static File download(String downloadURL, String fileName) throws IOException{//DONNLOADS AND RETURNS THE FILE
 	    URL website = new URL(downloadURL);
 	    try (InputStream inputStream = website.openStream())
 	    {

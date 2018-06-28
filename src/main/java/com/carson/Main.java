@@ -45,18 +45,19 @@ public class Main {
 	    		System.out.println("threw a " + e.getClass().getName() + " when trying to read from key");
 	    		return;
 	    	}
-	    	
+	
 	        IDiscordClient client = BotUtils.getBuiltDiscordClient(token);
 
 
 	        // Register a listener via the EventSubscriber annotation which allows for organisation and delegation of events
 	        CarsonBot cb = new CarsonBot();
 	        client.getDispatcher().registerListener(cb);
+	        
 	        CleanThread hook = new CleanThread(client, cb);
 	        Runtime.getRuntime().addShutdownHook(hook);
 	        
 	        
-	        //all this does in inport the client and locked status
+	        //all this does in inport the client
 	        cb.importClient(client);
 	        
 	        
