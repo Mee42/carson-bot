@@ -31,6 +31,9 @@ public class CommandMakeAd extends Command implements ICommand{
 		}
 		for(IUser user : event.getGuild().getUsers()) {
 			try {
+				if(user.isBot()) {
+					continue;
+				}
 				sendMessage(user.getOrCreatePMChannel(),args[1] + "\n\t" + args[2]);
 			}catch(DiscordException e) {
 				
