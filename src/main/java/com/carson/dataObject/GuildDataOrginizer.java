@@ -2,8 +2,6 @@ package com.carson.dataObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import com.carson.classes.FileIO;
 import com.carson.commands.main.tac.RunningTacGame;
@@ -29,15 +27,13 @@ public class GuildDataOrginizer {
 	    		GuildDataOrginizer newGuildOrginizerData = gson.fromJson(json,GuildDataOrginizer.class);
 	        	this.guilds = newGuildOrginizerData.guilds;
 	        	this.users = newGuildOrginizerData.users;
-	        	
 	        	//import other data from the newGuildOrginizerData
 	        	
 	        	
-	        	//inituilize the executer
 	        	return this;
 	    	}
 
-	    public  String privateSterilize(){ //TOOD should be private
+	    private  String privateSterilize(){ 
 	    	Gson gson = new GsonBuilder().create();
 	        String json =gson.toJson(this);
 	        FileIO.use(jsonFile).write(json);
@@ -61,9 +57,7 @@ public class GuildDataOrginizer {
 //	    	
 //	    }
 	    
-	    
-	    
-	    
+	  
 	    public GuildData getGuild(long id){
 	        for(GuildData guildData : guilds){
 	            if(guildData.getId() == id){return guildData;}//returns if there is an exisitng guild data instance
@@ -100,7 +94,7 @@ public class GuildDataOrginizer {
 	    	return users;
 	    }
 	    
-	    
+
 	    
 	    //these methods deal with running tac games
 	    
@@ -115,8 +109,8 @@ public class GuildDataOrginizer {
 	    
 	    
 	    
-	    /*
-	     * 
+	    /**
+	     * MAY RETURN NULL
 	     */
 	    public RunningTacGame getGameWithID(long id) {//NEEDS TO CHECK FOR NULL WHEN CALLED
 	    	for(RunningTacGame game : games) {
@@ -140,7 +134,17 @@ public class GuildDataOrginizer {
 	    	return false;
 	    	
 	    }
-	    
+	   
+	public class Advertiser{
+		public final String message;
+		public final String link;
+		public Advertiser(String message, String link) {
+			super();
+			this.message = message;
+			this.link = link;
+		}
+		
+	}
 	    
 	public class UserDataNoGuild extends UserData{
 		public String publicKey;

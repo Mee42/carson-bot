@@ -21,6 +21,7 @@ public class SubregisterCB extends Subregister{
 		addCommand(new CommandNick(client));
 		addCommand(new CommandRestart(client));
 		addCommand(new CommandShutDown(client));
+		addCommand(new CommandMakeAd(client));
 	}
 	
 

@@ -26,7 +26,7 @@ public class CommandRestart extends Command implements ICommand{
 		List<String> commands=new ArrayList<>();  
 		commands.add("/bin/bash");  
 		commands.add("-c");  		
-		commands.add("java -jar /home/carson/discord/jars/*");
+		commands.add("java -jar /home/carson/java/jars/*");
 		commands.add("");
 		
 		ProcessBuilder p=new ProcessBuilder(commands);  
