@@ -32,6 +32,7 @@ import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.handle.obj.IRole;
+import sx.blah.discord.handle.obj.Permissions;
 import sx.blah.discord.handle.obj.StatusType;
 
 public class CarsonBot { // Curl+shift + / (on num pad)
@@ -94,9 +95,23 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 	
 	@EventSubscriber
 	public void onUserJoin(UserJoinEvent event) {
-		sendMessage(event.getGuild().getSystemChannel(), "Welcome " + event.getUser().toString() + " to " + event.getGuild().getName() + "\n"
-				+ "current members:`" + event.getGuild().getTotalMemberCount() + "`");
-		
+		try {
+			sendMessage(event.getGuild().getSystemChannel(), "Welcome " + event.getUser().toString() + " to " + event.getGuild().getName() + "\n"
+					+ "current members:`" + event.getGuild().getTotalMemberCount() + "`");
+		}catch (NullPointerException e) {
+			for(IChannel channel : event.getGuild().getChannels()) {
+				if(channel.getModifiedPermissions(client.getOurUser()).contains(Permissions.SEND_MESSAGES) &&
+						channel.getModifiedPermissions(client.getOurUser()).contains(Permissions.READ_MESSAGES)) {
+					try {
+						sendMessage(channel, "Welcome " + event.getUser().toString() + " to " + event.getGuild().getName() + "\n"
+								+ "current members:`" + event.getGuild().getTotalMemberCount() + "`");
+						break;
+					}catch (NullPointerException ee) {
+//						ee.printStackTrace();
+					}
+				}
+			}
+		}
 		if(event.getGuild().getLongID() == 422570115217883136L) {
 			IRole role = event.getGuild().getRolesByName("fresh gumbo").get(0);
 			event.getUser().addRole(role);
@@ -114,8 +129,11 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 			channelId = event.getGuild().getSystemChannel().getLongID();
 		}
 		deathMessage = deathMessage.replace("[name]", userName);
-		
-		sendMessage(client.getChannelByID(channelId), deathMessage);
+		try {
+			sendMessage(client.getChannelByID(channelId), deathMessage);
+		}catch (NullPointerException e) {
+			//invalid channel
+		}
 	}
 	
 	@EventSubscriber
