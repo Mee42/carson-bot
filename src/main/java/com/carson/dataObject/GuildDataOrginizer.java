@@ -33,7 +33,7 @@ public class GuildDataOrginizer {
 	        	return this;
 	    	}
 
-	    private  String privateSterilize(){ 
+	    public  String privateSterilize(){ //TODO nice how the "privateSterilize" method is public
 	    	Gson gson = new GsonBuilder().create();
 	        String json =gson.toJson(this);
 	        FileIO.use(jsonFile).write(json);

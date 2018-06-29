@@ -66,13 +66,11 @@ public class CommandContinueTac extends Command implements ICommand {
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getDisciption() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

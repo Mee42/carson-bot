@@ -217,7 +217,6 @@ public class MinerManager {
 	
 		
 		List<String> planets = person.getPlanets();
-		int planetNo = 0;
 		System.out.println("planets:" + planets);
 		for(String planet : planets) {
 			switch(planet) {
