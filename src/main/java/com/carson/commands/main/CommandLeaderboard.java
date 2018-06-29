@@ -67,14 +67,18 @@ public class CommandLeaderboard extends Command implements ICommand{
 		
 		int index = 1;
 		for(UserData user : users) {
-			builder.appendField(client.getUserByID(user.getId()).getDisplayName(event.getGuild()) + " has " + user.getXP() + " xp",index  + "  place!",false);//TODO test inline var -- i think it works
-			if(index > 15) {
+//			builder.appendField(client.getUserByID(user.getId()).getDisplayName(event.getGuild()) + " has " + user.getXP() + " xp",index  + "  place!",false);
+			builder.appendField(client.getUserByID(user.getId()).getDisplayName(event.getGuild()) + " is in place " + index +"!",
+					"XP:" + user.getXP(),
+					false);
+			if(index > 9) {
 				break;
 			}
 			index++;
 		} 
 		
 		event.getChannel().sendMessage(builder.build());
+		sendMessage(event,"<@425376884843347980> Uses global xp - so the more servers you're active on with the bot, the more xp you get!");
 	}
 
 	@Override
@@ -84,7 +88,7 @@ public class CommandLeaderboard extends Command implements ICommand{
 
 	@Override
 	public String getDisciption() {
-		return "gets the leaderboard for everyone on the server. Only the top 15 people get on in";
+		return "gets the leaderboard for everyone on the server";
 	}
 
 }
