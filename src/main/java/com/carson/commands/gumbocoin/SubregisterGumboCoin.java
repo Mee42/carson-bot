@@ -1,8 +1,5 @@
 package com.carson.commands.gumbocoin;
 
-import java.util.List;
-
-import com.carson.commandManagers.ICommand;
 import com.carson.commandManagers.Subregister;
 
 import sx.blah.discord.api.IDiscordClient;
@@ -24,13 +21,5 @@ public class SubregisterGumboCoin extends Subregister{
 		commands.add(new CommandGumboGeneral(c));
 		commands.add(new CommandGumboGetBlockchain(c));
 	}
-	
-	
-	@Override
-	public List<ICommand> getCommands(){
-		System.out.println("SubregisterGumboCoin getCommands called");
-		return commands;
-	}
-	
 
 }
