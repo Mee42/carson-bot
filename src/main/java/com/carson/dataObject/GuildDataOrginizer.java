@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.carson.classes.FileIO;
 import com.carson.commands.main.tac.RunningTacGame;
+import com.carson.commands.ticguild.TicData;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -17,6 +18,8 @@ public class GuildDataOrginizer {
 	    */
 	    private List<GuildData> guilds = new ArrayList<>();
 	    private List<UserDataNoGuild> users = new ArrayList<>();
+	    public TicData t = new TicData();
+	    
 	    private transient String jsonFile = "/home/carson/java/files/jsonGuildDataDump.json";
 	    private transient List<RunningTacGame> games = new ArrayList<>();
 	    
@@ -27,9 +30,8 @@ public class GuildDataOrginizer {
 	    		GuildDataOrginizer newGuildOrginizerData = gson.fromJson(json,GuildDataOrginizer.class);
 	        	this.guilds = newGuildOrginizerData.guilds;
 	        	this.users = newGuildOrginizerData.users;
+	        	this.t = newGuildOrginizerData.t;
 	        	//import other data from the newGuildOrginizerData
-	        	
-	        	
 	        	return this;
 	    	}
 
@@ -56,7 +58,13 @@ public class GuildDataOrginizer {
 //	    	});
 //	    	
 //	    }
+	    public void setTicData(TicData t) {
+	    	this.t = t;
+	    }
 	    
+	    public TicData getTicData() {
+	    	return t;
+	    }
 	  
 	    public GuildData getGuild(long id){
 	        for(GuildData guildData : guilds){

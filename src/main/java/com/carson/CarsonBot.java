@@ -95,6 +95,9 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 	
 	@EventSubscriber
 	public void onUserJoin(UserJoinEvent event) {
+		if(event.getGuild().getLongID() == 208023865127862272L) {
+			return;
+		}
 		try {
 			sendMessage(event.getGuild().getSystemChannel(), "Welcome " + event.getUser().toString() + " to " + event.getGuild().getName() + "\n"
 					+ "current members:`" + event.getGuild().getTotalMemberCount() + "`");

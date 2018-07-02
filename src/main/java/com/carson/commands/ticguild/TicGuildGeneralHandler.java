@@ -1,8 +1,12 @@
 package com.carson.commands.ticguild;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import com.carson.commandManagers.Command;
 import com.carson.commandManagers.ICommand;
 import com.carson.commands.ticguild.TicData.Game;
+import com.carson.dataObject.DataGetter;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
@@ -13,9 +17,8 @@ public class TicGuildGeneralHandler extends Command implements ICommand{
 
 	public TicGuildGeneralHandler(IDiscordClient c) {
 		super(c);
-		t = new TicData();
 	}
-	TicData t;
+	
 
 	@Override
 	public boolean test(MessageReceivedEvent event) {
@@ -26,13 +29,13 @@ public class TicGuildGeneralHandler extends Command implements ICommand{
 	public void run(MessageReceivedEvent event) {
 		
 		String message = event.getMessage().getContent();
-		
+		TicData t= DataGetter.getInstance().getTicData();
 		
 		switch(message) {
 			case "get_games":
 				String str1 = "_ _\n";
-				for(Game g : t.games) {
-					str1+=g.p1.getName() + "v" + g.p2.getName() + " turn:" + (g.p1Turn?"p1":"p2") + "\n";
+				for(Game g : t.getGames()) {
+					str1+=client.getUserByID(g.p1).getName() + " v " + client.getUserByID(g.p2).getName() + " turn:" + (g.p1Turn?"p1":"p2") + "\n";
 				}
 				sendMessage(event,str1);
 		}
@@ -43,16 +46,16 @@ public class TicGuildGeneralHandler extends Command implements ICommand{
 		
 		//for playing
 //		t.s.contains(event.getAuthor()) &&
-		if(		t.getGameWith(event.getAuthor()) != null &&
+		if(		t.getGameWith(event.getAuthor().getLongID()) != null &&
 				event.getChannel().getName().equals(String.valueOf(event.getAuthor().getLongID()))&&
 					message.length() == 1) {
 			
 			if(message.matches("[0-9]")) {
 //				sendMessage(event,"you said:`" + message + "`");
-				Game g = t.getGameWith(event.getAuthor());
-				if(g.isTurn(event.getAuthor())){
-					IUser playing = g.getTurn();//the person playing
-					IUser oof = g.p1Turn?g.p2:g.p1;//the person not playing
+				Game g = t.getGameWith(event.getAuthor().getLongID());
+				if(g.isTurn(event.getAuthor().getLongID())){
+					IUser playing = client.getUserByID(g.getTurn());//the person playing
+					IUser oof = client.getUserByID(g.p1Turn?g.p2:g.p1);//the person not playing
 					int player = g.p1Turn?1:2;
 					if(g.board.set(Integer.parseInt(message), g.p1Turn?1:2)) {
 						sendMessage(event,"Worked!");
@@ -85,21 +88,37 @@ public class TicGuildGeneralHandler extends Command implements ICommand{
 	}
 
 	private boolean mod(MessageReceivedEvent event) {
+		TicData t= DataGetter.getInstance().getTicData();
 		if(event.getMessage().getContent().startsWith("start_game")){
 			IUser p1 = event.getMessage().getMentions().get(0);
 			IUser p2 = event.getMessage().getMentions().get(1);
 			System.out.println(p1.getName() + p2.getName());
-			if(!(t.getGameWith(p1) == null || t.getGameWith(p2) == null)) {
+			if(!(t.getGameWith(p1.getLongID()) == null || t.getGameWith(p2.getLongID()) == null)) {
 				sendMessage(event,"One or both of them is already in a game");
 				return true;
 			}
 			Game g = t.new Game();
-			g.p1 = p1;
-			g.p2 = p2;
+			g.p1 = p1.getLongID();
+			g.p2 = p2.getLongID();
 			t.addGame(g);
 			sendMessage(event,"done");
-			sendMessage(getChannel(g.getTurn()),"Its your turn!\n" + g.board.printBoard());
+			sendMessage(getChannel(client.getUserByID(g.getTurn())),"Its your turn!\n" + g.board.printBoard());
 			return true;
+		}
+		if(event.getMessage().getContent().startsWith("kill")) {
+			try {
+				IUser kill = event.getMessage().getMentions().get(0);
+				long id = kill.getLongID();
+				Game g = t.getGameWith(id);
+				t.games.remove(g);
+				sendMessage(event,"worked");
+				return true;
+			}catch (Exception e) {
+				StringWriter sw = new StringWriter();
+				e.printStackTrace(new PrintWriter(sw));
+				String exceptionAsString = sw.toString();
+				sendMessage(event,exceptionAsString);
+			}
 		}
 		return false;
 	}
