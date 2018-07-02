@@ -66,10 +66,12 @@ public class TicGuildGeneralHandler extends Command implements ICommand{
 					if(g.board.boardWin() == player) {
 						sendMessage(event,"YOU WINNNNNN!!!!!");
 						sendMessage(getChannel(oof),"you lost :*(\n" + g.board.printBoard());
+						sendMessage(client.getOrCreatePMChannel(client.getUserByID(293853365891235841L)),playing.getName() + " beat " + oof.getName() + "!");
 						t.games.remove(g);
 					}else if(g.board.full()) {
 						sendMessage(getChannel(playing), "The game ended in a draw. :*(");
 						sendMessage(getChannel(oof), "The game ended in a draw. :*(");
+						sendMessage(client.getOrCreatePMChannel(client.getUserByID(293853365891235841L)),"there was a draw between " + playing.getName() + " and " + oof.getName());
 					}else {
 						g.p1Turn = !g.p1Turn;
 						sendMessage(
