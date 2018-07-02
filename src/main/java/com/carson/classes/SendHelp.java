@@ -7,6 +7,8 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.util.EmbedBuilder;
 
+import java.lang.Math;
+
 public class SendHelp {
 
 	public static void sendHelp(MessageReceivedEvent event, Register reg) {

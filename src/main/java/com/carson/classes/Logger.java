@@ -12,7 +12,7 @@ public class Logger {
 	
 	public static void log(MessageReceivedEvent event) {
 		IUser author = event.getAuthor();
-		int xp = (int)(Math.random()*15+1);
+		int xp = (int)(java.lang.Math.random()*15+1);
 		DataGetter.getInstance().increaseXPForUser(author.getLongID(), xp);
 		IChannel channel = event.getChannel();
 		String text = event.getMessage().getContent();
