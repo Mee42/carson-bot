@@ -28,16 +28,31 @@ public class CommandPrime extends Command implements ICommand {
             return;
         }
         long time = System.currentTimeMillis();
+        int pos = 0;
+        
         try {
-            boolean isPrime = Prime.getInstance().isPrime(Integer.parseInt(primeStrArr[1]));
-            if (isPrime) {
-                sendMessage(event, primeStrArr[1] + " is prime!");
-            } else {
-                sendMessage(event, primeStrArr[1] + " is not prime!");
-            }
+        	pos = Integer.parseInt(primeStrArr[1]);
         }catch  (NumberFormatException e){
             sendMessage(event, "There was an error proccessing your request");
+            return;
         }
+        if(pos < 0 || pos > Prime.getInstance().getMax()) {
+        	sendMessage(event,"thats not inside the valid range: 0 - " + Prime.getInstance().getMax());
+        	return;
+        }
+        boolean isPrime = Prime.getInstance().isPrime(pos);
+        if (isPrime) {
+            sendMessage(event, primeStrArr[1] + " is prime!");
+        } else {
+            sendMessage(event, primeStrArr[1] + " is not prime!");
+            String str = "factors:```\n";
+            for(Integer i : Prime.getInstance().factorize(pos)) {
+            	str+=i + "\n";
+            }
+            str +="```";
+            sendMessage(event, str);
+        }
+        
     }
 
     @Override

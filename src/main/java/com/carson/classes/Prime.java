@@ -1,6 +1,8 @@
 package com.carson.classes;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Prime {
     private static Prime ourInstance = new Prime();
@@ -48,4 +50,31 @@ public class Prime {
         return numbers[n];
     }
 
+    public List<Integer> factorize(int n){
+    	List<Integer> arr =new ArrayList<>();
+    	factorize(n,arr);
+    	return arr;
+    }
+    private void factorize(int n, List<Integer> arr){
+    	if(isPrime(n)) {
+    		arr.add(n);
+    		return;
+    	}
+    	for(int i = 2;i<n-1;i++) {
+    		if(n % i == 0) {// n is divisable by i
+    			//n = n/i  *   i
+    			factorize(i,arr);
+    			factorize(n / i, arr);
+    			return;
+    		}
+    	}
+    	
+    	
+    	return;
+    }
+
+	public int getMax() {
+		return numbers.length - 1;
+	}
+    
 }
