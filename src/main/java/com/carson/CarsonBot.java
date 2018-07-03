@@ -5,11 +5,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.carson.classes.Gumbo;
-import com.carson.classes.Logger;
-import com.carson.classes.Messanger;
-import com.carson.classes.ProfanityChecker;
-import com.carson.classes.SendHelp;
+import com.carson.classes.*;
 import com.carson.commandManagers.Register;
 import com.carson.dataObject.DataGetter;
 import com.carson.lavaplayer.GuildMusicManager;
@@ -49,8 +45,6 @@ public class CarsonBot { // Curl+shift + / (on num pad)
     
 	public void importClient(IDiscordClient client) {
 		this.client = client;
-		
-		
 	}
 	
 	
@@ -72,7 +66,15 @@ public class CarsonBot { // Curl+shift + / (on num pad)
         
         DataGetter.getInstance()
         .importFromJson(); //starts up the data getter. takes the data from the json file
-        
+
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Prime.getInstance().initulize();
+			}
+		}).start();
+
+
 	}
 	
 	
@@ -97,7 +99,7 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 	public void onUserJoin(UserJoinEvent event) {
 		if(event.getGuild().getLongID() == 208023865127862272L) {
 			return;
-		}
+		}/**/
 		try {
 			sendMessage(event.getGuild().getSystemChannel(), "Welcome " + event.getUser().toString() + " to " + event.getGuild().getName() + "\n"
 					+ "current members:`" + event.getGuild().getTotalMemberCount() + "`");
@@ -177,55 +179,7 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 	
 	
 	
-	//gumbo script TODO NEEDS TO BE CONVERTED (and fixed lol)
-	private boolean gumbo(MessageReceivedEvent event) {
-		IMessage message = event.getMessage();
-		String text = message.getContent();
-		IChannel channel = event.getChannel();
-		
-		
-		if(text.length()>=6) {
-			String first5 = text.substring(0, 6);
-			
-		
-			if(first5.equals("~gumbo")) {
-				System.out.println("EVENT:running gumbo");
-				if(text.length() >= 8) {
-					String input = text.substring(7, text.length());
-					System.out.println(input);
-					Gumbo g = new Gumbo();
-					sendMessage(channel, g.code(input, true));
-					
-				}else {
-					sendMessage(channel, "you need an input");
-					System.out.println("WARN:gumbo used without text");
 
-				}
-				return true;
-			}else if(text.length()>=8) {
-				if(text.substring(0,8).equals("~english")) {
-					System.out.println("EVENT:running english");
-					if(text.length() >= 10) {
-						String input = text.substring(9, text.length());
-						System.out.println(input);
-						Gumbo g = new Gumbo();
-						sendMessage(channel,g.code(input, false));
-					}else {
-						System.out.println("WARN:english used without text");
-						sendMessage(channel,"you need an input");
-						
-					}
-					return true;
-				}
-				
-			}
-
-		}
-		
-		return false;
-		
-		
-	}
 	
 	
 

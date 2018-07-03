@@ -73,13 +73,13 @@ public class SubregisterMain extends Subregister{
 				addCommand(new CommnadSetDeathMessage(client));
 				
 				addCommand(new CommandMath(client));
+				addCommand(new CommandPrime(client));
 	}
 
 
 	
 	@Override
 	public List<ICommand> getCommands(){
-		System.out.println("SubregisterMain getCommands called");
 		return commands;
 	}
 	
