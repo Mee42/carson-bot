@@ -18,31 +18,14 @@ public class Main {
 	    	File consoleFile = new File("console.txt");
 	    	FileIO.use(consoleFile).write(""); //clears the console
 	    	
-	        try //this is for streaming the console to a file, because....? idk
-	        {
-	        	FileOutputStream fout= new FileOutputStream(consoleFile);
-	        	FileOutputStream ferr= new FileOutputStream(consoleFile);
-	        	
-	        	MultiOutputStream multiOut= new MultiOutputStream(System.out, fout);
-	        	MultiOutputStream multiErr= new MultiOutputStream(System.err, ferr);
-	        	
-	        	PrintStream stdout= new PrintStream(multiOut);
-	        	PrintStream stderr= new PrintStream(multiErr);
-	        	
-	        	System.setOut(stdout);
-	        	System.setErr(stderr);
-	        }
-	        catch (FileNotFoundException ex)
-	        {
-	        	System.err.println("COULD NOT PRINT CONSOLE FILE");
-	        	return;
-	        }
+
 	        String token = "";
 	    	
 	    	try {
 	    		token = FileIO.use(new File("/home/carson/java/jars/key")).readList().get(0);
 	    	}catch(Exception e) {
 	    		System.out.println("threw a " + e.getClass().getName() + " when trying to read from key");
+	    		e.printStackTrace();
 	    		return;
 	    	}
 	
