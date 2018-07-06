@@ -74,6 +74,8 @@ public class SubregisterMain extends Subregister{
 				
 				addCommand(new CommandMath(client));
 				addCommand(new CommandPrime(client));
+
+				addCommand(new CommandSoftBan(client));
 	}
 
 

@@ -14,10 +14,7 @@ public class Main {
 
 	    public static void main(String[] args){
 	    	
-	    	
-	    	File consoleFile = new File("console.txt");
-	    	FileIO.use(consoleFile).write(""); //clears the console
-	    	
+
 
 	        String token = "";
 	    	
@@ -40,9 +37,10 @@ public class Main {
 	        Runtime.getRuntime().addShutdownHook(hook);
 	        
 	        
-	        //all this does in inport the client
+	        //all this does in import the client
 	        cb.importClient(client);
-	        
+
+
 	        
 	        // Only login after all events are registered otherwise some may be missed.
 	        client.login();
