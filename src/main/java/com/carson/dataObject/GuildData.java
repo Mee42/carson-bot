@@ -18,19 +18,6 @@ public class GuildData {
         deathChannel = -1L;
     }
     
-    public GuildData(long id, List<UserData> users, String deathMessage) {
-		super();
-		this.id = id;
-		this.users = users;
-		this.deathMessage = deathMessage;
-	}
-
-	//getters and setters for data, getter for id
-
-    //for getting UserDataPerGuild objects
-    //creating new users should never be needed
-    //instead, just attempt to get the user object, and it will return a new one. 
-
 
 //gets the UserDataPerGuild instance for that id
     public UserData getUserData(long id){
@@ -75,27 +62,27 @@ public class GuildData {
     }
     
     //deletes and re-adds the user instance, in effect resetting it to default
-    	public UserData resetUser(long id) {
-    		 for(UserData testingUser : users){
- 	            if(testingUser.getId() == id){
- 	            		users.remove(testingUser);
- 	            		UserData newUser = new UserData(id);
- 	            		users.add(newUser);
- 	            		return newUser;
- 	            }
- 	        }
-    		 UserData newUser = new UserData(id);
-      		users.add(newUser);
-      		return newUser;
-    	}
-
-		public long getId() {
-			return id;
+	public UserData resetUser(long id) {
+		 for(UserData testingUser : users){
+			if(testingUser.getId() == id){
+					users.remove(testingUser);
+					UserData newUser = new UserData(id);
+					users.add(newUser);
+					return newUser;
+			}
 		}
+		 UserData newUser = new UserData(id);
+		users.add(newUser);
+		return newUser;
+	}
 
-		public List<UserData> getUsers() {
-			return users;
-		}
+	public long getId() {
+		return id;
+	}
+
+	public List<UserData> getUsers() {
+		return users;
+	}
 
 		
 

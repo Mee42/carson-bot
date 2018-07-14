@@ -6,7 +6,8 @@ public class UserData { //PER GUILD
     protected final long id;
     
     protected String name;
-    
+
+
     @SerializedName("XP_FOR_USER_DATA")
     protected long XP;
     

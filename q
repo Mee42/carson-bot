@@ -6,7 +6,7 @@
 # Your branch is up to date with 'origin/master'.
 #
 # Changes to be committed:
-#	modified:   src/main/java/com/carson/classes/Prime.java
-#	modified:   src/main/java/com/carson/commands/main/CommandPrime.java
-added factorization for non-prime numbers
-fixed up invalid entry error handling
+#	modified:   src/main/java/com/carson/Main.java
+#	new file:   src/main/java/com/carson/commands/main/CommandSoftBan.java
+#	modified:   src/main/java/com/carson/commands/main/SubregisterMain.java
+added ~softban and tested it

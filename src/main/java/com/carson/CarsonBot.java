@@ -26,15 +26,13 @@ import sx.blah.discord.handle.impl.events.shard.LoginEvent;
 import sx.blah.discord.handle.obj.ActivityType;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
-import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.handle.obj.IRole;
 import sx.blah.discord.handle.obj.Permissions;
 import sx.blah.discord.handle.obj.StatusType;
+import sx.blah.discord.util.Image;
 
-public class CarsonBot { // Curl+shift + / (on num pad)
+public class CarsonBot {
 	private IDiscordClient client;
-//	private Messanger messanger;
-	
 	
 	
 	private static final AudioPlayerManager playerManager = new DefaultAudioPlayerManager();
@@ -158,14 +156,12 @@ public class CarsonBot { // Curl+shift + / (on num pad)
 		
 		//check for profanity is some servers. note - needs to make configuring this a bot action, not hardcoded
 		if(ProfanityChecker.check(event)) {return;} 
-		
-		
 
-//	gumbo(event);		
-		
-		
-		
-		
+//		client.getGuildByID(462681259370610689L).createEmoji(
+//		        "gg",
+//                Image.forFile(new File("/home/carson/java/files/g/g2")),
+//                new IRole[]{client.getGuildByID(462681259370610689L).getEveryoneRole()}
+//                ); //creates the :gg: emjoi
 
 	}//end of handle method
 	

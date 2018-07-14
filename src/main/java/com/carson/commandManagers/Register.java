@@ -6,7 +6,7 @@ import java.util.List;
 import com.carson.commands.cb.SubregisterCB;
 import com.carson.commands.gumbocoin.SubregisterGumboCoin;
 import com.carson.commands.main.SubregisterMain;
-import com.carson.commands.ticguild.TicGuildSubregister;
+import com.carson.commands.gg.GGSubregister;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
@@ -21,7 +21,7 @@ public class Register {
 				.addSubregister(new SubregisterMain(c))
 				.addSubregister(new SubregisterCB(c))
 				.addSubregister(new SubregisterGumboCoin(c))
-				.addSubregister(new TicGuildSubregister(c))
+				.addSubregister(new GGSubregister(c))
 				;
 		
 		

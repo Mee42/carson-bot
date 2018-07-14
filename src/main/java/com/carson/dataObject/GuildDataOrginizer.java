@@ -5,9 +5,10 @@ import java.util.List;
 
 import com.carson.classes.FileIO;
 import com.carson.commands.main.tac.RunningTacGame;
-import com.carson.commands.ticguild.TicData;
+import com.carson.commands.gg.UserGG;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import sx.blah.discord.handle.obj.IUser;
 
 public class GuildDataOrginizer {
 	   /*there should only every be one instance of this class
@@ -18,8 +19,9 @@ public class GuildDataOrginizer {
 	    */
 	    private List<GuildData> guilds = new ArrayList<>();
 	    private List<UserDataNoGuild> users = new ArrayList<>();
-	    public TicData t = new TicData();
-	    
+	    private List<UserGG> userGGs = new ArrayList<>();
+
+
 	    private transient String jsonFile = "/home/carson/java/files/jsonGuildDataDump.json";
 	    private transient List<RunningTacGame> games = new ArrayList<>();
 	    
@@ -30,7 +32,7 @@ public class GuildDataOrginizer {
 	    		GuildDataOrginizer newGuildOrginizerData = gson.fromJson(json,GuildDataOrginizer.class);
 	        	this.guilds = newGuildOrginizerData.guilds;
 	        	this.users = newGuildOrginizerData.users;
-	        	this.t = newGuildOrginizerData.t;
+	        	this.userGGs = newGuildOrginizerData.userGGs;
 	        	//import other data from the newGuildOrginizerData
 	        	return this;
 	    	}
@@ -58,15 +60,29 @@ public class GuildDataOrginizer {
 //	    	});
 //	    	
 //	    }
-	    public void setTicData(TicData t) {
-	    	this.t = t;
-	    }
-	    
-	    public TicData getTicData() {
-	    	return t;
-	    }
-	  
-	    public GuildData getGuild(long id){
+        public UserGG getUser(IUser user){
+	        return getUser(user.getLongID());
+        }
+        public UserGG getUser(long id){
+	        for(UserGG user : userGGs){
+	            if(user.getId() == id){
+	                return user;
+                }
+            }
+            UserGG newUser = new UserGG(id);
+	        userGGs.add(newUser);
+	        return newUser;
+        }
+
+    public List<UserGG> getUserGGs() {
+        return userGGs;
+    }
+
+    public void setUserGGs(List<UserGG> userGGs) {
+        this.userGGs = userGGs;
+    }
+
+    public GuildData getGuild(long id){
 	        for(GuildData guildData : guilds){
 	            if(guildData.getId() == id){return guildData;}//returns if there is an exisitng guild data instance
 	        }
@@ -142,17 +158,7 @@ public class GuildDataOrginizer {
 	    	return false;
 	    	
 	    }
-	   
-	public class Advertiser{
-		public final String message;
-		public final String link;
-		public Advertiser(String message, String link) {
-			super();
-			this.message = message;
-			this.link = link;
-		}
-		
-	}
+
 	    
 	public class UserDataNoGuild extends UserData{
 		public String publicKey;
