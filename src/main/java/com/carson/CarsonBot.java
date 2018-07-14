@@ -2,11 +2,14 @@ package com.carson;
 
 
 import java.io.File;
+import java.lang.Math;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.carson.classes.*;
 import com.carson.commandManagers.Register;
+import com.carson.commands.gg.GGHandler;
 import com.carson.dataObject.DataGetter;
 import com.carson.lavaplayer.GuildMusicManager;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
@@ -18,18 +21,17 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.EventSubscriber;
+import sx.blah.discord.handle.impl.events.ReadyEvent;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageDeleteEvent;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import sx.blah.discord.handle.impl.events.guild.channel.message.reaction.ReactionAddEvent;
 import sx.blah.discord.handle.impl.events.guild.member.UserJoinEvent;
 import sx.blah.discord.handle.impl.events.guild.member.UserLeaveEvent;
 import sx.blah.discord.handle.impl.events.shard.LoginEvent;
-import sx.blah.discord.handle.obj.ActivityType;
-import sx.blah.discord.handle.obj.IChannel;
-import sx.blah.discord.handle.obj.IGuild;
-import sx.blah.discord.handle.obj.IRole;
-import sx.blah.discord.handle.obj.Permissions;
-import sx.blah.discord.handle.obj.StatusType;
+import sx.blah.discord.handle.obj.*;
+import sx.blah.discord.util.EmbedBuilder;
 import sx.blah.discord.util.Image;
+import sx.blah.discord.util.RequestBuffer;
 
 public class CarsonBot {
 	private IDiscordClient client;
@@ -45,17 +47,12 @@ public class CarsonBot {
 		this.client = client;
 	}
 	
-	
+
+
+
 	@EventSubscriber
-	public void onStartup(LoginEvent event) {
-			client.changePresence(StatusType.ONLINE, ActivityType.WATCHING," your every move");
-		
-		
-		System.out.println("BOOT: bot started");
-		
-		
-		
-        
+	public void onStartup(ReadyEvent event) {
+	    updateMemberCount();
         //this enables the logger
 //        ((Discord4J.Discord4JLogger) Discord4J.LOGGER).setLevel(Level.TRACE);
 		
@@ -71,14 +68,21 @@ public class CarsonBot {
 				Prime.getInstance().initulize();
 			}
 		}).start();
-
-
-	}
+        System.out.println("BOOT: bot started");
+    }
 	
-	
+	private void updateMemberCount(){
+        List<IGuild> guilds = client.getGuilds();
+        int users = 0;
+        for(IGuild guild : guilds){
+            users+= guild.getTotalMemberCount();
+        }
+        client.changePresence(StatusType.ONLINE, ActivityType.WATCHING," over " + users + " users");
+    }
+
 	@EventSubscriber
 	public void onMessageDeleted(MessageDeleteEvent event) {
-		if(event.getGuild().getLongID() != 400786190619639839L) { //if server is not mcpoland, return
+        if(event.getGuild().getLongID() != 400786190619639839L) { //if server is not mcpoland, return
 			return;
 		}
 		if(event.getAuthor().getLongID() ==318783502768144384L) { //if user is yellow toad, return 
@@ -95,6 +99,7 @@ public class CarsonBot {
 	
 	@EventSubscriber
 	public void onUserJoin(UserJoinEvent event) {
+	    updateMemberCount();
 		if(event.getGuild().getLongID() == 208023865127862272L) {
 			return;
 		}/**/
@@ -125,7 +130,8 @@ public class CarsonBot {
 	
 	@EventSubscriber
 	public void onUserLeave(UserLeaveEvent event) {
-		String userName = event.getUser().mention();
+        updateMemberCount();
+        String userName = event.getUser().mention();
 		long channelId = DataGetter.getInstance().getGuild(event.getGuild().getLongID()).getDeathChannel();
 		String deathMessage = DataGetter.getInstance().getGuild(event.getGuild().getLongID()).getDeathMessage();
 		if(channelId == -1L) { //if not set yet
@@ -141,13 +147,12 @@ public class CarsonBot {
 	
 	@EventSubscriber
     public void onMessageReceived(MessageReceivedEvent event){
+
 		
 		//prints the message to the console, as well as the text logs, and gives XP onto global XP
 		Logger.log(event);
 
-		
-		
-		//runs the register. 
+		//runs the register.
 		reg.testCommands(event);
 		
 		if(event.getMessage().getContent().equals("~help")) { //sends the help message. needs to be here, because we need to be able to pass the register to the help command
@@ -163,6 +168,26 @@ public class CarsonBot {
 //                new IRole[]{client.getGuildByID(462681259370610689L).getEveryoneRole()}
 //                ); //creates the :gg: emjoi
 
+
+        //sends a message to a random channel
+        boolean generateEaster = (int)(Math.random()*4) == 1;
+		generateEaster = event.getGuild().getLongID() == 462681259370610689L && generateEaster;//only generate if in @game server
+		if(generateEaster) {
+            int channelNo = (int) (Math.random() * client.getGuildByID(462681259370610689L).getChannels().size());
+            RequestBuffer.request(() -> {
+                if(channelNo != 0){
+                    IMessage message = client.getGuildByID(462681259370610689L).getChannels().get(channelNo).sendMessage(":radio_button: add a reaction to get " + GGHandler.GG);
+                    if(message.getChannel().getLongID() ==462705812582694942L ){
+                        message.delete();
+                    }else {
+                        DataGetter.getInstance().getEaster().add(message.getLongID());
+                    }
+                }
+
+            });
+        }
+
+
 	}//end of handle method
 	
 	
@@ -175,7 +200,26 @@ public class CarsonBot {
 	
 	
 	
+    @EventSubscriber
+    public void onReactionAdded(ReactionAddEvent event){
+	    long id = event.getMessageID();
+	    for(long channel : DataGetter.getInstance().getEaster()){
+	        if(channel == id){
+	            int amount = (int)(Math.random() * 500);
+	            DataGetter.getInstance().getUser(event.getUser()).increaseMoney(amount);
 
+                EmbedBuilder b = new EmbedBuilder();
+                b.appendField(":radio_button:\nyou got " + amount + GGHandler.GG + "!","your balance: " + DataGetter.getInstance().getUser(event.getUser()).getMoney() + GGHandler.GG ,false);
+                RequestBuffer.request(() -> {
+                   client.getMessageByID(id).getChannel().sendMessage(b.build());
+                });
+                RequestBuffer.request(()->{
+                    client.getMessageByID(id).delete();
+                });
+
+            }
+        }
+    }
 	
 	
 

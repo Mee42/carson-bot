@@ -22,7 +22,8 @@ public class GuildDataOrginizer {
 	    private List<UserGG> userGGs = new ArrayList<>();
 
 
-	    private transient String jsonFile = "/home/carson/java/files/jsonGuildDataDump.json";
+        private transient  List<Long> easter = new ArrayList<>();
+        private transient String jsonFile = "/home/carson/java/files/jsonGuildDataDump.json";
 	    private transient List<RunningTacGame> games = new ArrayList<>();
 	    
 	    
@@ -76,6 +77,14 @@ public class GuildDataOrginizer {
 
     public List<UserGG> getUserGGs() {
         return userGGs;
+    }
+
+    public List<Long> getEaster() {
+        return easter;
+    }
+
+    public void setEaster(List<Long> easter) {
+        this.easter = easter;
     }
 
     public void setUserGGs(List<UserGG> userGGs) {

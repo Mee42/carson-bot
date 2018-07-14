@@ -2,7 +2,6 @@ package com.carson.commands.gg;
 
 
 
-import com.carson.Format;
 import com.carson.commandManagers.Command;
 import com.carson.commandManagers.ICommand;
 
@@ -11,8 +10,11 @@ import com.carson.dataObject.GuildDataOrginizer;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IUser;
+import sx.blah.discord.util.EmbedBuilder;
+import sx.blah.discord.util.RequestBuffer;
 
 
+import java.awt.*;
 import java.util.List;
 
 public class GGHandler extends Command implements ICommand{
@@ -34,20 +36,38 @@ public class GGHandler extends Command implements ICommand{
         UserGG user = data.getUser(event.getAuthor());
         switch (event.getMessage().getContent().toLowerCase()){
             case "gg~money":
-                sendMessage( event , "you have " + user.getMoney() + GG);
+//                sendEmbed( event , "you have " + user.getMoney() + GG);
+                sendEmbed(event, "your money",user.getMoney() + GG);
                 break;
             case "gg~work":
-
-                user.increaseMoney(10);
-                sendMessage(event, "you now have " + user.getMoney() + GG);
+                int amount = (int)(Math.random()*100);
+                user.increaseMoney(amount);
+//                sendMessage(event, "you got " + amount + GG + " and you now have " + user.getMoney() + GG);
+                sendEmbed(event, "you got " + amount + GG,"current balance:" + user.getMoney() + GG);
                 break;
             case "gg~all":
-                String send = "";
-
-                for(UserGG u : data.getUserGGs()){
-                      send+=      "`" + u .getId() + "`  " + client.getUserByID(u.getId()).getName() + " : " + u.getMoney() + GG   + "\n";
+//                String send = "";
+                EmbedBuilder b = new EmbedBuilder();
+                List<UserGG> users = data.getUserGGs();
+               sort(users);
+                for(UserGG u : users){
+//                      send+=      "`" +  u.getId() + "`  " + client.getUserByID(u.getId()).getName() + " : " + u.getMoney() + GG   + "\n";
+                    b.appendField(client.getUserByID(u.getId()).getName(),// + " : " + u.getMoney() + GG,//title
+//                            u.getId() + "",//discri
+                            u.getMoney() + GG,
+                            false);
                 }
-                sendMessage(event, send);
+//                sendEmbed(event, send);
+                RequestBuffer.request(() -> {
+                    event.getChannel().sendMessage(b.build());
+                });
+                break;
+            case "gg~easter":
+                String str = "```";
+                for(long l : data.getEaster()){
+                    str += client.getMessageByID(l).getChannel().getName() + "\n";
+                }
+                sendMessage(event,str + "```");
         }
 
         if(event.getMessage().getContent().toLowerCase().startsWith("gg~pay")){
@@ -77,29 +97,33 @@ public class GGHandler extends Command implements ICommand{
             }
         }
         if(amount == -1){
-            sendMessage(event, "you need an amount");
+            sendEmbed(event, "error","you need an amount to pay");
             return;
         }
         if(amount < 1){
-            sendMessage(event, "you can not send that");
+            sendEmbed(event, "error","you can not pay that");
             return;
         }
 
         List<IUser> mentioned = event.getMessage().getMentions();
         if(mentioned.size() == 0){
-            System.out.println("you need someone to pay");
+            sendEmbed(event,"error","you need to mention someone");
             return;
         }
 
 
-        if(amount > (user.getMoney() * mentioned.size())){
-            sendMessage(event, "you do not have enough money to pay " + mentioned.size() + " people " + amount + GG + "  you have " + user.getMoney() + GG);
+        if(amount * mentioned.size() > user.getMoney()){
+            sendEmbed(event,"error:", "you do not have enough money to pay " + mentioned.size() + " people " + amount + GG + "\n" + "you have " + user.getMoney() + GG);
             return;
         }
         user.setMoney(user.getMoney() - (amount * mentioned.size()));
         for(IUser recipient : mentioned){
+            if(recipient.isBot()){
+                sendMessage(event, "you can not pay the bot. You are losing that money <:thonk:440249411574956032>");
+            }
             data.getUser(recipient).increaseMoney(amount);
         }
+        sendEmbed(event,"Worked!","your balance:" + user.getMoney());
     }
 
 
@@ -113,6 +137,29 @@ public class GGHandler extends Command implements ICommand{
 		return null;
 	}
 	
+
+    private List<UserGG> sort(List<UserGG> users){
+        for (int i = 0; i < users.size() - 1; i++){
+            int index = i;
+            for (int j = i + 1; j < users.size(); j++) {
+                if (users.get(j).getMoney() > users.get(index).getMoney())
+                    index = j;
+                }
+            UserGG temp = users.get(index);
+            users.set(index, users.get(i));
+            users.set(i,temp);
+        }
+        return users;
+    }
+
+    protected void sendEmbed(MessageReceivedEvent event, String str, String dis){
+	    EmbedBuilder  b = new EmbedBuilder();
+	    b.withColor(new Color((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255)));
+	    b.appendField(str,dis,false);
+        RequestBuffer.request(() -> {
+            event.getChannel().sendMessage(b.build());
+        });
+    }
 
 
 }

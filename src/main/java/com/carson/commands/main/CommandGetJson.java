@@ -29,7 +29,7 @@ public class CommandGetJson extends Command implements ICommand{
 //		if(json.length() > 1900) {
 //			json = json.substring(0, 1900);
 //		}
-//		sendMessage(event, "```" + json + "```");
+//		sendEmbed(event, "```" + json + "```");
 		
 		Pattern p = Pattern.compile("(?:.|\n){1,2000}");
 		Matcher m = p.matcher(json);
