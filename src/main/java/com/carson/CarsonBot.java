@@ -19,6 +19,8 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 
+import com.vdurmont.emoji.Emoji;
+import com.vdurmont.emoji.EmojiManager;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.ReadyEvent;
@@ -182,6 +184,8 @@ public class CarsonBot {
                     }else {
                         DataGetter.getInstance().getEaster().add(message.getLongID());
                     }
+                    Emoji e = EmojiManager.getForAlias("radio_button");
+                    message.addReaction(e);
                 }
 
             });
@@ -202,6 +206,9 @@ public class CarsonBot {
 	
     @EventSubscriber
     public void onReactionAdded(ReactionAddEvent event){
+	    if(event.getUser().isBot()){
+	        return;
+        }
 	    long id = event.getMessageID();
 	    for(long channel : DataGetter.getInstance().getEaster()){
 	        if(channel == id){
@@ -216,7 +223,7 @@ public class CarsonBot {
                 RequestBuffer.request(()->{
                     client.getMessageByID(id).delete();
                 });
-
+                return;
             }
         }
     }

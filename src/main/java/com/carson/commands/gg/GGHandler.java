@@ -68,6 +68,14 @@ public class GGHandler extends Command implements ICommand{
                     str += client.getMessageByID(l).getChannel().getName() + "\n";
                 }
                 sendMessage(event,str + "```");
+                break;
+            case "gg~data":
+                String st = "```";
+                for(UserGG use : data.getUserGGs()){
+                    st+=use.getId() + ":" + use.getMoney() + "\n";
+                }
+                sendMessage(event,st + "```");
+                break;
         }
 
         if(event.getMessage().getContent().toLowerCase().startsWith("gg~pay")){
