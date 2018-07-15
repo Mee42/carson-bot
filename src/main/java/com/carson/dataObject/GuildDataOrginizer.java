@@ -1,5 +1,6 @@
 package com.carson.dataObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,12 +24,13 @@ public class GuildDataOrginizer {
 
 
         private transient  List<Long> easter = new ArrayList<>();
-        private transient String jsonFile = "/home/carson/java/files/jsonGuildDataDump.json";
+        private transient String jsonFile = "/home/carson/java/files/json/jsonGuildDataDump.json";
 	    private transient List<RunningTacGame> games = new ArrayList<>();
 	    
 	    
 	    public GuildDataOrginizer importFromJson(){
 	    		Gson gson = new GsonBuilder().create();
+
 	    		String json = FileIO.use(jsonFile).readString();
 	    		GuildDataOrginizer newGuildOrginizerData = gson.fromJson(json,GuildDataOrginizer.class);
 	        	this.guilds = newGuildOrginizerData.guilds;
@@ -39,6 +41,10 @@ public class GuildDataOrginizer {
 	    	}
 
 	    public  String privateSterilize(){ //TODO nice how the "privateSterilize" method is public
+            if(new File(jsonFile).exists()){
+                int num = (int)(Math.random()*10000);
+                new File(jsonFile).renameTo(new File(jsonFile + ".backup" + num));
+            }
 	    	Gson gson = new GsonBuilder().create();
 	        String json =gson.toJson(this);
 	        FileIO.use(jsonFile).write(json);

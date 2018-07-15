@@ -42,6 +42,7 @@ public class FileIO {
 	public boolean write(String text) {
 		
 		try {
+			file.createNewFile();
 			//open FileWriter
 			FileWriter  fw = new FileWriter(file);
 			//write

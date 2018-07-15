@@ -7,6 +7,8 @@ import com.carson.commandManagers.ICommand;
 
 import com.carson.dataObject.DataGetter;
 import com.carson.dataObject.GuildDataOrginizer;
+import com.vdurmont.emoji.Emoji;
+import com.vdurmont.emoji.EmojiManager;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IUser;
@@ -15,11 +17,13 @@ import sx.blah.discord.util.RequestBuffer;
 
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GGHandler extends Command implements ICommand{
-    public static final String GG = "<:gg:467728709139562497>";
-
+    public static final String GG = " <:gg:467728709139562497> ";
+//    public static final String GG = " :squid: ";
+    public static final String STAR = " :squid: ";
 	public GGHandler(IDiscordClient c) {
 		super(c);
 	}
@@ -38,12 +42,14 @@ public class GGHandler extends Command implements ICommand{
             case "gg~money":
 //                sendEmbed( event , "you have " + user.getMoney() + GG);
                 sendEmbed(event, "your money",user.getMoney() + GG);
+                cleanUsers(data);
                 break;
             case "gg~work":
                 int amount = (int)(Math.random()*100);
                 user.increaseMoney(amount);
 //                sendMessage(event, "you got " + amount + GG + " and you now have " + user.getMoney() + GG);
                 sendEmbed(event, "you got " + amount + GG,"current balance:" + user.getMoney() + GG);
+                cleanUsers(data);
                 break;
             case "gg~all":
 //                String send = "";
@@ -82,15 +88,57 @@ public class GGHandler extends Command implements ICommand{
             pay(event,user,data);
             return;
         }
-	}
+        if(event.getMessage().getContent().toLowerCase().startsWith("gg~slot")){
+            slot(event,user,data);
+            return;
+        }
+        if(event.getMessage().getContent().toLowerCase().startsWith("gg~mod")){
+            mod(event,user,data);
+            return;
+        }
 
+    }
 
-	private void pay(MessageReceivedEvent event, UserGG user, GuildDataOrginizer data){
+    private void mod(MessageReceivedEvent event, UserGG user, GuildDataOrginizer data) {
+	    if(!event.getAuthor().getRolesForGuild(event.getGuild()).contains(event.getGuild().getRolesByName("MOD").get(0))){
+            sendMessage(event,"you need the @MOD role to use this command");
+        }
         String[] args = event.getMessage().getContent().toLowerCase().split(" ");
         if(args.length == 1){
             sendMessage(event, "you need more args");
             return;
         }
+        int amount = getAmount(args);
+        if(amount == -1){
+            sendEmbed(event, "error","you need an amount to pay");
+            return;
+        }
+
+
+        List<IUser> mentioned = event.getMessage().getMentions();
+        if(mentioned.size() == 0){
+            sendEmbed(event,"error","you need to mention someone");
+            return;
+        }
+        for(IUser u : mentioned){
+            data.getUser(u).increaseMoney(amount);
+            sendMessage(event,"added " + amount + " to " + u.getName());
+        }
+        sendMessage(event, "done");
+        cleanUsers(data);
+    }
+
+    private void cleanUsers(GuildDataOrginizer data) {
+	    List<UserGG> hasZero = new ArrayList<>();
+	    for(UserGG u : data.getUserGGs()){
+	        if(u.getMoney() == 0){
+	            hasZero.add(u);
+            }
+        }
+       data.getUserGGs().removeAll(hasZero);
+    }
+
+    private int getAmount(String[] args){
         int amount = -1;
         for(String str : args){
             int temp = -1;
@@ -104,6 +152,123 @@ public class GGHandler extends Command implements ICommand{
                 break;
             }
         }
+        return amount;
+    }
+
+
+    private void slot(MessageReceivedEvent event, UserGG user, GuildDataOrginizer data) {
+        int amount = -1;
+        for(String str : event.getMessage().getContent().split(" ")){
+            int temp = -1;
+            try{
+                temp = Integer.parseInt(str);
+            }catch(NumberFormatException e){
+                temp = -1;
+            }
+            if(temp != -1){
+                amount = temp;
+                break;
+            }
+        }
+        if(amount == -1){
+            sendEmbed(event, "error","you need an amount to pay");
+            return;
+        }
+        if(amount > user.getMoney()){
+            sendEmbed(event, "error:","you do not have enough money");
+            return;
+        }
+        //:regional_indicator_a:
+        String[] letters = new String[]{
+                ":regional_indicator_a:",
+//                ":regional_indicator_b:",
+//                ":regional_indicator_c:",
+//                ":regional_indicator_d:",
+//                ":regional_indicator_e:",
+//                ":regional_indicator_f:",
+//                ":regional_indicator_g:",
+//                ":regional_indicator_h:",
+//                ":regional_indicator_i:",
+//                ":regional_indicator_j:",
+//                ":regional_indicator_k:",
+//                ":regional_indicator_l:",
+//                ":regional_indicator_m:",
+//                ":regional_indicator_n:",
+//                ":regional_indicator_o:",
+//                ":regional_indicator_p:",
+//                ":regional_indicator_q:",
+//                ":regional_indicator_r:",
+//                ":regional_indicator_s:",
+//                ":regional_indicator_t:",
+//                ":regional_indicator_u:",
+//                ":regional_indicator_v:",
+//                ":regional_indicator_w:",
+//                ":regional_indicator_x:",
+                ":regional_indicator_y:",
+                ":regional_indicator_z:",
+                STAR.trim()
+        };
+
+        int a = (int)(Math.random()*letters.length);
+        int b = (int)(Math.random()*letters.length);
+        int c = (int)(Math.random()*letters.length);
+        sendEmbed(event, "you got",
+                letters[a] + " " +
+                letters[b] + " " +
+                letters[c]
+        );
+        if(a == b && b == c && a == letters.length - 1){
+            user.increaseMoney(-1 * amount);
+            user.increaseMoney(amount * 5000);
+            sendEmbed(event,"YOU WON THE SUPER BIG PRIZE " + (amount * 5000) + GG + "!!!!", "your balance:" + user.getMoney());
+        }else if(a == b && b == c){
+            user.increaseMoney(-1 * amount);
+            //win grand prize
+            user.increaseMoney(amount * 100);
+            sendEmbed(event,"YOU WON " + (amount * 100) + GG + "!!!!", "your balance:" + user.getMoney());
+        }else if(a == b || b == c|| c == a){
+            //win small prize
+            int count = 0;
+            if(a == letters.length - 1)count++;
+            if(b == letters.length - 1)count++;
+            if(c == letters.length - 1)count++;
+            if(count == 0) {
+                user.increaseMoney(-1 * amount);
+                user.increaseMoney(amount * 20);
+                sendEmbed(event, "you won a small prize: " + (amount * 20) + GG + "!", "your balance:" + user.getMoney());
+            }else if(count == 1){
+                user.increaseMoney(-1 * amount);
+                user.increaseMoney(amount * 20 + 500);
+                sendEmbed(event, "you won a small prize: " + (amount * 20) + GG + ", as well as the bonus: 500", "your balance:" + user.getMoney());
+            }else if(count == 2){
+                user.increaseMoney(-1 * amount);
+                user.increaseMoney(amount * 500);
+                sendEmbed(event, "you won a " + STAR + " prize: " + (amount * 500) + GG + "!!!! " + STAR + " " + STAR + " ", "your balance:" + user.getMoney());
+            }
+        }else{
+            int count = 0;
+            if(a == letters.length - 1)count++;
+            if(b == letters.length - 1)count++;
+            if(c == letters.length - 1)count++;
+            if(count == 0) {
+                user.increaseMoney(-1 * amount);
+                sendEmbed(event, "you won nothing :*(", "your balance:" + user.getMoney());
+            }else{//count == 1
+                sendEmbed(event, "you didn't win, but you got a " + STAR + " so you keep your money","your balance:" + user.getMoney());
+            }
+        }
+        cleanUsers(data);
+
+    }
+
+
+    private void pay(MessageReceivedEvent event, UserGG user, GuildDataOrginizer data){
+        String[] args = event.getMessage().getContent().toLowerCase().split(" ");
+        if(args.length == 1){
+            sendMessage(event, "you need more args");
+            return;
+        }
+        int amount = getAmount(args);
         if(amount == -1){
             sendEmbed(event, "error","you need an amount to pay");
             return;
@@ -132,6 +297,7 @@ public class GGHandler extends Command implements ICommand{
             data.getUser(recipient).increaseMoney(amount);
         }
         sendEmbed(event,"Worked!","your balance:" + user.getMoney());
+        cleanUsers(data);
     }
 
 

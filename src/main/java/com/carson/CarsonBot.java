@@ -191,7 +191,7 @@ public class CarsonBot {
             });
         }
 
-
+		DataGetter.getInstance().privateSterilize();
 	}//end of handle method
 	
 	
