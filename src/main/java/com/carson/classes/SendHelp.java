@@ -27,10 +27,13 @@ public class SendHelp {
 		for(ICommand c : reg.getCommands()){
 			try{
 				if(c.getName() == null || c.getDisciption() == null) {
-					
-				}else {
-					builder.appendField(c.getName(), c.getDisciption(), false);
+					continue;
 				}
+                if(c.getName().startsWith("cb") || c.getName().startsWith("~gumbo")){
+                    continue;
+                }
+                builder.appendField(c.getName(), c.getDisciption(), false);
+
 			}catch(IllegalArgumentException e) {
 				e.printStackTrace();
 				dm.sendMessage(builder.build());
@@ -42,7 +45,5 @@ public class SendHelp {
 		
 		
 	}
-	
-	public enum HelpTypes {ADMIN, PLAIN}
-	
+
 }

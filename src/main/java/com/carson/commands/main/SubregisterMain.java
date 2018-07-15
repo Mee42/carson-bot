@@ -7,7 +7,6 @@ import com.carson.commandManagers.Subregister;
 import com.carson.commands.main.dnd.*;
 import com.carson.commands.main.hangman.*;
 import com.carson.commands.main.lavaplayer.*;
-import com.carson.commands.main.ps.CommandPS;
 import com.carson.commands.main.tac.CommandContinueTac;
 import com.carson.commands.main.tac.CommandTac;
 import com.carson.commands.main.tic.*;
@@ -33,7 +32,6 @@ public class SubregisterMain extends Subregister{
 				addCommand(new CommandGoogle(client));
 				addCommand(new CommandReddit(client));
 				addCommand(new CommandXKCD(client));
-				addCommand(new CommandPS(client));
 				addCommand(new CommandPurge(client));
 								
 				addCommand(new CommandJoin(client));

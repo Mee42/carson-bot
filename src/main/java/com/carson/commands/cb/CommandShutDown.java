@@ -3,6 +3,7 @@ package com.carson.commands.cb;
 import com.carson.commandManagers.Command;
 import com.carson.commandManagers.ICommand;
 
+import com.carson.main.CleanThread;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
@@ -21,6 +22,7 @@ public class CommandShutDown extends Command implements ICommand{
 	public void run(MessageReceivedEvent event) {
 //		CleanThread.systemExit(0);
 		sendMessage(event,"shutting down");
+        new CleanThread(client).run();
 		System.exit(0);
 	}
 

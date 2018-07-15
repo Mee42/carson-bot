@@ -9,13 +9,17 @@ import javax.xml.crypto.Data;
 public class CleanThread extends Thread{
 	
 	IDiscordClient client;
-	CarsonBot cb;
-	
+//	CarsonBot cb;
+
+	public CleanThread(IDiscordClient client) {
+		this.client = client;
+//		this.cb = carsonBot;
+	}
 	public CleanThread(IDiscordClient client, CarsonBot carsonBot) {
 		this.client = client;
-		this.cb = carsonBot;
+//		this.cb = carsonBot;
 	}
-	
+
 	@Override
 	public void run() {
 		DataGetter.getInstance().privateSterilize();

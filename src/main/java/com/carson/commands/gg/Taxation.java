@@ -26,7 +26,7 @@ public class Taxation {
         }.sumit(client);
 
         Executors.newScheduledThreadPool(1)
-                .scheduleAtFixedRate(runner, timeTillMidnight(), Duration.ofDays(1).toMillis(),
+                .scheduleAtFixedRate(runner, timeTillMidnight() * 1000, Duration.ofDays(1).toMillis(),
         TimeUnit.SECONDS);
 
 

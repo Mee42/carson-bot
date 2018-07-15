@@ -18,6 +18,7 @@ import sx.blah.discord.util.RequestBuffer;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class GGHandler extends Command implements ICommand{
@@ -38,25 +39,25 @@ public class GGHandler extends Command implements ICommand{
 	public void run(MessageReceivedEvent event) {
         GuildDataOrginizer data = DataGetter.getInstance();
         UserGG user = data.getUser(event.getAuthor());
-        switch (event.getMessage().getContent().toLowerCase()){
+        switch (event.getMessage().getContent().toLowerCase()) {
             case "gg~money":
 //                sendEmbed( event , "you have " + user.getMoney() + GG);
-                sendEmbed(event, "your money",user.getMoney() + GG);
-                cleanUsers(data);
+                sendEmbed(event, "your money", user.getMoney() + GG);
+
                 break;
             case "gg~work":
-                int amount = (int)(Math.random()*100);
+                int amount = (int) (Math.random() * 100);
                 user.increaseMoney(amount);
 //                sendMessage(event, "you got " + amount + GG + " and you now have " + user.getMoney() + GG);
-                sendEmbed(event, "you got " + amount + GG,"current balance:" + user.getMoney() + GG);
-                cleanUsers(data);
+                sendEmbed(event, "you got " + amount + GG, "current balance:" + user.getMoney() + GG);
+
                 break;
             case "gg~all":
 //                String send = "";
                 EmbedBuilder b = new EmbedBuilder();
                 List<UserGG> users = data.getUserGGs();
-               sort(users);
-                for(UserGG u : users){
+                sort(users);
+                for (UserGG u : users) {
 //                      send+=      "`" +  u.getId() + "`  " + client.getUserByID(u.getId()).getName() + " : " + u.getMoney() + GG   + "\n";
                     b.appendField(client.getUserByID(u.getId()).getName(),// + " : " + u.getMoney() + GG,//title
 //                            u.getId() + "",//discri
@@ -70,34 +71,35 @@ public class GGHandler extends Command implements ICommand{
                 break;
             case "gg~easter":
                 String str = "```";
-                for(long l : data.getEaster()){
+                for (long l : data.getEaster()) {
                     str += client.getMessageByID(l).getChannel().getName() + "\n";
                 }
-                sendMessage(event,str + "```");
+                sendMessage(event, str + "```");
                 break;
             case "gg~data":
                 String st = "```";
-                for(UserGG use : data.getUserGGs()){
-                    st+=use.getId() + ":" + use.getMoney() + "\n";
+                for (UserGG use : data.getUserGGs()) {
+                    st += use.getId() + ":" + use.getMoney() + "\n";
                 }
-                sendMessage(event,st + "```");
+                sendMessage(event, st + "```");
                 break;
+            default:
+                if (event.getMessage().getContent().toLowerCase().startsWith("gg~pay")) {
+                    pay(event, user, data);
+                } else if (event.getMessage().getContent().toLowerCase().startsWith("gg~slot")) {
+                    slot(event, user, data);
+                } else if (event.getMessage().getContent().toLowerCase().startsWith("gg~mod")) {
+                    mod(event, user, data);
+                }
+                break;
+
         }
 
-        if(event.getMessage().getContent().toLowerCase().startsWith("gg~pay")){
-            pay(event,user,data);
-            return;
-        }
-        if(event.getMessage().getContent().toLowerCase().startsWith("gg~slot")){
-            slot(event,user,data);
-            return;
-        }
-        if(event.getMessage().getContent().toLowerCase().startsWith("gg~mod")){
-            mod(event,user,data);
-            return;
-        }
+        data.privateSterilize();
+
 
     }
+
 
     private void mod(MessageReceivedEvent event, UserGG user, GuildDataOrginizer data) {
 	    if(!event.getAuthor().getRolesForGuild(event.getGuild()).contains(event.getGuild().getRolesByName("MOD").get(0))){
@@ -120,12 +122,35 @@ public class GGHandler extends Command implements ICommand{
             sendEmbed(event,"error","you need to mention someone");
             return;
         }
-        for(IUser u : mentioned){
-            data.getUser(u).increaseMoney(amount);
-            sendMessage(event,"added " + amount + " to " + u.getName());
+        String toSend = "";
+        if(Arrays.asList(args).contains("add")) {
+            for (IUser u : mentioned) {
+                data.getUser(u).increaseMoney(amount);
+                toSend+= "added " + amount + " to " + u.getName() + "\n";
+            }
+        }else if(Arrays.asList(args).contains("set")){
+            for (IUser u : mentioned) {
+                data.getUser(u).setMoney(amount);
+                toSend+=  "set " + amount + " to " + u.getName() + "\n";
+            }
         }
-        sendMessage(event, "done");
-        cleanUsers(data);
+        sendMessage(event, toSend + "\n" + "done. gg~all:");
+
+
+        EmbedBuilder b = new EmbedBuilder();
+        List<UserGG> users = data.getUserGGs();
+        sort(users);
+        for(UserGG u : users){
+//                      send+=      "`" +  u.getId() + "`  " + client.getUserByID(u.getId()).getName() + " : " + u.getMoney() + GG   + "\n";
+            b.appendField(client.getUserByID(u.getId()).getName(),// + " : " + u.getMoney() + GG,//title
+//                            u.getId() + "",//discri
+                    u.getMoney() + GG,
+                    false);
+        }
+//                sendEmbed(event, send);
+        RequestBuffer.request(() -> {
+            event.getChannel().sendMessage(b.build());
+        });
     }
 
     private void cleanUsers(GuildDataOrginizer data) {
@@ -257,7 +282,7 @@ public class GGHandler extends Command implements ICommand{
                 sendEmbed(event, "you didn't win, but you got a " + STAR + " so you keep your money","your balance:" + user.getMoney());
             }
         }
-        cleanUsers(data);
+        
 
     }
 
@@ -297,7 +322,7 @@ public class GGHandler extends Command implements ICommand{
             data.getUser(recipient).increaseMoney(amount);
         }
         sendEmbed(event,"Worked!","your balance:" + user.getMoney());
-        cleanUsers(data);
+        
     }
 
 

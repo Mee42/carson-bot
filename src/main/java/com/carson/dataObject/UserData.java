@@ -3,14 +3,14 @@ package com.carson.dataObject;
 import com.google.gson.annotations.SerializedName;
 
 public class UserData { //PER GUILD
-    protected final long id;
-    
-    protected String name;
+    protected  final long id;
+
+    protected transient  String name;
 
 
     @SerializedName("XP_FOR_USER_DATA")
-    protected long XP;
-    
+    protected transient long XP;
+
     //other data
     public UserData (long id){
         this.id = id;
@@ -40,7 +40,7 @@ public class UserData { //PER GUILD
 	public void setXP(long xP) {
 		XP = xP;
 	}
-	
+
 	
 	
 }
