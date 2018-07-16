@@ -18,18 +18,18 @@ public class Taxation {
     public static void start(IDiscordClient client){
         final Runnable runner = new Runnable() {
             private IDiscordClient client;
-            public Runnable sumit(IDiscordClient client) {
+            public Runnable submit(IDiscordClient client) {
                 this.client = client;
                 return this;
             }
             public void run() {
                 Taxation.Tax(client);
             }
-        }.sumit(client);
+        }.submit(client);
 
         Executors.newScheduledThreadPool(1)
-                .scheduleAtFixedRate(runner, timeTillMidnight() * 1000, Duration.ofDays(1).toMillis(),
-        TimeUnit.SECONDS);
+                .scheduleAtFixedRate(runner, timeTillMidnight(), Duration.ofDays(1).toMillis(),
+        TimeUnit.MILLISECONDS);
 
 
     }
@@ -51,7 +51,7 @@ public class Taxation {
         Messanger m = new Messanger();
         GuildDataOrginizer data = DataGetter.getInstance();
         List<UserGG> users = data.getUserGGs();
-        String print = "Tax was taken from your accounts. here are the results:\n";
+        String print = "***Tax was taken from your accounts. here are the results:***\n";
         for(UserGG user : users){
             print+=client.getUserByID(user.getId()).getName() + " had " + user.getMoney() + GGHandler.GG + " but now has ";
             user.setMoney((int)(user.getMoney()  * Taxation.TAX_AMOUNT));
