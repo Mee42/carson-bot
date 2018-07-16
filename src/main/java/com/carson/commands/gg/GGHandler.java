@@ -90,6 +90,8 @@ public class GGHandler extends Command implements ICommand{
                     slot(event, user, data);
                 } else if (event.getMessage().getContent().toLowerCase().startsWith("gg~mod")) {
                     mod(event, user, data);
+                }else if(event.getMessage().getContent().toLowerCase().startsWith("gg~roulette")){
+                    new Roulette(event,user,data);
                 }
                 break;
 
@@ -351,7 +353,7 @@ public class GGHandler extends Command implements ICommand{
         return users;
     }
 
-    protected void sendEmbed(MessageReceivedEvent event, String str, String dis){
+    private void sendEmbed(MessageReceivedEvent event, String str, String dis){
 	    EmbedBuilder  b = new EmbedBuilder();
 	    b.withColor(new Color((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255)));
 	    b.appendField(str,dis,false);

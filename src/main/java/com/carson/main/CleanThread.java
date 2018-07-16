@@ -23,13 +23,20 @@ public class CleanThread extends Thread{
 	@Override
 	public void run() {
 		DataGetter.getInstance().privateSterilize();
-		if(client.isReady()) {
-			for(long l : DataGetter.getInstance().getEaster()){
-			    client.getMessageByID(l).delete();
+		try {
+            if (client.isReady()) {
+                for (long l : DataGetter.getInstance().getEaster()) {
+                    if (client.getMessageByID(l) != null) {
+                        client.getMessageByID(l).delete();
+                    }
+                }
+                client.getChannelByID(439890985653370896L).sendMessage("Carson Bot is shutting down");
+                client.logout();
             }
-			client.getChannelByID(439890985653370896L).sendMessage("Carson Bot is shutting down");
-		    client.logout();
-		}
+        }catch(Exception e){
+		    e.printStackTrace();
+		    System.exit(140);
+        }
 		System.out.println("bot shutdown");
 	}
 

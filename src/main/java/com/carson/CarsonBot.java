@@ -10,6 +10,7 @@ import java.util.Map;
 import com.carson.classes.*;
 import com.carson.commandManagers.Register;
 import com.carson.commands.gg.GGHandler;
+import com.carson.commands.gg.Taxation;
 import com.carson.dataObject.DataGetter;
 import com.carson.lavaplayer.GuildMusicManager;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
@@ -171,25 +172,22 @@ public class CarsonBot {
 //                ); //creates the :gg: emjoi
 
 
-        //sends a message to a random channel
-        boolean generateEaster = (int)(Math.random()*4) == 1;
+
+        boolean generateEaster = (int)(Math.random()*20) == 1;
 		generateEaster = event.getGuild().getLongID() == 462681259370610689L && generateEaster;//only generate if in @game server
 		if(generateEaster) {
-            int channelNo = (int) (Math.random() * client.getGuildByID(462681259370610689L).getChannels().size());
             RequestBuffer.request(() -> {
-                if(channelNo != 0){
-                    IMessage message = client.getGuildByID(462681259370610689L).getChannels().get(channelNo).sendMessage(":radio_button: add a reaction to get " + GGHandler.GG);
-                    if(message.getChannel().getLongID() ==462705812582694942L ){
-                        message.delete();
-                    }else {
-                        DataGetter.getInstance().getEaster().add(message.getLongID());
-                    }
+                    IMessage message = client.getChannelByID(467766140991438850L).sendMessage(":radio_button: add a reaction to get " + GGHandler.GG);
+                    DataGetter.getInstance().getEaster().add(message.getLongID());
                     Emoji e = EmojiManager.getForAlias("radio_button");
                     message.addReaction(e);
-                }
-
             });
         }
+
+
+
+        Taxation.start(client);
+
 
 		DataGetter.getInstance().privateSterilize();
 	}//end of handle method
