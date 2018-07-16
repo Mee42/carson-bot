@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.carson.classes.FileIO;
+import com.carson.commands.gg.Bank;
 import com.carson.commands.main.tac.RunningTacGame;
 import com.carson.commands.gg.UserGG;
 import com.google.gson.Gson;
@@ -18,43 +19,45 @@ public class GuildDataOrginizer {
 	    *updating data from json is not done in constructor to allow for better testing
 	    *this could potentially be used to store command prefixes, however that would have to be incorporated with another big change to make rewriting commands worth it
 	    */
-	    private List<GuildData> guilds = new ArrayList<>();
-	    private List<UserDataNoGuild> users = new ArrayList<>();
-	    private List<UserGG> userGGs = new ArrayList<>();
+    private List<GuildData> guilds = new ArrayList<>();
+    private List<UserDataNoGuild> users = new ArrayList<>();
+    private List<UserGG> userGGs = new ArrayList<>();
+    private Bank bank = new Bank();
+
+    private transient  List<Long> easter = new ArrayList<>();
+    private transient String jsonFile = "/home/carson/java/files/json/jsonGuildDataDump.json";
+    private transient List<RunningTacGame> games = new ArrayList<>();
 
 
-        private transient  List<Long> easter = new ArrayList<>();
-        private transient String jsonFile = "/home/carson/java/files/json/jsonGuildDataDump.json";
-	    private transient List<RunningTacGame> games = new ArrayList<>();
-	    
-	    
-	    public GuildDataOrginizer importFromJson(){
-	    		Gson gson = new GsonBuilder().create();
+    public GuildDataOrginizer importFromJson(){
+            Gson gson = new GsonBuilder().create();
 
-	    		String json = FileIO.use(jsonFile).readString();
-	    		GuildDataOrginizer newGuildOrginizerData = gson.fromJson(json,GuildDataOrginizer.class);
-	    		if(newGuildOrginizerData == null){
-					System.err.println("null json");
-					return this;
-				}
-	        	this.guilds = newGuildOrginizerData.guilds;
-	        	this.users = newGuildOrginizerData.users;
-	        	this.userGGs = newGuildOrginizerData.userGGs;
-	        	return this;
-	    	}
+            String json = FileIO.use(jsonFile).readString();
+            GuildDataOrginizer newGuildOrginizerData = gson.fromJson(json,GuildDataOrginizer.class);
+            if(newGuildOrginizerData == null){
+                System.err.println("null json");
+                return this;
+            }
+            this.guilds = newGuildOrginizerData.guilds;
+            this.users = newGuildOrginizerData.users;
 
-	    public  String privateSterilize(){ //TODO nice how the "privateSterilize" method is public
-	    	Gson gson = new GsonBuilder().create();
-	        String json =gson.toJson(this);
-	        FileIO.use(jsonFile).write(json);
+            this.userGGs = newGuildOrginizerData.userGGs;
+            this.bank = newGuildOrginizerData.bank;
+            return this;
+        }
+
+    public  String privateSterilize(){ //TODO nice how the "privateSterilize" method is public
+        Gson gson = new GsonBuilder().create();
+        String json =gson.toJson(this);
+        FileIO.use(jsonFile).write(json);
 //	        System.err.println("sterilized"); //i think this should sterilize everything something changed /shrug
-	        return json;
-	    }
-	    
-	    public String getSterilze() {
-	    	return privateSterilize();
-	    }
-	    
+        return json;
+    }
+
+    public String getSterilze() {
+        return privateSterilize();
+    }
+
 //	    public void sterilize() { //sterilizes the object on a specerate thread, returns instantly
 //	    	executer.execute(
 //	    	new Runnable() {
@@ -66,10 +69,10 @@ public class GuildDataOrginizer {
 //	    	});
 //	    	
 //	    }
-        public UserGG getUser(IUser user){
-	        return getUser(user.getLongID());
-        }
-        public UserGG getUser(long id){
+    public UserGG getUser(IUser user){
+        return getUser(user.getLongID());
+    }
+    public UserGG getUser(long id){
 	        for(UserGG user : userGGs){
 	            if(user.getId() == id){
 	                return user;
@@ -106,65 +109,65 @@ public class GuildDataOrginizer {
         }
 	    
 //	    
-	    
-	    public UserDataNoGuild getUserData(long id){
-		    for(UserDataNoGuild testingUser : users){
-		            if(testingUser.getId() == id){
-		                  return testingUser;
-		            }
-		     }
-		    UserDataNoGuild newUser = new UserDataNoGuild(id); 
-	         users.add(newUser);
-	         return newUser;
-	    }
-	 
-	    public long getXPForUser(long id) {
-	    	return getUserData(id).getXP();
-	    }
-	
-	    public long increaseXPForUser(long id, int amount) {
-	    	long newXP = getUserData(id).incrimentXP(amount);
-	    	privateSterilize(); //TODO has been switched off of threaded mode
-	    	return newXP;
-	    }
-	    
-	    public List<UserDataNoGuild> getUsers() {
-	    	return users;
-	    }
-	    
 
-	    
-	    //these methods deal with running tac games
-	    
-	    public RunningTacGame getGameWithUser(long id) {//NEEDS TO CHECK FOR NULL WHEN CALLED
-	    	for(RunningTacGame game : games) {
-	    		if(game.getIdP1() == id || game.getIdP2() == id) {
-	    			return game;
-	    		}
-	    	}
-	    	return null;
-	    }
-	    
-	    
-	    
-	    /**
-	     * MAY RETURN NULL
-	     */
-	    public RunningTacGame getGameWithID(long id) {//NEEDS TO CHECK FOR NULL WHEN CALLED
-	    	for(RunningTacGame game : games) {
-	    		if(game.getGameId() == id) {
-	    			return game;
-	    		}
-	    	}
-	    	return null;
-	    }
-	    
-	    public RunningTacGame registerGame(RunningTacGame game) {
-	    	games.add(game);
-	    	return game;
-	    }
-	    
-	    public boolean endGame(RunningTacGame toRemove) {
+    public UserDataNoGuild getUserData(long id){
+        for(UserDataNoGuild testingUser : users){
+                if(testingUser.getId() == id){
+                      return testingUser;
+                }
+         }
+        UserDataNoGuild newUser = new UserDataNoGuild(id);
+         users.add(newUser);
+         return newUser;
+    }
+
+    public long getXPForUser(long id) {
+        return getUserData(id).getXP();
+    }
+
+    public long increaseXPForUser(long id, int amount) {
+        long newXP = getUserData(id).incrimentXP(amount);
+        privateSterilize(); //TODO has been switched off of threaded mode
+        return newXP;
+    }
+
+    public List<UserDataNoGuild> getUsers() {
+        return users;
+    }
+
+
+
+    //these methods deal with running tac games
+
+    public RunningTacGame getGameWithUser(long id) {//NEEDS TO CHECK FOR NULL WHEN CALLED
+        for(RunningTacGame game : games) {
+            if(game.getIdP1() == id || game.getIdP2() == id) {
+                return game;
+            }
+        }
+        return null;
+    }
+
+
+
+    /**
+     * MAY RETURN NULL
+     */
+    public RunningTacGame getGameWithID(long id) {//NEEDS TO CHECK FOR NULL WHEN CALLED
+        for(RunningTacGame game : games) {
+            if(game.getGameId() == id) {
+                return game;
+            }
+        }
+        return null;
+    }
+
+    public RunningTacGame registerGame(RunningTacGame game) {
+        games.add(game);
+        return game;
+    }
+
+    public boolean endGame(RunningTacGame toRemove) {
 	    	if(games.contains(toRemove)) {
 	    		games.remove(toRemove);
 	    		return true;
@@ -173,8 +176,16 @@ public class GuildDataOrginizer {
 	    	
 	    }
 
-	    
-	public class UserDataNoGuild extends UserData{
+    public Bank getBank() {
+	        return bank;
+    }
+    public void setBank(Bank b){
+	        this.bank = b;
+    }
+
+
+
+    public class UserDataNoGuild extends UserData{
 		public String publicKey;
 		
 		public UserDataNoGuild(long id) {

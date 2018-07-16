@@ -28,7 +28,7 @@ public class Taxation {
         }.submit(client);
 //        Executors.newScheduledThreadPool(1).schedule(runner,timeTillHourMinutes(),TimeUnit.MINUTES);//backup plan
 
-        Executors.newScheduledThreadPool(1).scheduleWithFixedDelay(runner,timeTillHourMinutes(),60,TimeUnit.MINUTES);
+//        Executors.newScheduledThreadPool(1).scheduleWithFixedDelay(runner,timeTillHourMinutes(),60,TimeUnit.MINUTES);
     }
 
     public static long timeTillHourMinutes(){

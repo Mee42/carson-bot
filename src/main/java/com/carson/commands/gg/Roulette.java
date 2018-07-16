@@ -24,8 +24,7 @@ public class Roulette extends Command {
         if(args.length == 0 || //no message
                 args.length == 1 ||//only gg~roulette
                 args.length == 2){//only a bet/place
-//            sendHelp();
-            System.err.println("help");
+            sendEmbed(event,"error","command used incorrectly");
             return;
         }
         int bet;
@@ -39,6 +38,12 @@ public class Roulette extends Command {
             sendEmbed(event,"error","you do not have enough money. you have " + user.toString());
             return;
         }
+        if(data.getBank().getMoney() < bet * 36){
+            sendEmbed(event, "the bank doesn't have enough money.",data.getBank().outOfMoneyMessage());
+            return;
+        }
+
+
         boolean nextIsInt = false;
         try {
             Integer.parseInt(args[2]);
@@ -67,7 +72,7 @@ public class Roulette extends Command {
         }
 
         sendEmbed(event, "It was a " + number,color + "  " + place + "  "  + half);
-
+        Bank bank = data.getBank();
 
         if(nextIsInt){//if number bet
             List<String> remaining = Arrays.asList(args).subList(2,args.length);
@@ -94,10 +99,13 @@ public class Roulette extends Command {
                 int winAmount = bet * (36 / bets.size()) - bet;
                 user.increaseMoney(winAmount);
 //                sendEmbed(event,"you got a " + (36 / bets.size()) + " multiplier, so you got " + winAmount,"your balance:" + user.getMoney() + GGHandler.GG);
+                bank.changeMoney(-1*((36 / bets.size())*bet));
                 sendEmbed(event,"YOU WONNN!!!!! you got:" + (36 / bets.size())*bet + GGHandler.GG,"your balance:" + user.getMoney() + GGHandler.GG + "\nyour ");
+
                 return;
             }else{
                 user.increaseMoney(-1 * bet);
+                bank.changeMoney(bet);
                 sendEmbed(event,"you lost "  + bet + " :(","your balance:" + user.getMoney());
                 return;
             }
@@ -155,9 +163,11 @@ public class Roulette extends Command {
         }
         if(win){
             user.increaseMoney((36 / mult)*bet - bet);//the - bet is to account for losing the money, and then regaining it
+            bank.changeMoney(-1 * ((36 / mult)*bet - bet));
             sendEmbed(event,"YOU WONNN!!!!! you got:" + (36 / mult)*bet + GGHandler.GG,"your balance:" + user.getMoney() + GGHandler.GG);
         }else{
             user.increaseMoney(-1 *  bet);
+            bank.changeMoney(bet);
             sendEmbed(event,"you did not win :*(","your balance:" + user.getMoney() + GGHandler.GG);
         }
     }
