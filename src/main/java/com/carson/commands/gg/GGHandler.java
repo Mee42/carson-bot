@@ -53,21 +53,7 @@ public class GGHandler extends Command implements ICommand{
 
                 break;
             case "gg~all":
-//                String send = "";
-                EmbedBuilder b = new EmbedBuilder();
-                List<UserGG> users = data.getUserGGs();
-                sort(users);
-                for (UserGG u : users) {
-//                      send+=      "`" +  u.getId() + "`  " + client.getUserByID(u.getId()).getName() + " : " + u.getMoney() + GG   + "\n";
-                    b.appendField(client.getUserByID(u.getId()).getName(),// + " : " + u.getMoney() + GG,//title
-//                            u.getId() + "",//discri
-                            u.toString() + " " + u.getEducationLevel() + " edu level",
-                            false);
-                }
-//                sendEmbed(event, send);
-                RequestBuffer.request(() -> {
-                    event.getChannel().sendMessage(b.build());
-                });
+                sendAll(data,event);
                 break;
             case "gg~edu":
                 sendEmbed(event, "your education level is " +user.getEducationLevel(),"cost to next level:" + user.getCost());
@@ -83,22 +69,85 @@ public class GGHandler extends Command implements ICommand{
                 sendEmbed(event,"your new education level:" + user.getEducationLevel(),"cost of next level:" + user.getCost());
                 break;
             default:
-                if (event.getMessage().getContent().toLowerCase().startsWith("gg~pay")) {
-                    pay(event, user, data);
-                } else if (event.getMessage().getContent().toLowerCase().startsWith("gg~slot")) {
+                if (event.getMessage().getContent().toLowerCase().startsWith("gg~slot")) {
                     slot(event, user, data);
                 } else if (event.getMessage().getContent().toLowerCase().startsWith("gg~mod")) {
                     mod(event, user, data);
                 }else if(event.getMessage().getContent().toLowerCase().startsWith("gg~roulette")){
                     new Roulette(event,user,data);
+                }else if(event.getMessage().getContent().toLowerCase().startsWith("gg~get_loan")){
+                    loan(event,user,data);
+                }else if(event.getMessage().getContent().toLowerCase().startsWith("gg~pay_loan")){
+                    payLoan(event,user,data);
+                }else if (event.getMessage().getContent().toLowerCase().startsWith("gg~pay")) {
+                    pay(event, user, data);
                 }
-                break;
+                    break;
 
         }
         cleanUsers(data);
         data.privateSterilize();
 
 
+    }
+
+    private void payLoan(MessageReceivedEvent event, UserGG user, GuildDataOrginizer data) {
+        int amount = getAmount(event.getMessage().getContent().split(" "));
+        if(amount == -1){
+            sendEmbed(event,"error","invalid amount");
+            return;
+        }
+        if(amount < 1){
+            sendEmbed(event,"error","you can not play back a negative amount");
+            return;
+        }
+        if(amount > user.getDebt()){
+            sendEmbed(event,"error","you do not have that much debt" +"\nyou have " + user.getDebt() + GG + " of debt");
+            return;
+        }
+        if(amount > user.getMoney()){
+            sendEmbed(event,"error","you do not have enough money\nyour balance:" + user.toString());
+            return;
+        }
+        user.payBack(amount);
+        if(user.getDebt() == 0){
+            sendEmbed(event,"you paid back your entire loan!","your balance:" + user.toString());
+        }else {
+            sendEmbed(event, "you paid back " + amount + GG, "you have " + user.getDebt() + GG + " debt left to pay off");
+        }
+    }
+
+    private void loan(MessageReceivedEvent event, UserGG user, GuildDataOrginizer data) {
+	    int amount = getAmount(event.getMessage().getContent().split(" "));
+	    if(amount == -1){
+	        sendEmbed(event,"error","invalid amount");
+	        return;
+        }
+        if(amount < 1){
+	        sendEmbed(event,"error","you can not get loaned a negative amount");
+	        return;
+        }
+        user.loan(amount, 0.05);
+	    sendEmbed(event,"you got a loan of " + amount + GG,"your interest:" + user.getInterest()* 100 + "%");
+    }
+
+    public static void sendAll(GuildDataOrginizer data, MessageReceivedEvent event) {
+//                String send = "";
+        EmbedBuilder b = new EmbedBuilder();
+        List<UserGG> users = data.getUserGGs();
+        GGHandler.sort(users);
+        for (UserGG u : users) {
+//                      send+=      "`" +  u.getId() + "`  " + client.getUserByID(u.getId()).getName() + " : " + u.getMoney() + GG   + "\n";
+            b.appendField(event.getClient().getUserByID(u.getId()).getName(),// + " : " + u.getMoney() + GG,//title
+//                            u.getId() + "",//discri
+                    u.toString() + " " + u.getEducationLevel() + " edu level\n" +
+                    u.getDebt() + GG + " debt with " + (int)(u.getInterest()*100) + "% interest",
+                    false);
+        }
+//                sendEmbed(event, send);
+        RequestBuffer.request(() -> {
+            event.getChannel().sendMessage(b.build());
+        });
     }
 
 
@@ -140,32 +189,28 @@ public class GGHandler extends Command implements ICommand{
                 data.getUser(u).setEduation(amount);
                 toSend+=  "edu: set " + amount + " to " + u.getName() + "\n";
             }
+        }else if(Arrays.asList(args).contains("int")){
+            for (IUser u : mentioned) {
+                data.getUser(u).setInterest(amount);
+                toSend+=  "interest: set " + amount + " to " + u.getName()+ "\n";
+            }
+        }else if(Arrays.asList(args).contains("debt")){
+            for (IUser u : mentioned) {
+                data.getUser(u).setDebt(amount);
+                toSend+=  "debt: set " + amount + " to " + u.getName() + "\n";
+            }
         }
 
 
         sendMessage(event, toSend + "\n" + "done. gg~all:");
 
-
-        EmbedBuilder b = new EmbedBuilder();
-        List<UserGG> users = data.getUserGGs();
-        sort(users);
-        for(UserGG u : users){
-//                      send+=      "`" +  u.getId() + "`  " + client.getUserByID(u.getId()).getName() + " : " + u.getMoney() + GG   + "\n";
-            b.appendField(client.getUserByID(u.getId()).getName(),// + " : " + u.getMoney() + GG,//title
-//                            u.getId() + "",//discri
-                    u.getMoney() + GG,
-                    false);
-        }
-//                sendEmbed(event, send);
-        RequestBuffer.request(() -> {
-            event.getChannel().sendMessage(b.build());
-        });
+        sendAll(data,event);
     }
 
     private void cleanUsers(GuildDataOrginizer data) {
 	    List<UserGG> hasZero = new ArrayList<>();
 	    for(UserGG u : data.getUserGGs()){
-	        if(u.getMoney() == 0){
+	        if(u.getMoney() == 0 && u.getDebt() == 0 && u.getEducationLevel() == 0 ){
 	            hasZero.add(u);
             }
         }
@@ -346,7 +391,7 @@ public class GGHandler extends Command implements ICommand{
 	}
 	
 
-    private List<UserGG> sort(List<UserGG> users){
+    private static List<UserGG> sort(List<UserGG> users){
         for (int i = 0; i < users.size() - 1; i++){
             int index = i;
             for (int j = i + 1; j < users.size(); j++) {
@@ -366,7 +411,7 @@ public class GGHandler extends Command implements ICommand{
 	    if(str.equals("error") || str.equals("error:")){
 	        b.withColor(Color.red);
         }
-	    b.appendField(str,dis,false);
+	    b.appendField(str + "_ _",dis + "_ _",false);
         RequestBuffer.request(() -> {
             event.getChannel().sendMessage(b.build());
         });
