@@ -26,8 +26,9 @@ public class Taxation {
                 Taxation.Tax(client);
             }
         }.submit(client);
-        Executors.newScheduledThreadPool(1).schedule(runner,timeTillHourMinutes(),TimeUnit.MINUTES);
+//        Executors.newScheduledThreadPool(1).schedule(runner,timeTillHourMinutes(),TimeUnit.MINUTES);//backup plan
 
+        Executors.newScheduledThreadPool(1).scheduleWithFixedDelay(runner,timeTillHourMinutes(),60,TimeUnit.MINUTES);
     }
 
     public static long timeTillHourMinutes(){
@@ -40,17 +41,17 @@ public class Taxation {
 
 
     public static void Tax(IDiscordClient client){
-        final Runnable runner = new Runnable() {
-            private IDiscordClient client;
-            public Runnable submit(IDiscordClient client) {
-                this.client = client;
-                return this;
-            }
-            public void run() {
-                Taxation.Tax(client);
-            }
-        }.submit(client);
-        Executors.newScheduledThreadPool(1).schedule(runner,1,TimeUnit.HOURS);
+//        final Runnable runner = new Runnable() {
+//            private IDiscordClient client;
+//            public Runnable submit(IDiscordClient client) {
+//                this.client = client;
+//                return this;
+//            }
+//            public void run() {
+//                Taxation.Tax(client);
+//            }
+//        }.submit(client);
+//        Executors.newScheduledThreadPool(1).schedule(runner,timeTillHourMinutes(),TimeUnit.MINUTES); //backup plan
 
 
         Messanger m = new Messanger();
