@@ -36,6 +36,9 @@ public class Roulette extends Command {
             sendEmbed(event,"error","that is not a valid bet");
             return;
         }
+        if(bet > user.getMoney()){
+            sendEmbed(event,"error","you do not have enough money. you have " + user.toString());
+        }
         boolean nextIsInt = false;
         try {
             Integer.parseInt(args[2]);
@@ -154,7 +157,7 @@ public class Roulette extends Command {
             user.increaseMoney((36 / mult)*bet - bet);//the - bet is to account for losing the money, and then regaining it
             sendEmbed(event,"YOU WONNN!!!!! you got:" + (36 / mult)*bet + GGHandler.GG,"your balance:" + user.getMoney() + GGHandler.GG);
         }else{
-            user.increaseMoney(-1 * (36 / mult) * bet);
+            user.increaseMoney(-1 *  bet);
             sendEmbed(event,"you did not win :*(","your balance:" + user.getMoney() + GGHandler.GG);
         }
     }

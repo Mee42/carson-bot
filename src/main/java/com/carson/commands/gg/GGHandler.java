@@ -69,19 +69,18 @@ public class GGHandler extends Command implements ICommand{
                     event.getChannel().sendMessage(b.build());
                 });
                 break;
-            case "gg~easter":
-                String str = "```";
-                for (long l : data.getEaster()) {
-                    str += client.getMessageByID(l).getChannel().getName() + "\n";
-                }
-                sendMessage(event, str + "```");
+            case "gg~edu":
+                sendEmbed(event, "your education level is " +user.getEducationLevel(),"cost to next level:" + user.getCost());
                 break;
-            case "gg~data":
-                String st = "```";
-                for (UserGG use : data.getUserGGs()) {
-                    st += use.getId() + ":" + use.getMoney() + "\n";
+            case "gg~upgrade":
+                int cost = user.getCost();
+                if(user.getMoney() < cost){
+                    sendEmbed(event,"error","you do not have enough money. you have " + user.toString());
+                    break;
                 }
-                sendMessage(event, st + "```");
+                user.increaseMoney(-1 * cost);
+                user.increaseEducationLevel(1);
+                sendEmbed(event,"your new education level:" + user.getEducationLevel(),"cost of next level:" + user.getCost());
                 break;
             default:
                 if (event.getMessage().getContent().toLowerCase().startsWith("gg~pay")) {
