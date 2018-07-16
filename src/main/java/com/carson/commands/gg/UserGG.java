@@ -26,6 +26,10 @@ public class UserGG {
         money+=i;
     }
 
+    /*
+
+     */
+
     public int setEduation(int i){
         educationLevel = i;
         return educationLevel;
@@ -38,18 +42,19 @@ public class UserGG {
         educationLevel+=i;
     }
     public int getCost(){
-        int cost = 1;
+        double cost = 100;
         for(int i = 1;i<educationLevel + 1;i++){
-            cost = (int)(cost * 1.5);
+            cost = cost * 1.5;
         }
-        return cost;
+        return (int)cost;
     }
     public int getWork(){
-        int work = (int)(Math.random()*100);
+//        double work = (Math.random()*100);
+        double work = 100;
         for(int i = 1;i<educationLevel;i++){
-            work = (int)(work * 1.2);
+            work = (work * 1.2);
         }
-        return work;
+        return (int)work;
     }
 
     @Override

@@ -46,7 +46,7 @@ public class GGHandler extends Command implements ICommand{
 
                 break;
             case "gg~work":
-                int amount = (int) (Math.random() * 100);
+                int amount = user.getWork();
                 user.increaseMoney(amount);
 //                sendMessage(event, "you got " + amount + GG + " and you now have " + user.getMoney() + GG);
                 sendEmbed(event, "you got " + amount + GG, "current balance:" + user.getMoney() + GG);
@@ -61,7 +61,7 @@ public class GGHandler extends Command implements ICommand{
 //                      send+=      "`" +  u.getId() + "`  " + client.getUserByID(u.getId()).getName() + " : " + u.getMoney() + GG   + "\n";
                     b.appendField(client.getUserByID(u.getId()).getName(),// + " : " + u.getMoney() + GG,//title
 //                            u.getId() + "",//discri
-                            u.getMoney() + GG,
+                            u.toString() + " " + u.getEducationLevel() + " edu level",
                             false);
                 }
 //                sendEmbed(event, send);
@@ -95,7 +95,7 @@ public class GGHandler extends Command implements ICommand{
                 break;
 
         }
-
+        cleanUsers(data);
         data.privateSterilize();
 
 
@@ -105,6 +105,7 @@ public class GGHandler extends Command implements ICommand{
     private void mod(MessageReceivedEvent event, UserGG user, GuildDataOrginizer data) {
 	    if(!event.getAuthor().getRolesForGuild(event.getGuild()).contains(event.getGuild().getRolesByName("MOD").get(0))){
             sendMessage(event,"you need the @MOD role to use this command");
+            return;
         }
         String[] args = event.getMessage().getContent().toLowerCase().split(" ");
         if(args.length == 1){
@@ -134,7 +135,14 @@ public class GGHandler extends Command implements ICommand{
                 data.getUser(u).setMoney(amount);
                 toSend+=  "set " + amount + " to " + u.getName() + "\n";
             }
+        }else if(Arrays.asList(args).contains("edu")){
+            for (IUser u : mentioned) {
+                data.getUser(u).setEduation(amount);
+                toSend+=  "edu: set " + amount + " to " + u.getName() + "\n";
+            }
         }
+
+
         sendMessage(event, toSend + "\n" + "done. gg~all:");
 
 
@@ -207,29 +215,29 @@ public class GGHandler extends Command implements ICommand{
         //:regional_indicator_a:
         String[] letters = new String[]{
                 ":regional_indicator_a:",
-//                ":regional_indicator_b:",
-//                ":regional_indicator_c:",
-//                ":regional_indicator_d:",
-//                ":regional_indicator_e:",
-//                ":regional_indicator_f:",
-//                ":regional_indicator_g:",
-//                ":regional_indicator_h:",
-//                ":regional_indicator_i:",
-//                ":regional_indicator_j:",
-//                ":regional_indicator_k:",
-//                ":regional_indicator_l:",
-//                ":regional_indicator_m:",
-//                ":regional_indicator_n:",
-//                ":regional_indicator_o:",
-//                ":regional_indicator_p:",
-//                ":regional_indicator_q:",
-//                ":regional_indicator_r:",
-//                ":regional_indicator_s:",
-//                ":regional_indicator_t:",
-//                ":regional_indicator_u:",
-//                ":regional_indicator_v:",
-//                ":regional_indicator_w:",
-//                ":regional_indicator_x:",
+                ":regional_indicator_b:",
+                ":regional_indicator_c:",
+                ":regional_indicator_d:",
+                ":regional_indicator_e:",
+                ":regional_indicator_f:",
+                ":regional_indicator_g:",
+                ":regional_indicator_h:",
+                ":regional_indicator_i:",
+                ":regional_indicator_j:",
+                ":regional_indicator_k:",
+                ":regional_indicator_l:",
+                ":regional_indicator_m:",
+                ":regional_indicator_n:",
+                ":regional_indicator_o:",
+                ":regional_indicator_p:",
+                ":regional_indicator_q:",
+                ":regional_indicator_r:",
+                ":regional_indicator_s:",
+                ":regional_indicator_t:",
+                ":regional_indicator_u:",
+                ":regional_indicator_v:",
+                ":regional_indicator_w:",
+                ":regional_indicator_x:",
                 ":regional_indicator_y:",
                 ":regional_indicator_z:",
                 STAR.trim()
@@ -243,15 +251,15 @@ public class GGHandler extends Command implements ICommand{
                 letters[b] + " " +
                 letters[c]
         );
-        if(a == b && b == c && a == letters.length - 1){
+        if(a == b && b == c && a == letters.length - 1){//n^3
             user.increaseMoney(-1 * amount);
-            user.increaseMoney(amount * 5000);
-            sendEmbed(event,"YOU WON THE SUPER BIG PRIZE " + (amount * 5000) + GG + "!!!!", "your balance:" + user.getMoney());
+            user.increaseMoney(amount * 15_000);
+            sendEmbed(event,"YOU WON THE SUPER BIG PRIZE " + (amount * 15_000) + GG + "!!!!", "your balance:" + user.getMoney());
         }else if(a == b && b == c){
             user.increaseMoney(-1 * amount);
             //win grand prize
-            user.increaseMoney(amount * 100);
-            sendEmbed(event,"YOU WON " + (amount * 100) + GG + "!!!!", "your balance:" + user.getMoney());
+            user.increaseMoney(amount * 500);
+            sendEmbed(event,"YOU WON " + (amount * 500) + GG + "!!!!", "your balance:" + user.getMoney());
         }else if(a == b || b == c|| c == a){
             //win small prize
             int count = 0;
@@ -355,6 +363,9 @@ public class GGHandler extends Command implements ICommand{
     private void sendEmbed(MessageReceivedEvent event, String str, String dis){
 	    EmbedBuilder  b = new EmbedBuilder();
 	    b.withColor(new Color((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255)));
+	    if(str.equals("error") || str.equals("error:")){
+	        b.withColor(Color.red);
+        }
 	    b.appendField(str,dis,false);
         RequestBuffer.request(() -> {
             event.getChannel().sendMessage(b.build());

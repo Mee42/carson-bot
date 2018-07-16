@@ -2,7 +2,6 @@ package com.carson.commands.gg;
 
 import com.carson.commandManagers.Command;
 import com.carson.dataObject.GuildDataOrginizer;
-import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.util.EmbedBuilder;
 import sx.blah.discord.util.RequestBuffer;
@@ -38,6 +37,7 @@ public class Roulette extends Command {
         }
         if(bet > user.getMoney()){
             sendEmbed(event,"error","you do not have enough money. you have " + user.toString());
+            return;
         }
         boolean nextIsInt = false;
         try {
