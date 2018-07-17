@@ -3,6 +3,7 @@ package com.carson.dataObject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import com.carson.classes.FileIO;
 import com.carson.commands.gg.Bank;
@@ -36,6 +37,7 @@ public class GuildDataOrginizer {
             GuildDataOrginizer newGuildOrginizerData = gson.fromJson(json,GuildDataOrginizer.class);
             if(newGuildOrginizerData == null){
                 System.err.println("null json");
+
                 return this;
             }
             this.guilds = newGuildOrginizerData.guilds;
@@ -50,6 +52,7 @@ public class GuildDataOrginizer {
         Gson gson = new GsonBuilder().create();
         String json =gson.toJson(this);
         FileIO.use(jsonFile).write(json);
+        FileIO.use(jsonFile + "..." + UUID.randomUUID()).write(json);
 //	        System.err.println("sterilized"); //i think this should sterilize everything something changed /shrug
         return json;
     }

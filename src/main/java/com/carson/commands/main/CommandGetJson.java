@@ -30,17 +30,20 @@ public class CommandGetJson extends Command implements ICommand{
 //			json = json.substring(0, 1900);
 //		}
 //		sendEmbed(event, "```" + json + "```");
-		
-		Pattern p = Pattern.compile("(?:.|\n){1,2000}");
-		Matcher m = p.matcher(json);
-		List<String> segments = new ArrayList<String>();
-		while(m.find()) {
-		    segments.add(m.group(1));
-		}
-		
-		for(String segment :segments) {
-			sendMessage(event, "```" + segment + "```");
-		}
+		if(json.length() > 2000) {
+			Pattern p = Pattern.compile("(?:.|\n){1,2000}");
+			Matcher m = p.matcher(json);
+			List<String> segments = new ArrayList<String>();
+			while (m.find()) {
+				segments.add(m.group(1));
+			}
+
+			for (String segment : segments) {
+				sendMessage(event, "```" + segment + "```");
+			}
+		}else{
+		    sendMessage(event,"```" + json + " ```");
+        }
 	}
 
 	@Override

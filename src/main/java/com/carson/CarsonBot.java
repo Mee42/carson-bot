@@ -71,7 +71,9 @@ public class CarsonBot {
 				Prime.getInstance().initulize();
 			}
 		}).start();
+        Taxation.start(client);
         System.out.println("BOOT: bot started");
+
     }
 	
 	private void updateMemberCount(){
@@ -186,7 +188,7 @@ public class CarsonBot {
 
 
 
-        Taxation.start(client);
+
 
 
 		DataGetter.getInstance().privateSterilize();

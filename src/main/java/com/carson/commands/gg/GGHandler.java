@@ -42,33 +42,33 @@ public class GGHandler extends Command implements ICommand{
         switch (event.getMessage().getContent().toLowerCase()) {
             case "gg~money":
 //                sendEmbed( event , "you have " + user.getMoney() + GG);
-                sendEmbed(event, "your money", user.getMoney() + GG);
+                sendEmbed(event, "your money", condense(user.getMoney()));
                 break;
             case "gg~work":
                 int amount = user.getWork();
                 user.increaseMoney(amount);
 //                sendMessage(event, "you got " + amount + GG + " and you now have " + user.getMoney() + GG);
-                sendEmbed(event, "you got " + amount + GG, "current balance:" + user.getMoney() + GG);
+                sendEmbed(event, "you got " + condense(amount), "current balance:" + condense(user.getMoney()));
                 break;
             case "gg~all":
                 sendAll(data,event);
                 break;
             case "gg~edu":
-                sendEmbed(event, "your education level is " +user.getEducationLevel(),"cost to next level:" + user.getCost());
+                sendEmbed(event, "your education level is " +user.getEducationLevel(),"cost to next level:" + condense(user.getCost()));
                 break;
             case "gg~upgrade":
                 int cost = user.getCost();
                 if(user.getMoney() < cost){
-                    sendEmbed(event,"error","you do not have enough money. you have " + user.toString());
+                    sendEmbed(event,"error","you do not have enough money. you have " + condense(user.getMoney()));
                     break;
                 }
                 user.increaseMoney(-1 * cost);
                 user.increaseEducationLevel(1);
                 data.getBank().changeMoney(cost);
-                sendEmbed(event,"your new education level:" + user.getEducationLevel(),"cost of next level:" + user.getCost());
+                sendEmbed(event,"your new education level:" + user.getEducationLevel(),"cost of next level:" + condense(user.getCost()));
                 break;
             case "gg~bank":
-                sendEmbed(event,"BANK:" + data.getBank().getMoney() + GG,"_ _");
+                sendEmbed(event,"BANK:" + condense(data.getBank().getMoney()),"_ _");
                 return;
             default:
                 if (event.getMessage().getContent().toLowerCase().startsWith("gg~slot")) {
@@ -81,9 +81,9 @@ public class GGHandler extends Command implements ICommand{
                     loan(event,user,data);
                 }else if(event.getMessage().getContent().toLowerCase().startsWith("gg~pay_loan")){
                     payLoan(event,user,data);
-                }else if (event.getMessage().getContent().toLowerCase().startsWith("gg~pay")) {
-                    pay(event, user, data);
-                }
+                }//else if (event.getMessage().getContent().toLowerCase().startsWith("gg~pay")) {
+//                    pay(event, user, data);
+//                }
                     break;
 
         }
@@ -104,20 +104,20 @@ public class GGHandler extends Command implements ICommand{
             return;
         }
         if(amount > user.getDebt()){
-            sendEmbed(event,"error","you do not have that much debt" +"\nyou have " + user.getDebt() + GG + " of debt");
+            sendEmbed(event,"error","you do not have that much debt" +"\nyou have " + condense(user.getDebt()) + " of debt");
             return;
         }
         if(amount > user.getMoney()){
-            sendEmbed(event,"error","you do not have enough money\nyour balance:" + user.toString());
+            sendEmbed(event,"error","you do not have enough money\nyour balance:" + condense(user.getMoney()));
             return;
         }
 
         user.payBack(amount);
         data.getBank().changeMoney(amount);
         if(user.getDebt() == 0){
-            sendEmbed(event,"you paid back your entire loan!","your balance:" + user.toString());
+            sendEmbed(event,"you paid back your entire loan!","your balance:" + condense(user.getMoney()));
         }else {
-            sendEmbed(event, "you paid back " + amount + GG, "you have " + user.getDebt() + GG + " debt left to pay off");
+            sendEmbed(event, "you paid back " + condense(user.getMoney()), "you have " + condense(user.getDebt()) + " debt left to pay off");
         }
     }
 
@@ -138,7 +138,7 @@ public class GGHandler extends Command implements ICommand{
         try {
             data.getBank().withdrawl(amount);
             user.loan(amount, interest);
-            sendEmbed(event, "you got a loan of " + amount + GG, "your interest:" + user.getInterest() * 100 + "%");
+            sendEmbed(event, "you got a loan of " + condense(amount), "your interest:" + user.getInterest() * 100 + "%");
         } catch (Bank.OutOfMoneyException e) {
             sendEmbed(event, "the bank doesn't have enough money.",data.getBank().outOfMoneyMessage());
         }
@@ -149,13 +149,13 @@ public class GGHandler extends Command implements ICommand{
         EmbedBuilder b = new EmbedBuilder();
         List<UserGG> users = data.getUserGGs();
         GGHandler.sort(users);
-        b.appendField("BANK:" + data.getBank().getMoney() + GG,"_ _",false);
+        b.appendField("BANK:" + condense(data.getBank().getMoney()),"_ _",false);
         for (UserGG u : users) {
 //                      send+=      "`" +  u.getId() + "`  " + client.getUserByID(u.getId()).getName() + " : " + u.getMoney() + GG   + "\n";
             b.appendField(event.getClient().getUserByID(u.getId()).getName(),// + " : " + u.getMoney() + GG,//title
 //                            u.getId() + "",//discri
                     u.toString() + " " + u.getEducationLevel() + " edu level\n" +
-                    u.getDebt() + GG + " debt with " + (int)(u.getInterest()*100) + "% interest",
+                    condense(u.getDebt()) + " debt with " + (int)(u.getInterest()*100) + "% interest",
                     false);
         }
 //                sendEmbed(event, send);
@@ -177,14 +177,14 @@ public class GGHandler extends Command implements ICommand{
         }
         int amount = getAmount(args);
         if(amount == -1){
-            sendEmbed(event, "error","you need an amount to pay");
+            sendEmbed(event, "error","you need an amount to make any changes");
             return;
         }
         String toSend = "";
         if(Arrays.asList(args).contains("bank")) {
             data.getBank().setMoney(amount);
             toSend += "bank was set to " + amount;
-        }else {
+        }else {//if needs a mention
             List<IUser> mentioned = event.getMessage().getMentions();
             if (mentioned.size() == 0) {
                 sendEmbed(event, "error", "you need to mention someone");
@@ -275,7 +275,7 @@ public class GGHandler extends Command implements ICommand{
         }
 
         if(data.getBank().getMoney() < (15_000 * amount)) {
-            sendEmbed(event, "the bank doesn't have enough money. max bet: " + (int)(data.getBank().getMoney() / 15_000), data.getBank().outOfMoneyMessage());
+            sendEmbed(event, "the bank doesn't have enough money. max bet: " + condense(data.getBank().getMoney() / 15_000), data.getBank().outOfMoneyMessage());
             return;
         }
         //:regional_indicator_a:
@@ -322,14 +322,14 @@ public class GGHandler extends Command implements ICommand{
             user.increaseMoney(-1 * amount);
             user.increaseMoney(amount * 15_000);
             bank.changeMoney(-1 * amount * 15_000);
-            sendEmbed(event,"YOU WON THE SUPER BIG PRIZE " + (amount * 15_000) + GG + "!!!!", "your balance:" + user.getMoney());
+            sendEmbed(event,"YOU WON THE SUPER BIG PRIZE " + condense(amount * 15_000) + "!!!!", "your balance:" + user.getMoney());
         }else if(a == b && b == c){
             user.increaseMoney(-1 * amount);
             //win grand prize
             user.increaseMoney(amount * 500);
             bank.changeMoney(-1 * amount * 500);
 
-            sendEmbed(event,"YOU WON " + (amount * 500) + GG + "!!!!", "your balance:" + user.getMoney());
+            sendEmbed(event,"YOU WON " + condense(amount * 500)+ "!!!!", "your balance:" + condense(user.getMoney()));
         }else if(a == b || b == c|| c == a){
             //win small prize
             int count = 0;
@@ -340,18 +340,18 @@ public class GGHandler extends Command implements ICommand{
                 user.increaseMoney(-1 * amount);
                 user.increaseMoney(amount * 20);
                 bank.changeMoney(-1 * amount * 20);
-                sendEmbed(event, "you won a small prize: " + (amount * 20) + GG + "!", "your balance:" + user.getMoney());
+                sendEmbed(event, "you won a small prize: " + condense(amount * 20)  + "!", "your balance:" + condense(user.getMoney()));
             }else if(count == 1){
                 user.increaseMoney(-1 * amount);
                 user.increaseMoney(amount * 20 + 500);
                 bank.changeMoney(-1 * amount * 20);
                 bank.changeMoney(-500);
-                sendEmbed(event, "you won a small prize: " + (amount * 20) + GG + ", as well as the bonus: 500", "your balance:" + user.getMoney());
+                sendEmbed(event, "you won a small prize: " + condense(amount * 20) + ", as well as the bonus: 500", "your balance:" + condense(user.getMoney()));
             }else if(count == 2){
                 user.increaseMoney(-1 * amount);
                 user.increaseMoney(amount * 500);
                 bank.changeMoney(-1 * amount * 500);
-                sendEmbed(event, "you won a " + STAR + " prize: " + (amount * 500) + GG + "!!!! " + STAR + " " + STAR + " ", "your balance:" + user.getMoney());
+                sendEmbed(event, "you won a " + STAR + " prize: " + condense(amount * 500) + "!!!! " + STAR + " " + STAR + " ", "your balance:" + condense(user.getMoney()));
             }
         }else{
             int count = 0;
@@ -361,9 +361,9 @@ public class GGHandler extends Command implements ICommand{
             if(count == 0) {
                 user.increaseMoney(-1 * amount);
                 bank.changeMoney(amount);
-                sendEmbed(event, "you won nothing :*(", "your balance:" + user.getMoney());
+                sendEmbed(event, "you won nothing :*(", "your balance:" + condense(user.getMoney()));
             }else{//count == 1
-                sendEmbed(event, "you didn't win, but you got a " + STAR + " so you keep your money","your balance:" + user.getMoney());
+                sendEmbed(event, "you didn't win, but you got a " + STAR + " so you keep your money","your balance:" + condense(user.getMoney()));
             }
         }
         
@@ -371,43 +371,43 @@ public class GGHandler extends Command implements ICommand{
     }
 
 
-    private void pay(MessageReceivedEvent event, UserGG user, GuildDataOrginizer data){
-        String[] args = event.getMessage().getContent().toLowerCase().split(" ");
-        if(args.length == 1){
-            sendMessage(event, "you need more args");
-            return;
-        }
-        int amount = getAmount(args);
-        if(amount == -1){
-            sendEmbed(event, "error","you need an amount to pay");
-            return;
-        }
-        if(amount < 1){
-            sendEmbed(event, "error","you can not pay that");
-            return;
-        }
-
-        List<IUser> mentioned = event.getMessage().getMentions();
-        if(mentioned.size() == 0){
-            sendEmbed(event,"error","you need to mention someone");
-            return;
-        }
-
-
-        if(amount * mentioned.size() > user.getMoney()){
-            sendEmbed(event,"error:", "you do not have enough money to pay " + mentioned.size() + " people " + amount + GG + "\n" + "you have " + user.getMoney() + GG);
-            return;
-        }
-        user.setMoney(user.getMoney() - (amount * mentioned.size()));
-        for(IUser recipient : mentioned){
-            if(recipient.isBot()){
-                sendMessage(event, "you can not pay the bot. You are losing that money <:thonk:440249411574956032>");
-            }
-            data.getUser(recipient).increaseMoney(amount);
-        }
-        sendEmbed(event,"Worked!","your balance:" + user.getMoney());
-        
-    }
+//    private void pay(MessageReceivedEvent event, UserGG user, GuildDataOrginizer data){//disabled for now - no point /shrug
+//        String[] args = event.getMessage().getContent().toLowerCase().split(" ");
+//        if(args.length == 1){
+//            sendMessage(event, "you need more args");
+//            return;
+//        }
+//        int amount = getAmount(args);
+//        if(amount == -1){
+//            sendEmbed(event, "error","you need an amount to pay");
+//            return;
+//        }
+//        if(amount < 1){
+//            sendEmbed(event, "error","you can not pay that");
+//            return;
+//        }
+//
+//        List<IUser> mentioned = event.getMessage().getMentions();
+//        if(mentioned.size() == 0){
+//            sendEmbed(event,"error","you need to mention someone");
+//            return;
+//        }
+//
+//
+//        if(amount * mentioned.size() > user.getMoney()){
+//            sendEmbed(event,"error:", "you do not have enough money to pay " + mentioned.size() + " people " + amount + GG + "\n" + "you have " + user.getMoney() + GG);
+//            return;
+//        }
+//        user.setMoney(user.getMoney() - (amount * mentioned.size()));
+//        for(IUser recipient : mentioned){
+//            if(recipient.isBot()){
+//                sendMessage(event, "you can not pay the bot. You are losing that money <:thonk:440249411574956032>");
+//            }
+//            data.getUser(recipient).increaseMoney(amount);
+//        }
+//        sendEmbed(event,"Worked!","your balance:" + user.getMoney());
+//
+//    }
 
 
 	@Override
@@ -447,5 +447,17 @@ public class GGHandler extends Command implements ICommand{
         });
     }
 
+
+
+    public static String condense(int amount){
+	    if(amount <= 999_999){
+            return amount + GGHandler.GG;
+        }else  if(amount <= 999_999_999){
+//	        return String.valueOf((double)((int)(amount / 1_000_000d)*100)/100d) + " MIL " + GGHandler.GG;
+	        return String.valueOf((double)((int)(amount / 100d)) / 100d)+ " MIL " + GGHandler.GG;
+        }else {
+	        return String.valueOf((double)((int)(amount / 1_000_000_000d)*100)/100d) + " BIL " + GGHandler.GG;
+        }
+    }
 
 }

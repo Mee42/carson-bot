@@ -3,12 +3,18 @@ package com.carson.classes;
 import com.carson.dataObject.DataGetter;
 
 //import java.io.File;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IUser;
 
+import java.io.File;
+import java.io.IOException;
+
 public class Logger { 
-	
+
+    public static final String messPath = "/home/carson/java/files/messages/";
 	
 	public static void log(MessageReceivedEvent event) {
 		IUser author = event.getAuthor();
@@ -23,7 +29,21 @@ public class Logger {
 		}else {
 			System.out.println("MESSAGE:" + author.getName() + ":" + text +"(dm - " + event.getChannel().getUsersHere().get(0).getName() + ")");
 		}
-	}
+
+
+		Message m = new Message();
+        m.userId = event.getAuthor().getLongID();
+        m.messageId = event.getMessageID();
+        m.channelId = event.getChannel().getLongID();
+	    m.guildId = (event.getGuild() == null)?-1:event.getGuild().getLongID();
+	    m.message = event.getMessage().getContent();
+	    m.timestamp = event.getMessage().getTimestamp().toEpochMilli();
+	    Gson g = new GsonBuilder().setPrettyPrinting().create();
+	    String json = g.toJson(m);
+        new File(messPath + m.guildId + "/").mkdir();
+        new File(messPath + m.guildId + "/" + m.channelId+ "/").mkdir();
+        FileIO.use(messPath + m.guildId + "/" + m.channelId + "/" + m.messageId + ".json").write(json);
+    }
 	
 	public static void logBot(IChannel channel, String text) {
 		text = text.replace(System.getProperty("line.separator"), "\\n");
@@ -36,6 +56,17 @@ public class Logger {
 	
 	}
 	
-	
+
+
+	static class Message{
+	    public long userId;
+	    public long messageId;
+        public long channelId;
+        public long guildId;
+
+        public String message;
+
+        public long timestamp;
+    }
 	
 }

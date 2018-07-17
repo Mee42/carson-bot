@@ -26,7 +26,7 @@ public class CommandPing extends Command implements ICommand {
 		long time = System.nanoTime();
 		IMessage message = new Messanger().sendMessageAndGet(event.getChannel(), "pinging :ping_pong:");	
 		long ping = System.nanoTime() - time;
-		message.edit("pinged :ping_pong:   ping:  " + (ping/1000) + "  milliseconds");
+		message.edit("pinged :ping_pong:   ping:  " + (ping/1000000) + "  milliseconds");
 		return ;
 	}
 
