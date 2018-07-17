@@ -21,12 +21,12 @@ public class CommandGoogle extends Command implements ICommand {
 	@Override
 	public void run(MessageReceivedEvent event) {
 		//Google
-		
-		
-			String text = event.getMessage().getContent();
-			Googler googler = new Googler();
-			sendMessage(event.getChannel(),"Done! Heres the first result:");
-			sendMessage(event.getChannel(), googler.Google(text.substring(8,text.length())));
+
+
+		String text = event.getMessage().getContent();
+		Googler googler = new Googler();
+		sendMessage(event.getChannel(),"Done! Heres the first result:");
+		sendMessage(event.getChannel(), googler.Google(text.substring(8,text.length())));
 			
 			
 		return;

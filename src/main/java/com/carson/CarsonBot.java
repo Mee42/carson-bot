@@ -215,11 +215,16 @@ public class CarsonBot {
 
                 EmbedBuilder b = new EmbedBuilder();
                 b.appendField(":radio_button:\nyou got " + amount + GGHandler.GG + "!","your balance: " + DataGetter.getInstance().getUser(event.getUser()).getMoney() + GGHandler.GG ,false);
+                IMessage m = client.getMessageByID(id);
+                if(m == null){
+                    System.out.println("null message at 220~ CarsonBot");
+                    continue;
+                }
                 RequestBuffer.request(() -> {
-                   client.getMessageByID(id).getChannel().sendMessage(b.build());
+                   m.getChannel().sendMessage(b.build());
                 });
                 RequestBuffer.request(()->{
-                    client.getMessageByID(id).delete();
+                   m.delete();
                 });
                 return;
             }
