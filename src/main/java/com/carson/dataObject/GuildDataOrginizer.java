@@ -37,8 +37,7 @@ public class GuildDataOrginizer {
             GuildDataOrginizer newGuildOrginizerData = gson.fromJson(json,GuildDataOrginizer.class);
             if(newGuildOrginizerData == null){
                 System.err.println("null json");
-
-                return this;
+                System.exit(0);
             }
             this.guilds = newGuildOrginizerData.guilds;
             this.users = newGuildOrginizerData.users;
