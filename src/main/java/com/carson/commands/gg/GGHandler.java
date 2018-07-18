@@ -201,12 +201,25 @@ public class GGHandler extends Command implements ICommand{
             sendEmbed(event,"error","couldn't parse amount");
             return;
         }
-        String toSend = "";
         if(Arrays.asList(args).contains("bank")) {
             data.getBank().setMoney(amount);
-            toSend += "bank was set to " + amount;
         }else if(Arrays.asList(args).contains("help")){
-            //TODO
+            String help = "**gg~mod**\n" +
+                    "needs number\n" +
+                    "  \\\\----needs mention\n" +
+                    "         \\\\--add\n" +
+                    "         \\\\--set\n" +
+                    "         \\\\--edu\n" +
+                    "         \\\\--int\n" +
+                    "         \\\\--debt\n" +
+                    "         \\\\--btc\n" +
+                    "         \\\\--gotten        (applys to both gotten and invested)\n" +
+                    "         \\\\--reset\n" +
+                    " \\\\---does not need mention\n" +
+                    "      \\\\--bank\n" +
+                    "      \\\\--help\n" +
+                    "";
+            sendMessage(event,help);
         }else {//if needs a mention
             List<IUser> mentioned = event.getMessage().getMentions();
             if (mentioned.size() == 0) {
@@ -216,38 +229,31 @@ public class GGHandler extends Command implements ICommand{
             if (Arrays.asList(args).contains("add")) {
                 for (IUser u : mentioned) {
                     data.getUser(u).increaseMoney(amount);
-                    toSend += "added " + amount + " to " + u.getName() + "\n";
                 }
             } else if (Arrays.asList(args).contains("set")) {
                 for (IUser u : mentioned) {
                     data.getUser(u).setMoney(amount);
-                    toSend += "set " + amount + " to " + u.getName() + "\n";
                 }
             } else if (Arrays.asList(args).contains("edu")) {
                 for (IUser u : mentioned) {
                     data.getUser(u).setEducation(amount);
-                    toSend += "edu: set " + amount + " to " + u.getName() + "\n";
                 }
             } else if (Arrays.asList(args).contains("int")) {
                 for (IUser u : mentioned) {
                     data.getUser(u).setInterest(amount);
-                    toSend += "interest: set " + amount + " to " + u.getName() + "\n";
                 }
             } else if (Arrays.asList(args).contains("debt")) {
                 for (IUser u : mentioned) {
                     data.getUser(u).setDebt(amount);
-                    toSend += "debt: set " + amount + " to " + u.getName() + "\n";
                 }
             } else if (Arrays.asList(args).contains("btc")) {
                 for (IUser u : mentioned) {
                     data.getUser(u).setCoins(amount);
-                    toSend += "btc: set " + amount + " to " + u.getName() + "\n";
                 }
             }else if (Arrays.asList(args).contains("gotten")) {
                 for (IUser u : mentioned) {
                     data.getUser(u).setInvested(amount);
                     data.getUser(u).setGotten(amount);
-                    toSend += "gotten/investment: set " + amount + " to " + u.getName() + "\n";
                 }
             }else if (Arrays.asList(args).contains("reset")) {
                 for (IUser u : mentioned) {
@@ -256,9 +262,8 @@ public class GGHandler extends Command implements ICommand{
             }
         }
 
-        sendMessage(event, toSend + "\n" + "done. gg~all:");
+        sendMessage(event, "done");
 
-//        sendAll(data,event);
     }
 
     private void cleanUsers(GuildDataOrginizer data) {
