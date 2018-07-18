@@ -25,11 +25,11 @@ import java.util.List;
 public class GGHandler extends Command implements ICommand{
     public static final String GG = " <:gg:467728709139562497> ";
 //    public static final String GG = " :squid: ";
-    public static final String STAR = " :squid: ";
+    private static final String STAR = " :squid: ";
 
     public static double last = -1;
 
-	public GGHandler(IDiscordClient c) {
+	GGHandler(IDiscordClient c) {
 		super(c);
 	}
 	
@@ -49,9 +49,7 @@ public class GGHandler extends Command implements ICommand{
                 double price = -1;
                 try {
                     price = new BTC().downloadPrice();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
+                } catch (IOException | InterruptedException e) {
                     e.printStackTrace();
                 }
                 sendEmbed(event, "your money", user.toString(price));
@@ -159,7 +157,7 @@ public class GGHandler extends Command implements ICommand{
         }
     }
 
-    public static void sendAll(GuildDataOrginizer data, MessageReceivedEvent event) {
+    private static void sendAll(GuildDataOrginizer data, MessageReceivedEvent event) {
 //                String send = "";
         EmbedBuilder b = new EmbedBuilder();
         List<UserGG> users = data.getUserGGs();
@@ -168,9 +166,7 @@ public class GGHandler extends Command implements ICommand{
         double worth = -1;
         try{
             worth = new BTC().downloadPrice(event.getClient());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
         for (UserGG u : users) {
@@ -443,7 +439,6 @@ public class GGHandler extends Command implements ICommand{
                 return;
             }catch(IOException e){}catch (InterruptedException e) {}
             sendEmbed(event,"error","there was an error processing your transaction");
-	        return;
         }else{//wants to buy
             try {
                 int cost = (int) (new BTC().downloadPrice() * amount);
