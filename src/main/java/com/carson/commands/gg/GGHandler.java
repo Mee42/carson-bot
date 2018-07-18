@@ -312,12 +312,12 @@ public class GGHandler extends Command implements ICommand{
             sendEmbed(event, "error:","you do not have enough money");
             return;
         }
-        int star3 = 15_000;
-        int star2 = 500;
-        int match2 = 20;
-        int match3 = 500;
-        int match2StarBonus = 500;
-        int
+        int star3 = 1_000;
+        int star2 = 75;
+        int match2 = 10;
+        int match3 = 75;
+        int match2StarBonus = 100;
+
         if(data.getBank().getMoney() < (star3 * amount)) {
             sendEmbed(event, "the bank doesn't have enough money. max bet: " + condense(data.getBank().getMoney() / 15_000), data.getBank().outOfMoneyMessage());
             return;
@@ -331,25 +331,27 @@ public class GGHandler extends Command implements ICommand{
                 ":regional_indicator_e:",
                 ":regional_indicator_f:",
                 ":regional_indicator_g:",
-                ":regional_indicator_h:",
-                ":regional_indicator_i:",
-                ":regional_indicator_j:",
-                ":regional_indicator_k:",
-                ":regional_indicator_l:",
-                ":regional_indicator_m:",
-                ":regional_indicator_n:",
-                ":regional_indicator_o:",
-                ":regional_indicator_p:",
-                ":regional_indicator_q:",
-                ":regional_indicator_r:",
-                ":regional_indicator_s:",
-                ":regional_indicator_t:",
-                ":regional_indicator_u:",
-                ":regional_indicator_v:",
-                ":regional_indicator_w:",
-                ":regional_indicator_x:",
-                ":regional_indicator_y:",
-                ":regional_indicator_z:",
+//                ":regional_indicator_h:",
+//                ":regional_indicator_i:",
+//                ":regional_indicator_j:",
+//                ":regional_indicator_k:",
+//                ":regional_indicator_l:",
+//                ":regional_indicator_m:",
+//                ":regional_indicator_n:",
+//                ":regional_indicator_o:",
+//                ":regional_indicator_p:",
+//                ":regional_indicator_q:",
+//                ":regional_indicator_r:",
+//                ":regional_indicator_s:",
+//                ":regional_indicator_t:",
+//                ":regional_indicator_u:",
+//                ":regional_indicator_v:",
+//                ":regional_indicator_w:",
+//                ":regional_indicator_x:",
+//                ":regional_indicator_y:",
+//                ":regional_indicator_z:",
+                ":flag_pl:",
+                ":thinking:",
                 STAR.trim()
         };
 
