@@ -6,6 +6,7 @@ public class UserGG {
     private int educationLevel;
     private int debt = 0;
     private double interest = 0;
+    private int coins = 0;
 
     public UserGG(long id){
         this.id = id;
@@ -99,5 +100,13 @@ public class UserGG {
 
     public void setInterest(double interest) {
         this.interest = interest;
+    }
+
+    public int getCoins() {
+        return coins;
+    }
+
+    public void setCoins(int coins) {
+        this.coins = coins;
     }
 }

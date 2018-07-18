@@ -76,6 +76,8 @@ public class SubregisterMain extends Subregister{
 				addCommand(new CommandSoftBan(client));
 
 				addCommand(new CommandMuseScore(client));
+
+				addCommand(new CommandBTC(client));
 	}
 
 

@@ -2,13 +2,12 @@ package com.carson.commands.gg;
 
 
 
+import com.carson.classes.BTC;
 import com.carson.commandManagers.Command;
 import com.carson.commandManagers.ICommand;
 
 import com.carson.dataObject.DataGetter;
 import com.carson.dataObject.GuildDataOrginizer;
-import com.vdurmont.emoji.Emoji;
-import com.vdurmont.emoji.EmojiManager;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IUser;
@@ -17,6 +16,8 @@ import sx.blah.discord.util.RequestBuffer;
 
 
 import java.awt.*;
+import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -82,9 +83,12 @@ public class GGHandler extends Command implements ICommand{
                 }else if(event.getMessage().getContent().toLowerCase().startsWith("gg~pay_loan")){
                     payLoan(event,user,data);
                 }//else if (event.getMessage().getContent().toLowerCase().startsWith("gg~pay")) {
+                else if(event.getMessage().getContent().toLowerCase().startsWith("gg~btc")){
+                    btc(event,user,data);
+                }
 //                    pay(event, user, data);
 //                }
-                    break;
+                break;
 
         }
         cleanUsers(data);
@@ -150,12 +154,21 @@ public class GGHandler extends Command implements ICommand{
         List<UserGG> users = data.getUserGGs();
         GGHandler.sort(users);
         b.appendField("BANK:" + condense(data.getBank().getMoney()),"_ _",false);
+        double worth = -1;
+        try{
+            worth = new BTC().downloadPrice();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         for (UserGG u : users) {
 //                      send+=      "`" +  u.getId() + "`  " + client.getUserByID(u.getId()).getName() + " : " + u.getMoney() + GG   + "\n";
             b.appendField(event.getClient().getUserByID(u.getId()).getName(),// + " : " + u.getMoney() + GG,//title
 //                            u.getId() + "",//discri
                     u.toString() + " " + u.getEducationLevel() + " edu level\n" +
-                    condense(u.getDebt()) + " debt with " + (int)(u.getInterest()*100) + "% interest",
+                    condense(u.getDebt()) + " debt with " + (int)(u.getInterest()*100) + "% interest\n" +
+                    u.getCoins() + " BTC worth " + condense((int) (worth * u.getCoins())),
                     false);
         }
 //                sendEmbed(event, send);
@@ -175,9 +188,11 @@ public class GGHandler extends Command implements ICommand{
             sendMessage(event, "you need more args");
             return;
         }
-        int amount = getAmount(args);
-        if(amount == -1){
-            sendEmbed(event, "error","you need an amount to make any changes");
+        int amount;
+        try {
+            amount = getAmount(args);
+        }catch(NumberFormatException e){
+            sendEmbed(event,"error","couldn't parse amount");
             return;
         }
         String toSend = "";
@@ -215,6 +230,11 @@ public class GGHandler extends Command implements ICommand{
                     data.getUser(u).setDebt(amount);
                     toSend += "debt: set " + amount + " to " + u.getName() + "\n";
                 }
+            } else if (Arrays.asList(args).contains("btc")) {
+                for (IUser u : mentioned) {
+                    data.getUser(u).setCoins(amount);
+                    toSend += "btc: set " + amount + " to " + u.getName() + "\n";
+                }
             }
         }
 
@@ -233,21 +253,17 @@ public class GGHandler extends Command implements ICommand{
        data.getUserGGs().removeAll(hasZero);
     }
 
-    private int getAmount(String[] args){
-        int amount = -1;
+    private int getAmount(String[] args) throws NumberFormatException{
         for(String str : args){
-            int temp = -1;
+
             try{
-                temp = Integer.parseInt(str);
+                return Integer.parseInt(str);
             }catch(NumberFormatException e){
-                temp = -1;
+//                throw new NumberFormatException();
             }
-            if(temp != -1){
-                amount = temp;
-                break;
-            }
+
         }
-        return amount;
+        throw new NumberFormatException();
     }
 
 
@@ -370,6 +386,50 @@ public class GGHandler extends Command implements ICommand{
 
     }
 
+    private void btc(MessageReceivedEvent event, UserGG user, GuildDataOrginizer data){
+	    int amount;
+	    try {
+            amount = getAmount(event.getMessage().getContent().split(" "));
+        }catch(NumberFormatException e){
+            sendEmbed(event,"error","no amount specified");
+            return;
+	    }
+	    if(amount == 0) {
+            sendEmbed(event, "error", "you can not buy 0 btc :eyes:");
+            return;
+        }
+        if(amount < 0){//wants to sell
+	        amount = Math.abs(amount);
+	        if(user.getCoins() < amount){
+	            sendEmbed(event,"error","you do not have enough coins. you have " + user.getCoins() + "BTC");
+	            return;
+            }
+	        try {
+                int cost = (int) (new BTC().downloadPrice() * amount);
+                user.setCoins(user.getCoins() - amount);
+                user.increaseMoney(cost);
+                sendEmbed(event, "transaction was a success! you have " + condense(user.getMoney()),"your coins:" + user.getCoins());
+                return;
+            }catch(IOException e){}catch (InterruptedException e) {}
+            sendEmbed(event,"error","there was an error processing your transaction");
+	        return;
+        }else{//wants to buy
+            try {
+                int cost = (int) (new BTC().downloadPrice() * amount);
+                if(user.getMoney() < cost){
+                    sendEmbed(event,"error","you do not have enough money to buy " + condense(cost) + " worth of BTC");
+                    return;
+                }
+                user.increaseMoney(-1 * cost);
+                user.setCoins(user.getCoins() + amount);
+                sendEmbed(event, "transaction was a success! you have " + condense(user.getMoney()),"your coins:" + user.getCoins());
+                return;
+            }catch(IOException e){}catch (InterruptedException e) {}
+            sendEmbed(event,"error","there was an error processing your transaction");
+        }
+
+    }
+//pay script \/
 
 //    private void pay(MessageReceivedEvent event, UserGG user, GuildDataOrginizer data){//disabled for now - no point /shrug
 //        String[] args = event.getMessage().getContent().toLowerCase().split(" ");
@@ -450,14 +510,31 @@ public class GGHandler extends Command implements ICommand{
 
 
     public static String condense(int amount){
-	    if(amount <= 999_999){
+	    if(amount <= 999){
             return amount + GGHandler.GG;
+        }else if(amount <= 999_999){
+	        return ((int)(amount / 1_000d) + "") + "," + trailing((int)(amount % 1_000d)) + GG;
         }else  if(amount <= 999_999_999){
 //	        return String.valueOf((double)((int)(amount / 1_000_000d)*100)/100d) + " MIL " + GGHandler.GG;
-	        return String.valueOf((double)((int)(amount / 100d)) / 100d)+ " MIL " + GGHandler.GG;
+	        return roundTo2Decimals(amount / 1_000_000d)+ " MIL " + GGHandler.GG;
         }else {
-	        return String.valueOf((double)((int)(amount / 1_000_000_000d)*100)/100d) + " BIL " + GGHandler.GG;
+	        return roundTo2Decimals(amount / 1_000_000_000d)+ " BIL " + GGHandler.GG;
         }
     }
+
+
+    private static String roundTo2Decimals(double val) {
+        DecimalFormat df2 = new DecimalFormat("###.##");
+        return df2.format(val);
+    }
+    private static String trailing(int i){
+	    String str = String.valueOf(i);
+	    while(str.length() < 3){
+	        str = "0" + str;
+        }
+        return str;
+    }
+
+
 
 }

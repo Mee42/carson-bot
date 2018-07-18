@@ -1,9 +1,6 @@
 package com.carson;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
 
 import com.carson.classes.*;
 import com.carson.main.*;
@@ -32,10 +29,7 @@ public class Main {
 	        // Register a listener via the EventSubscriber annotation which allows for organisation and delegation of events
 	        CarsonBot cb = new CarsonBot();
 	        client.getDispatcher().registerListener(cb);
-	        
-	        CleanThread hook = new CleanThread(client, cb);
-	        Runtime.getRuntime().addShutdownHook(hook);
-	        
+
 	        
 	        //all this does in import the client
 	        cb.importClient(client);
