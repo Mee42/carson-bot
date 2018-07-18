@@ -66,7 +66,7 @@ public class UserGG {
                 GGHandler.condense(debt) + " debt with " + (int)(interest*100) + "% interest\n" +
                 coins + " BTC worth " + GGHandler.condense((int) (worth * coins)) + "\n" +
                 "has invested: " + GGHandler.condense(invested) + " and gotten " + GGHandler.condense(gotten) + "\n" +
-                "profit from BTC: " + GGHandler.condense(gotten - invested);
+                "profit from BTC (if sold now): " + GGHandler.condense((int)((gotten - invested) + (coins*worth)));
     }
 
     public void midnight() {
@@ -91,18 +91,15 @@ public class UserGG {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
+    public void reset() {
+        this.money = 0;
+        this.educationLevel = 0;
+        this.debt = 0;
+        this.interest = 0;
+        this.coins = 0;
+        this.invested = 0;
+        this.gotten = 0;
+    }
 
     public void setEducationLevel(int educationLevel) {
         this.educationLevel = educationLevel;

@@ -205,6 +205,8 @@ public class GGHandler extends Command implements ICommand{
         if(Arrays.asList(args).contains("bank")) {
             data.getBank().setMoney(amount);
             toSend += "bank was set to " + amount;
+        }else if(Arrays.asList(args).contains("help")){
+            //TODO
         }else {//if needs a mention
             List<IUser> mentioned = event.getMessage().getMentions();
             if (mentioned.size() == 0) {
@@ -241,12 +243,22 @@ public class GGHandler extends Command implements ICommand{
                     data.getUser(u).setCoins(amount);
                     toSend += "btc: set " + amount + " to " + u.getName() + "\n";
                 }
+            }else if (Arrays.asList(args).contains("gotten")) {
+                for (IUser u : mentioned) {
+                    data.getUser(u).setInvested(amount);
+                    data.getUser(u).setGotten(amount);
+                    toSend += "gotten/investment: set " + amount + " to " + u.getName() + "\n";
+                }
+            }else if (Arrays.asList(args).contains("reset")) {
+                for (IUser u : mentioned) {
+                    data.getUser(u).reset();
+                }
             }
         }
 
         sendMessage(event, toSend + "\n" + "done. gg~all:");
 
-        sendAll(data,event);
+//        sendAll(data,event);
     }
 
     private void cleanUsers(GuildDataOrginizer data) {
@@ -429,7 +441,7 @@ public class GGHandler extends Command implements ICommand{
                 }
                 user.increaseMoney(-1 * cost);
                 user.setCoins(user.getCoins() + amount);
-                user.setInvested(cost);
+                user.setInvested(cost + user.getInvested());
                 sendEmbed(event, "transaction was a success! you have " + condense(user.getMoney()),"your coins:" + user.getCoins());
                 return;
             }catch(IOException e){}catch (InterruptedException e) {}
