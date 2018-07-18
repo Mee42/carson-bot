@@ -192,7 +192,7 @@ public class CarsonBot {
 	private void startBTCApiCaller(IDiscordClient client){
 		Runnable r = () -> {
 			try {
-				new BTC().downloadPrice(client);
+				new BTC().downloadPrice(client,true);//to not print if different
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (InterruptedException e) {
@@ -200,7 +200,7 @@ public class CarsonBot {
 			}
 		};
 		ScheduledExecutorService scheduler =Executors.newScheduledThreadPool(1);
-		scheduler.scheduleAtFixedRate(r,1,1, TimeUnit.MINUTES);
+		scheduler.scheduleAtFixedRate(r,1,5, TimeUnit.SECONDS);
 	}
 	
 	

@@ -48,7 +48,7 @@ public class GGHandler extends Command implements ICommand{
 //                sendEmbed( event , "you have " + user.getMoney() + GG);
                 double price = -1;
                 try {
-                    price = new BTC().downloadPrice(client);
+                    price = new BTC().downloadPrice();
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {
@@ -411,9 +411,10 @@ public class GGHandler extends Command implements ICommand{
 	            return;
             }
 	        try {
-                int cost = (int) (new BTC().downloadPrice(client) * amount);
+                int cost = (int) (new BTC().downloadPrice() * amount);
                 user.setCoins(user.getCoins() - amount);
                 user.increaseMoney(cost);
+                user.setGotten(user.getGotten() + cost);
                 sendEmbed(event, "transaction was a success! you have " + condense(user.getMoney()),"your coins:" + user.getCoins());
                 return;
             }catch(IOException e){}catch (InterruptedException e) {}
@@ -421,13 +422,14 @@ public class GGHandler extends Command implements ICommand{
 	        return;
         }else{//wants to buy
             try {
-                int cost = (int) (new BTC().downloadPrice(client) * amount);
+                int cost = (int) (new BTC().downloadPrice() * amount);
                 if(user.getMoney() < cost){
                     sendEmbed(event,"error","you do not have enough money to buy " + condense(cost) + " worth of BTC");
                     return;
                 }
                 user.increaseMoney(-1 * cost);
                 user.setCoins(user.getCoins() + amount);
+                user.setInvested(cost);
                 sendEmbed(event, "transaction was a success! you have " + condense(user.getMoney()),"your coins:" + user.getCoins());
                 return;
             }catch(IOException e){}catch (InterruptedException e) {}

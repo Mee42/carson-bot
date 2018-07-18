@@ -7,6 +7,10 @@ public class UserGG {
     private int debt = 0;
     private double interest = 0;
     private int coins = 0;
+    private int invested = 0;
+    private int gotten = 0;
+
+
 
     public UserGG(long id){
         this.id = id;
@@ -29,9 +33,6 @@ public class UserGG {
         money+=i;
     }
 
-    /*
-
-     */
 
     public int setEducation(int i){
         educationLevel = i;
@@ -63,7 +64,9 @@ public class UserGG {
     public String toString(double worth){
         return GGHandler.condense(money)+ " " + educationLevel + " edu level\n" +
                 GGHandler.condense(debt) + " debt with " + (int)(interest*100) + "% interest\n" +
-                coins + " BTC worth " + GGHandler.condense((int) (worth * coins));
+                coins + " BTC worth " + GGHandler.condense((int) (worth * coins)) + "\n" +
+                "has invested: " + GGHandler.condense(invested) + " and gotten " + GGHandler.condense(gotten) + "\n" +
+                "profit from BTC: " + GGHandler.condense(gotten - invested);
     }
 
     public void midnight() {
@@ -79,6 +82,7 @@ public class UserGG {
         this.money+=amount;
         debt*=money;
     }
+
     public void payBack(int amountToPayBack){
         this.money-=amountToPayBack;
         this.debt-=amountToPayBack;
@@ -86,28 +90,50 @@ public class UserGG {
             interest = 0;
         }
     }
-    
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public void setEducationLevel(int educationLevel) {
+        this.educationLevel = educationLevel;
+    }
+    public int getInvested() {
+        return invested;
+    }
+    public void setInvested(int invested) {
+        this.invested = invested;
+    }
+    public int getGotten() {
+        return gotten;
+    }
+    public void setGotten(int gotten) {
+        this.gotten = gotten;
+    }
     public int getDebt() {
         return debt;
     }
-
     public void setDebt(int debt) {
         this.debt = debt;
     }
-
     public double getInterest() {
         return interest;
     }
-
     public void setInterest(double interest) {
         this.interest = interest;
     }
-
     public int getCoins() {
         return coins;
     }
-
     public void setCoins(int coins) {
         this.coins = coins;
     }

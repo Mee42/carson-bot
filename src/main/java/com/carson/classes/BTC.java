@@ -8,6 +8,7 @@ import sx.blah.discord.util.RequestBuffer;
 
 import java.io.*;
 import java.text.DecimalFormat;
+import java.util.UUID;
 
 public class BTC {
 
@@ -51,15 +52,48 @@ public class BTC {
      */
     public Data download() throws IOException, InterruptedException {
         //https://api.coindesk.com/v1/bpi/currentprice.json
-        executeCommands(new String[]{"curl https://api.coindesk.com/v1/bpi/currentprice.json > data"});
-        Data d = getData(new File("data"));
-        new File("data").delete();
+        String random = UUID.randomUUID().toString();
+        executeCommands(new String[]{"curl https://api.coindesk.com/v1/bpi/currentprice.json > data" + random});
+        Data d = getData(new File("data" + random));
+        new File("data" + random).delete();
         return d;
     }
 
     public double downloadPrice() throws IOException, InterruptedException {
         return download().bpi.USD.rate_float;
     }
+
+
+    public double downloadPrice(IDiscordClient c, boolean printIfDifferent) throws IOException, InterruptedException {
+        double d = downloadPrice();
+        String str = "0 :black_circle:";
+        if(d == GGHandler.last) {
+            return -1;
+        }
+        if(GGHandler.last == -1){
+            GGHandler.last = d;
+            return -1;
+        }
+        double change = d - GGHandler.last;
+        if (change > 0) {
+            str = "+" + round(change) + " <:upp:469230980822073344>";
+        } else if (change < 0) {
+            str = "-" + round(java.lang.Math.abs(change)) + " <:down:469230864979591175>";
+        }
+
+
+        final String strS = str;
+        RequestBuffer.request(()->{
+            c.getChannelByID(469151223627644928L).sendMessage(new EmbedBuilder()
+                    .withTitle("BTC PRICE")
+//                    .withDesc(d + "" )
+                    .appendField(d + "",strS,false)
+                    .build());
+        });
+        GGHandler.last = d;
+        return d;
+    }
+
     public double downloadPrice(IDiscordClient c) throws IOException,InterruptedException{
         double d = downloadPrice();
         String str = "0 :black_circle:";
