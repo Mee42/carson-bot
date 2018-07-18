@@ -7,8 +7,13 @@ import sx.blah.discord.util.EmbedBuilder;
 import sx.blah.discord.util.RequestBuffer;
 
 import java.io.*;
+import java.text.DecimalFormat;
 
 public class BTC {
+
+
+
+
     /**
      *
      * @param f file to read json from
@@ -57,11 +62,27 @@ public class BTC {
     }
     public double downloadPrice(IDiscordClient c) throws IOException,InterruptedException{
         double d = downloadPrice();
+        String str = "0 :black_circle:";
+        if(d != GGHandler.last){
+            if(GGHandler.last == -1){
+            }else {
+                double change = d - GGHandler.last;
+                if (change > 0) {
+                    str = "+" + round(change) + " <:upp:469230980822073344>";
+                } else if (change < 0) {
+                    str = "-" + round(java.lang.Math.abs(change)) + " <:down:469230864979591175>";
+                }
+            }
+        }
+        final String strS = str;
         RequestBuffer.request(()->{
-           c.getChannelByID(469151223627644928L).sendMessage(new EmbedBuilder().withTitle("BTC PRICE").withDesc(d + "" ).build());
+           c.getChannelByID(469151223627644928L).sendMessage(new EmbedBuilder()
+                   .withTitle("BTC PRICE")
+//                    .withDesc(d + "" )
+                   .appendField(d + "",strS,false)
+                   .build());
         });
-
-
+        GGHandler.last = d;
         return d;
     }
 
@@ -120,5 +141,11 @@ public class BTC {
 
         return tempScript;
     }
+
+    private static String round(double val) {
+        DecimalFormat df2 = new DecimalFormat("######.###");
+        return df2.format(val);
+    }
+
 
 }

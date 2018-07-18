@@ -26,6 +26,9 @@ public class GGHandler extends Command implements ICommand{
     public static final String GG = " <:gg:467728709139562497> ";
 //    public static final String GG = " :squid: ";
     public static final String STAR = " :squid: ";
+
+    public static double last = -1;
+
 	public GGHandler(IDiscordClient c) {
 		super(c);
 	}

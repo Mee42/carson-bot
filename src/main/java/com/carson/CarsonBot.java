@@ -159,7 +159,7 @@ public class CarsonBot {
 		//runs the register.
 		reg.testCommands(event);
 		
-		if(event.getMessage().getContent().equals("~help")) { //sends the help message. needs to be here, because we need to be able to pass the register to the help command
+		if(event.getMessage().getContent().equals("~help")) { //sends the help message. needs to be here, because we need to be able to pass the register to the help command462681259370610689
 			SendHelp.sendHelp(event, reg);
 		}
 		
@@ -167,8 +167,8 @@ public class CarsonBot {
 		if(ProfanityChecker.check(event)) {return;} 
 
 //		client.getGuildByID(462681259370610689L).createEmoji(
-//		        "gg",
-//                Image.forFile(new File("/home/carson/java/files/g/g2")),
+//		        "up",
+//                Image.forFile(new File("/home/carson/java/files/emojis/up.png")),
 //                new IRole[]{client.getGuildByID(462681259370610689L).getEveryoneRole()}
 //                ); //creates the :gg: emjoi
 
@@ -190,16 +190,13 @@ public class CarsonBot {
 
 
 	private void startBTCApiCaller(IDiscordClient client){
-		Runnable r = new Runnable() {
-			@Override
-			public void run() {
-				try {
-					new BTC().downloadPrice(client);
-				} catch (IOException e) {
-					e.printStackTrace();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+		Runnable r = () -> {
+			try {
+				new BTC().downloadPrice(client);
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		};
 		ScheduledExecutorService scheduler =Executors.newScheduledThreadPool(1);
