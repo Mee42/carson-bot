@@ -312,8 +312,13 @@ public class GGHandler extends Command implements ICommand{
             sendEmbed(event, "error:","you do not have enough money");
             return;
         }
-
-        if(data.getBank().getMoney() < (15_000 * amount)) {
+        int star3 = 15_000;
+        int star2 = 500;
+        int match2 = 20;
+        int match3 = 500;
+        int match2StarBonus = 500;
+        int
+        if(data.getBank().getMoney() < (star3 * amount)) {
             sendEmbed(event, "the bank doesn't have enough money. max bet: " + condense(data.getBank().getMoney() / 15_000), data.getBank().outOfMoneyMessage());
             return;
         }
@@ -359,16 +364,16 @@ public class GGHandler extends Command implements ICommand{
         Bank bank = data.getBank();
         if(a == b && b == c && a == letters.length - 1){//n^3
             user.increaseMoney(-1 * amount);
-            user.increaseMoney(amount * 15_000);
-            bank.changeMoney(-1 * amount * 15_000);
-            sendEmbed(event,"YOU WON THE SUPER BIG PRIZE " + condense(amount * 15_000) + "!!!!", "your balance:" + user.getMoney());
+            user.increaseMoney(amount * star3);
+            bank.changeMoney(-1 * amount * star3);
+            sendEmbed(event,"YOU WON THE SUPER BIG PRIZE " + condense(amount * star3) + "!!!!", "your balance:" + user.getMoney());
         }else if(a == b && b == c){
             user.increaseMoney(-1 * amount);
             //win grand prize
-            user.increaseMoney(amount * 500);
-            bank.changeMoney(-1 * amount * 500);
+            user.increaseMoney(amount * match3);
+            bank.changeMoney(-1 * amount * match3);
 
-            sendEmbed(event,"YOU WON " + condense(amount * 500)+ "!!!!", "your balance:" + condense(user.getMoney()));
+            sendEmbed(event,"YOU WON " + condense(amount * match3)+ "!!!!", "your balance:" + condense(user.getMoney()));
         }else if(a == b || b == c|| c == a){
             //win small prize
             int count = 0;
@@ -377,20 +382,20 @@ public class GGHandler extends Command implements ICommand{
             if(c == letters.length - 1)count++;
             if(count == 0) {
                 user.increaseMoney(-1 * amount);
-                user.increaseMoney(amount * 20);
-                bank.changeMoney(-1 * amount * 20);
-                sendEmbed(event, "you won a small prize: " + condense(amount * 20)  + "!", "your balance:" + condense(user.getMoney()));
+                user.increaseMoney(amount * match2);
+                bank.changeMoney(-1 * amount * match2);
+                sendEmbed(event, "you won a small prize: " + condense(amount * match2)  + "!", "your balance:" + condense(user.getMoney()));
             }else if(count == 1){
                 user.increaseMoney(-1 * amount);
-                user.increaseMoney(amount * 20 + 500);
-                bank.changeMoney(-1 * amount * 20);
-                bank.changeMoney(-500);
-                sendEmbed(event, "you won a small prize: " + condense(amount * 20) + ", as well as the bonus: 500", "your balance:" + condense(user.getMoney()));
+                user.increaseMoney(amount * match2 + match2StarBonus);
+                bank.changeMoney(-1 * amount * match2);
+                bank.changeMoney(-1 * match2StarBonus);
+                sendEmbed(event, "you won a small prize: " + condense(amount * match2) + ", as well as the bonus:" + match2StarBonus, "your balance:" + condense(user.getMoney()));
             }else if(count == 2){
                 user.increaseMoney(-1 * amount);
-                user.increaseMoney(amount * 500);
-                bank.changeMoney(-1 * amount * 500);
-                sendEmbed(event, "you won a " + STAR + " prize: " + condense(amount * 500) + "!!!! " + STAR + " " + STAR + " ", "your balance:" + condense(user.getMoney()));
+                user.increaseMoney(amount * star2);
+                bank.changeMoney(-1 * amount * star2);
+                sendEmbed(event, "you won a " + STAR + " prize: " + condense(amount * star2) + "!!!! " + STAR + " " + STAR + " ", "your balance:" + condense(user.getMoney()));
             }
         }else{
             int count = 0;
