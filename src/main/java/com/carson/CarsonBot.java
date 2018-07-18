@@ -66,15 +66,9 @@ public class CarsonBot {
 		
         reg = Register.build(client); //puts the subregisters into the reg. and imports the client
         
-        DataGetter.getInstance()
-        .importFromJson(); //starts up the data getter. takes the data from the json file
+        DataGetter.getInstance().importFromJson(); //starts up the data getter. takes the data from the json file
 
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				Prime.getInstance().initulize();
-			}
-		}).start();
+		new Thread(() -> Prime.getInstance().initulize()).start();
         Taxation.start(client);
         startBTCApiCaller(client);
         System.out.println("BOOT: bot started");
