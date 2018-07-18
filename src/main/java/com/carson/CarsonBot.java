@@ -2,10 +2,14 @@ package com.carson;
 
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.Math;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import com.carson.classes.*;
 import com.carson.commandManagers.Register;
@@ -72,6 +76,7 @@ public class CarsonBot {
 			}
 		}).start();
         Taxation.start(client);
+        startBTCApiCaller(client);
         System.out.println("BOOT: bot started");
 
     }
@@ -186,14 +191,26 @@ public class CarsonBot {
             });
         }
 
-
-
-
-
-
 		DataGetter.getInstance().privateSterilize();
 	}//end of handle method
-	
+
+
+	private void startBTCApiCaller(IDiscordClient client){
+		Runnable r = new Runnable() {
+			@Override
+			public void run() {
+				try {
+					new BTC().downloadPrice(client);
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		ScheduledExecutorService scheduler =Executors.newScheduledThreadPool(1);
+		scheduler.scheduleAtFixedRate(r,1,1, TimeUnit.MINUTES);
+	}
 	
 	
 	//sends message
