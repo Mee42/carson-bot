@@ -43,7 +43,15 @@ public class GGHandler extends Command implements ICommand{
         switch (event.getMessage().getContent().toLowerCase()) {
             case "gg~money":
 //                sendEmbed( event , "you have " + user.getMoney() + GG);
-                sendEmbed(event, "your money", condense(user.getMoney()));
+                double price = -1;
+                try {
+                    price = new BTC().downloadPrice(client);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                sendEmbed(event, "your money", user.toString(price));
                 break;
             case "gg~work":
                 int amount = user.getWork();
@@ -156,7 +164,7 @@ public class GGHandler extends Command implements ICommand{
         b.appendField("BANK:" + condense(data.getBank().getMoney()),"_ _",false);
         double worth = -1;
         try{
-            worth = new BTC().downloadPrice();
+            worth = new BTC().downloadPrice(event.getClient());
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -164,12 +172,7 @@ public class GGHandler extends Command implements ICommand{
         }
         for (UserGG u : users) {
 //                      send+=      "`" +  u.getId() + "`  " + client.getUserByID(u.getId()).getName() + " : " + u.getMoney() + GG   + "\n";
-            b.appendField(event.getClient().getUserByID(u.getId()).getName(),// + " : " + u.getMoney() + GG,//title
-//                            u.getId() + "",//discri
-                    u.toString() + " " + u.getEducationLevel() + " edu level\n" +
-                    condense(u.getDebt()) + " debt with " + (int)(u.getInterest()*100) + "% interest\n" +
-                    u.getCoins() + " BTC worth " + condense((int) (worth * u.getCoins())),
-                    false);
+            b.appendField(event.getClient().getUserByID(u.getId()).getName(),u.toString(worth), false);
         }
 //                sendEmbed(event, send);
         RequestBuffer.request(() -> {
@@ -217,7 +220,7 @@ public class GGHandler extends Command implements ICommand{
                 }
             } else if (Arrays.asList(args).contains("edu")) {
                 for (IUser u : mentioned) {
-                    data.getUser(u).setEduation(amount);
+                    data.getUser(u).setEducation(amount);
                     toSend += "edu: set " + amount + " to " + u.getName() + "\n";
                 }
             } else if (Arrays.asList(args).contains("int")) {
@@ -405,7 +408,7 @@ public class GGHandler extends Command implements ICommand{
 	            return;
             }
 	        try {
-                int cost = (int) (new BTC().downloadPrice() * amount);
+                int cost = (int) (new BTC().downloadPrice(client) * amount);
                 user.setCoins(user.getCoins() - amount);
                 user.increaseMoney(cost);
                 sendEmbed(event, "transaction was a success! you have " + condense(user.getMoney()),"your coins:" + user.getCoins());
@@ -415,7 +418,7 @@ public class GGHandler extends Command implements ICommand{
 	        return;
         }else{//wants to buy
             try {
-                int cost = (int) (new BTC().downloadPrice() * amount);
+                int cost = (int) (new BTC().downloadPrice(client) * amount);
                 if(user.getMoney() < cost){
                     sendEmbed(event,"error","you do not have enough money to buy " + condense(cost) + " worth of BTC");
                     return;

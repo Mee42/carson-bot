@@ -27,7 +27,7 @@ public class CommandBTC extends Command implements ICommand {
         b.withUrl("https://www.coindesk.com/price/");
 
         try {
-            b.withDescription(String.valueOf(new BTC().downloadPrice()));
+            b.withDescription(String.valueOf(new BTC().downloadPrice(client)));
             RequestBuffer.request(()->{
                 event.getChannel().sendMessage(b.build());
             });

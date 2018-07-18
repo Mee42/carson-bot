@@ -1,6 +1,10 @@
 package com.carson.classes;
 
+import com.carson.commands.gg.GGHandler;
 import com.google.gson.GsonBuilder;
+import sx.blah.discord.api.IDiscordClient;
+import sx.blah.discord.util.EmbedBuilder;
+import sx.blah.discord.util.RequestBuffer;
 
 import java.io.*;
 
@@ -51,6 +55,15 @@ public class BTC {
     public double downloadPrice() throws IOException, InterruptedException {
         return download().bpi.USD.rate_float;
     }
+    public double downloadPrice(IDiscordClient c) throws IOException,InterruptedException{
+        double d = downloadPrice();
+        RequestBuffer.request(()->{
+           c.getChannelByID(469151223627644928L).sendMessage(new EmbedBuilder().withTitle("BTC PRICE").withDesc(d + "" ).build());
+        });
+
+
+        return d;
+    }
 
     class Data {
         StringS time;
@@ -82,7 +95,8 @@ public class BTC {
 
         try {
             ProcessBuilder pb = new ProcessBuilder("bash", tempScript.toString());
-            pb.inheritIO();
+//            pb.inheritIO();
+
             Process process = pb.start();
             process.waitFor();
         } finally {

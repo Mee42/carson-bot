@@ -33,7 +33,7 @@ public class UserGG {
 
      */
 
-    public int setEduation(int i){
+    public int setEducation(int i){
         educationLevel = i;
         return educationLevel;
     }
@@ -60,9 +60,10 @@ public class UserGG {
         return (int)work;
     }
 
-    @Override
-    public String toString(){
-        return getMoney() + GGHandler.GG;
+    public String toString(double worth){
+        return GGHandler.condense(money)+ " " + educationLevel + " edu level\n" +
+                GGHandler.condense(debt) + " debt with " + (int)(interest*100) + "% interest\n" +
+                coins + " BTC worth " + GGHandler.condense((int) (worth * coins));
     }
 
     public void midnight() {
@@ -76,6 +77,7 @@ public class UserGG {
         this.interest += interest;
         this.debt+=amount;
         this.money+=amount;
+        debt*=money;
     }
     public void payBack(int amountToPayBack){
         this.money-=amountToPayBack;
