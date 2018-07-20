@@ -1,6 +1,5 @@
 package com.carson.dataObject;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -50,8 +49,8 @@ public class GuildDataOrginizer {
         String json =gson.toJson(this);
         FileIO.use(jsonFile).write(json);
         FileIO.use(jsonFile + "..." + UUID.randomUUID()).write(json);
-//	        System.err.println("sterilized"); //i think this should sterilize everything something changed /shrug
-        new DBHandler().sterilize();
+//	        System.err.println("sterilized"); //i think this should getDatabase everything something changed /shrug
+        new DBHandler().getDatabase();
         return json;
     }
 
@@ -59,7 +58,7 @@ public class GuildDataOrginizer {
         return privateSterilize();
     }
 
-//	    public void sterilize() { //sterilizes the object on a specerate thread, returns instantly
+//	    public void getDatabase() { //sterilizes the object on a specerate thread, returns instantly
 //	    	executer.execute(
 //	    	new Runnable() {
 //	    		@Override
