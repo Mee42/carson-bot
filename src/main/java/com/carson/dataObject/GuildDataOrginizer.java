@@ -32,7 +32,6 @@ public class GuildDataOrginizer {
 
     public GuildDataOrginizer importFromJson(){
             Gson gson = new GsonBuilder().create();
-
             String json = FileIO.use(jsonFile).readString();
             GuildDataOrginizer newGuildOrginizerData = gson.fromJson(json,GuildDataOrginizer.class);
             if(newGuildOrginizerData == null){
@@ -41,7 +40,6 @@ public class GuildDataOrginizer {
             }
             this.guilds = newGuildOrginizerData.guilds;
             this.users = newGuildOrginizerData.users;
-
             this.userGGs = newGuildOrginizerData.userGGs;
             this.bank = newGuildOrginizerData.bank;
             return this;
@@ -53,6 +51,7 @@ public class GuildDataOrginizer {
         FileIO.use(jsonFile).write(json);
         FileIO.use(jsonFile + "..." + UUID.randomUUID()).write(json);
 //	        System.err.println("sterilized"); //i think this should sterilize everything something changed /shrug
+        new DBHandler().sterilize();
         return json;
     }
 
@@ -188,27 +187,27 @@ public class GuildDataOrginizer {
 
 
     public class UserDataNoGuild extends UserData{
-		public String publicKey;
+//		public String publicKey;
 		
 		public UserDataNoGuild(long id) {
 			super(id);
 		}
 
-		private long XP;
+		private int XP;
 
-		public long getXP() {
+		public int getXP() {
 			return XP;
 		}
 		
 		
-		public String getPublicKey() {
-			return publicKey;
-		}
+//		public String getPublicKey() {
+//			return publicKey;
+//		}
 
 
-		public void setPublicKey(String publicKey) {
-			this.publicKey = publicKey;
-		}
+//		public void setPublicKey(String publicKey) {
+//			this.publicKey = publicKey;
+//		}
 
 
 		@Override

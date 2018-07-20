@@ -34,6 +34,8 @@ dependencies {
 	compile 'com.google.code.gson:gson:2.8.4'
     compile 'org.mongodb:mongo-java-driver:2.12.3'
     compile 'org.json:json:20160212'
+    compile 'org.mongodb:mongo-java-driver:3.8.0'
+
 }
 
 jar {

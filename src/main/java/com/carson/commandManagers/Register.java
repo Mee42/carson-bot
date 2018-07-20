@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.carson.commands.cb.SubregisterCB;
-import com.carson.commands.gumbocoin.SubregisterGumboCoin;
+//import com.carson.commands.gumbocoin.SubregisterGumboCoin;
 import com.carson.commands.main.SubregisterMain;
 import com.carson.commands.gg.GGSubregister;
 
@@ -20,7 +20,7 @@ public class Register {
 		return new Register()
 				.addSubregister(new SubregisterMain(c))
 				.addSubregister(new SubregisterCB(c))
-				.addSubregister(new SubregisterGumboCoin(c))
+//				.addSubregister(new SubregisterGumboCoin(c))
 				.addSubregister(new GGSubregister(c))
 				;
 		
