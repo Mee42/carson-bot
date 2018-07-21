@@ -11,6 +11,7 @@ public class DB {
         if(documents.first() == null){
             collection.insertOne(document);
         }else{
+            System.out.println("replaced");
             collection.replaceOne(Filters.eq("_id", document.get("_id")),document);
         }
     }

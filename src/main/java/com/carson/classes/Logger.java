@@ -6,6 +6,7 @@ import com.carson.dataObject.DBHandler;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mongodb.client.model.Filters;
+import org.bson.Document;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IUser;
@@ -21,8 +22,13 @@ public class Logger {
 		int xp = (int)(java.lang.Math.random()*15+1);
 
         DBHandler db = DBHandler.get();
-        DBHandler.GuildUserData user = db.toGuildUserData(db.getUsersDB().find(Filters.eq(event.getAuthor().getLongID() + "" + event.getGuild().getLongID())).first());
-        user.setXp(user.getXp() + xp);
+        DBHandler.GuildUserData user;
+        Document doc = db.getUsersDB().find(Filters.eq(event.getAuthor().getLongID() + "" + event.getGuild().getLongID())).first();
+        if(doc == null){
+        	doc = db.fromGuildUserData(db.new GuildUserData(event.getAuthor().getLongID(),event.getGuild().getLongID(),0));
+		}
+		user = db.toGuildUserData(doc);
+		user.setXp(user.getXp() + xp);
         db.update(user);
 
 		IChannel channel = event.getChannel();

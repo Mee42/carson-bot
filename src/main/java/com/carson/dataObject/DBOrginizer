@@ -26,7 +26,6 @@ CarsonBot
        - coins
        - invested
        - gotten
-       - is_user  :  true
      \-bank
+       - id  :  bank
        - money
-       - is_user  :  false

@@ -43,10 +43,14 @@ public class GGHandler extends Command {
     @Override
     public void run(MessageReceivedEvent event, String content, String[] args) {
 
-        DataGetter data = DataGetter.getInstance();
         DBHandler db = DBHandler.get();
         Bank bank = new Bank(db.getBank().getMoney());
-        UserGG user = UserGG.from(db.toUserGG(DB.getById(event.getAuthor().getLongID(),db.getGGDB())));
+        UserGG user;
+        try {
+            user = UserGG.from(db.toUserGG(DB.getById(event.getAuthor().getLongID(), db.getGGDB())));
+        }catch (NullPointerException e){
+            user = new UserGG(event.getAuthor().getLongID());
+        }
         switch (event.getMessage().getContent().toLowerCase()) {
             case "gg~money":
 //                sendEmbed( event , "you have " + user.getMoney() + GG);
@@ -57,7 +61,7 @@ public class GGHandler extends Command {
                     e.printStackTrace();
                 }
                 sendEmbed(event, "your money", user.toString(price));
-                break;
+                return;
             case "gg~work":
                 int amount = user.getWork();
                 user.increaseMoney(amount);
@@ -66,7 +70,7 @@ public class GGHandler extends Command {
                 break;
             case "gg~all":
                 sendAll(event);
-                break;
+                return;//return if nothing was changed
             case "gg~edu":
                 sendEmbed(event, "your education level is " +user.getEducationLevel(),"cost to next level:" + condense(user.getCost()));
                 break;
@@ -89,6 +93,7 @@ public class GGHandler extends Command {
                     slot(event, user,bank);
                 } else if (event.getMessage().getContent().toLowerCase().startsWith("gg~mod")) {
                     mod(event,bank);
+                    return;
                 }else if(event.getMessage().getContent().toLowerCase().startsWith("gg~roulette")){
                     new Roulette(event,user,bank);
                 }else if(event.getMessage().getContent().toLowerCase().startsWith("gg~get_loan")){
@@ -160,6 +165,8 @@ public class GGHandler extends Command {
 //                String send = "";
         EmbedBuilder b = new EmbedBuilder();
         List<DBHandler.UserGG> users = DBHandler.get().getUserGG();
+        System.out.println(users.size() + " users in db");
+
         GGHandler.sort(users);
         b.appendField("BANK:" + condense(DBHandler.get().getBank().getMoney()),"_ _",false);
         double worth = -1;
@@ -172,6 +179,7 @@ public class GGHandler extends Command {
 //                      send+=      "`" +  u.getId() + "`  " + client.getUserByID(u.getId()).getName() + " : " + u.getMoney() + GG   + "\n";
             UserGG u = UserGG.from(user);
             if(u.getMoney() == 0 && u.getEducationLevel() == 0 && u.getDebt() == 0 & u.getInterest() == 0 & u.getCoins() == 0 && u.getInvested() == 0 && u.getGotten() == 0){
+                System.out.println("skipping " + u.getId());
                 continue;//skip
             }
             b.appendField(event.getClient().getUserByID(u.getId()).getName(),u.toString(worth), false);
@@ -227,7 +235,12 @@ public class GGHandler extends Command {
             DBHandler db = DBHandler.get();
             List<DBHandler.UserGG> users = new ArrayList<>();
             for (IUser u : mentioned) {
-                users.add(db.toUserGG(DB.getById(u.getLongID(),db.getGGDB())));
+                try {
+                    users.add(db.toUserGG(DB.getById(u.getLongID(), db.getGGDB())));
+                    System.out.println("added " + u.getName());
+                }catch(NullPointerException e){
+                    users.add(db.new UserGG(u.getLongID()));
+                }
             }
 
             if (Arrays.asList(args).contains("add")) {
@@ -239,6 +252,7 @@ public class GGHandler extends Command {
                 for (DBHandler.UserGG u : users) {
                     u.setMoney(amount);
                     db.update(u);
+                    System.out.println("updated to" + u.getMoney());
                 }
             } else if (Arrays.asList(args).contains("edu")) {
                 for (DBHandler.UserGG u : users) {
@@ -279,8 +293,9 @@ public class GGHandler extends Command {
 
 
     private int getAmount(String[] args) throws NumberFormatException{
-        for(String str : args){
 
+        for(String str : args){
+            str = str.replace(",","").replace("_","");
             try{
                 return Integer.parseInt(str);
             }catch(NumberFormatException e){

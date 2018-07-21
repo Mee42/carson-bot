@@ -6,9 +6,9 @@ import com.carson.dataObject.DBHandler;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class CommnadSetDeathMessage extends Command{
+public class CommandSetLeaveMessage extends Command{
 
-	public CommnadSetDeathMessage(IDiscordClient c) {
+	public CommandSetLeaveMessage(IDiscordClient c) {
 		super(c);
 	}
 
@@ -26,6 +26,7 @@ public class CommnadSetDeathMessage extends Command{
 		guild.setLeaveMessage(message);
 		sendMessage(event, "the leave message was sent to " + message);
 		guild.setLeaveChannel(event.getChannel().getLongID());
+		db.update(guild);
 	} 
 
 	@Override

@@ -212,8 +212,12 @@ public class DBHandler {
         DB.createOrReplace(fromGuildUserData(data),getUsersDB());
     }
     public GuildUserData toGuildUserData(Document document){
+        if(document == null){
+            throw new NullPointerException();
+        }
+        long userId = document.get("user_id") == null?-1:(long)document.get("user_id");
         return new GuildUserData(
-                (long) document.get("user_id"),
+                userId,
                 (long) document.get("guild_id"),
                 (int) document.get("xp"));
     }
@@ -317,7 +321,7 @@ public class DBHandler {
 
     public List<UserGG> getUserGG() {
         List<UserGG> data = new ArrayList<>();
-        for (Document document : getGGDB().find(Filters.eq("is_user", true))) {
+        for (Document document : getGGDB().find(Filters.not(Filters.eq("_id", "bank")))){
             data.add(toUserGG(document));
         }
         return data;
@@ -326,19 +330,23 @@ public class DBHandler {
     public void update(UserGG user) {
         DB.createOrReplace(fromUserGG(user), getGGDB());
     }
+
     public Document fromUserGG(UserGG user){
         return new Document()
+                .append("_id",user.getId())
                 .append("money", user.getMoney())
                 .append("edu_level", user.getEduLevel())
                 .append("debt", user.getDebt())
                 .append("interest", user.getInterest())
                 .append("coins", user.getCoins())
                 .append("invested", user.getInvested())
-                .append("gotten", user.getGotten())
-                .append("is_user", true);
+                .append("gotten", user.getGotten());
     }
 
     public UserGG toUserGG(Document document){
+        if(document == null){
+            throw new NullPointerException();
+        }
         return new UserGG((long) document.get("_id"))
                 .setMoney((int) document.get("money"))
                 .setEduLevel((int) document.get("edu_level"))
@@ -370,7 +378,7 @@ public class DBHandler {
 
     public Bank getBank() {
 
-        Document doc = getGGDB().find(Filters.eq("is_user", false)).first();
+        Document doc = getGGDB().find(Filters.eq("_id", "bank")).first();
         if (doc == null) {
             return new Bank(0);
         }
@@ -385,7 +393,7 @@ public class DBHandler {
     }
     public Document fromBank(Bank bank){
         return new Document()
-                .append("is_user", false)
+                .append("_id","bank")
                 .append("money", bank.getMoney());
     }
 
@@ -411,4 +419,7 @@ public class DBHandler {
         return str;
     }
 
+    public void print(){
+        System.out.println(this.toString());
+    }
 }

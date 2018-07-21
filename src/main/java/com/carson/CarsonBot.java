@@ -20,6 +20,7 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 import sx.blah.discord.handle.impl.events.guild.member.UserJoinEvent;
 import sx.blah.discord.handle.impl.events.guild.member.UserLeaveEvent;
 import sx.blah.discord.handle.obj.*;
+import sx.blah.discord.util.MissingPermissionsException;
 
 import java.io.File;
 import java.io.IOException;
@@ -99,7 +100,7 @@ public class CarsonBot {
 		try {
 			sendMessage(event.getGuild().getSystemChannel(), "Welcome " + event.getUser().toString() + " to " + event.getGuild().getName() + "\n"
 					+ "current members:`" + event.getGuild().getTotalMemberCount() + "`");
-		}catch (NullPointerException e) {
+		}catch (NullPointerException | MissingPermissionsException e) {
 			for(IChannel channel : event.getGuild().getChannels()) {
 				if(channel.getModifiedPermissions(client.getOurUser()).contains(Permissions.SEND_MESSAGES) &&
 						channel.getModifiedPermissions(client.getOurUser()).contains(Permissions.READ_MESSAGES)) {
@@ -107,7 +108,7 @@ public class CarsonBot {
 						sendMessage(channel, "Welcome " + event.getUser().toString() + " to " + event.getGuild().getName() + "\n"
 								+ "current members:`" + event.getGuild().getTotalMemberCount() + "`");
 						break;
-					}catch (NullPointerException ee) {
+					}catch (NullPointerException | MissingPermissionsException ee) {
 //						ee.printStackTrace();
 					}
 				}

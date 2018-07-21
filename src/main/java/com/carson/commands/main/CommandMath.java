@@ -38,7 +38,7 @@ public class CommandMath extends Command {
 
 	@Override
 	public String getDisciption() {
-		return "solve a math equation! you can use ()*/-+^, uses order of operations.Try and fuck it up with a still-valid equation!";
+		return "solve a math equation! you can use ()*/-+^, uses order of operations";
 	}
 
 
