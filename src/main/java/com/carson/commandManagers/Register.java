@@ -3,12 +3,10 @@ package com.carson.commandManagers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 import com.carson.classes.DB;
-import com.carson.classes.Messanger;
+import com.carson.classes.Messenger;
 import com.carson.commands.cb.*;
 import com.carson.commands.gg.GGHandler;
 import com.carson.commands.main.*;
@@ -33,7 +31,6 @@ import org.bson.Document;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IMessage;
-import sx.blah.discord.util.RequestBuffer;
 
 public class Register{
 
@@ -57,7 +54,7 @@ public class Register{
             .setDescription("ping the bot")
             .setRunner((event,content,args)->{
                 long time = System.nanoTime();
-                IMessage message = new Messanger().sendMessageAndGet(event.getChannel(), "pinging :ping_pong:");
+                IMessage message = new Messenger().sendMessageAndGet(event.getChannel(), "pinging :ping_pong:");
                 long ping = System.nanoTime() - time;
                 message.edit("pinged :ping_pong:   ping:  " + (ping/1000000) + "  ms");
             }).build(client));
@@ -67,8 +64,8 @@ public class Register{
             .setName("~support")
             .setDescription("get support for Carson-Bot")
             .setRunner((event,content,args) -> {
-                new Messanger().sendMessage(client.getOrCreatePMChannel(client.getUserByID(293853365891235841L)),"someone needs help! Their server:"+ event.getGuild().getExtendedInvites().get(0).toString());
-                new Messanger().sendMessage(event.getChannel(), "dm me at <@293853365891235841>, or join my support server at discord.gg/BxhRxHW");
+                new Messenger().sendMessage(client.getOrCreatePMChannel(client.getUserByID(293853365891235841L)),"someone needs help! Their server:"+ event.getGuild().getExtendedInvites().get(0).toString());
+                new Messenger().sendMessage(event.getChannel(), "dm me at <@293853365891235841>, or join my support server at discord.gg/BxhRxHW");
             })
             .build(client)
         );
@@ -273,6 +270,11 @@ public class Register{
             }
 
         });//db-filter
+        addCommand(new CommandBuilder()//db-size
+                .setName("db-size")
+                .setDescription("get the size(in chars) of the db")
+                .setCommand("db-size")
+                .setRunner((event,content,args) -> new Messenger().sendMessage(event.getChannel(),"db size:" + DBHandler.get().toString().length() + " chars")).build(client));
     }
 
 	

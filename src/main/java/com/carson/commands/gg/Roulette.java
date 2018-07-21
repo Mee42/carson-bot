@@ -1,7 +1,6 @@
 package com.carson.commands.gg;
 
-import com.carson.classes.Messanger;
-import com.carson.commandManagers.Command;
+import com.carson.classes.Messenger;
 import com.carson.dataObject.DBHandler;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.util.EmbedBuilder;
@@ -86,7 +85,7 @@ public class Roulette {
                     }
                     bets.add(square);
                 }catch(NumberFormatException e){
-                    new Messanger().sendMessage(event.getChannel(), "can not bet on square " + s);
+                    new Messenger().sendMessage(event.getChannel(), "can not bet on square " + s);
                 }
             }
 
@@ -153,7 +152,7 @@ public class Roulette {
                 }
                 break;
             default:
-                new Messanger().sendMessage(event.getChannel(),"that is not an option. you lose no money");
+                new Messenger().sendMessage(event.getChannel(),"that is not an option. you lose no money");
                 return;
         }
         if(win){

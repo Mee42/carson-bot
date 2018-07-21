@@ -1,6 +1,6 @@
 package com.carson.commandManagers;
 
-import com.carson.classes.Messanger;
+import com.carson.classes.Messenger;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
@@ -17,7 +17,7 @@ public abstract class Command{
 	
 	
 	protected void sendMessage(IChannel c, String t) {
-		 new Messanger().sendMessage(c, t);
+		 new Messenger().sendMessage(c, t);
 	}
 	
 	

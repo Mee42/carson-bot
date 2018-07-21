@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.carson.classes.Messanger;
+import com.carson.classes.Messenger;
 import com.carson.lavaplayer.GuildMusicManager;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
@@ -138,7 +138,7 @@ public class LavaplayerMain {
 
 
 	 private void sendMessage(IChannel c, String text){
-		 new Messanger(c.getClient()).sendMessage(c, text);
+		 new Messenger(c.getClient()).sendMessage(c, text);
 	}
 
 

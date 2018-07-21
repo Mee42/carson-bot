@@ -3,7 +3,6 @@ package com.carson;
 
 import com.carson.classes.*;
 import com.carson.commandManagers.Register;
-import com.carson.commands.gg.Taxation;
 import com.carson.dataObject.DBHandler;
 import com.carson.lavaplayer.GuildMusicManager;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
@@ -87,7 +86,7 @@ public class CarsonBot {
 		}
 		long messageChannel  = 455860841611526144L;
 		
-		new Messanger().sendMessage(client.getChannelByID(messageChannel), "*a message was deleted* user:`" + event.getAuthor().getName() + "` in channel:`" + event.getChannel().getName() + "`   ```" + event.getMessage().getFormattedContent() + "```");
+		new Messenger().sendMessage(client.getChannelByID(messageChannel), "*a message was deleted* user:`" + event.getAuthor().getName() + "` in channel:`" + event.getChannel().getName() + "`   ```" + event.getMessage().getFormattedContent() + "```");
 	}
 	
 	
@@ -172,7 +171,7 @@ public class CarsonBot {
 	
 	//sends message
 	public void sendMessage(IChannel channel, String message){
-		new Messanger().sendMessage(channel, message);
+		new Messenger().sendMessage(channel, message);
     }
 	
 	

@@ -6,7 +6,7 @@
 //import java.util.GregorianCalendar;
 //import java.util.List;
 //
-//import com.carson.classes.Messanger;
+//import com.carson.classes.Messenger;
 //import com.mongodb.BasicDBObject;
 //import com.mongodb.DB;
 //import com.mongodb.DBCollection;
@@ -131,7 +131,7 @@
 //
 //		if(event.getChannel().getLongID() != 434858429618847751L) {
 //		if(event.getGuild().getLongID() == 449905910807003147L) {return false;}
-//			new Messanger(event.getClient()).sendMessage(event.getChannel(), "boi ur trying to mine here lol u can only mine in the channel called mining lol");
+//			new Messenger(event.getClient()).sendMessage(event.getChannel(), "boi ur trying to mine here lol u can only mine in the channel called mining lol");
 //			System.out.println("DEBUG: mined in wrong channel");
 //			return false;
 //		}

@@ -6,19 +6,19 @@ import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.RequestBuffer;
 
-public class Messanger {
+public class Messenger {
 //	IDiscordClient client;
 	
 	
 	
-	public Messanger(IDiscordClient c) {
+	public Messenger(IDiscordClient c) {
 //		this.client = c;
 	}
-//	public Messanger() {
+//	public Messenger() {
 //		
 //	}
 	
-	public Messanger() {
+	public Messenger() {
 		
 	}
 	

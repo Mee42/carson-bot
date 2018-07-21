@@ -1,6 +1,6 @@
 package com.carson.commands.gg;
 
-import com.carson.classes.Messanger;
+import com.carson.classes.Messenger;
 import com.carson.dataObject.DBHandler;
 import sx.blah.discord.api.IDiscordClient;
 
@@ -52,7 +52,7 @@ public class Taxation {
 //        Executors.newScheduledThreadPool(1).schedule(runner,timeTillHourMinutes(),TimeUnit.MINUTES); //backup plan
 
 
-        Messanger m = new Messanger();
+        Messenger m = new Messenger();
         List<DBHandler.UserGG> users = DBHandler.get().getUserGG();
         String print = "***Tax was taken from your accounts***";//. here are the results:***\n";
         for(DBHandler.UserGG user : users){
