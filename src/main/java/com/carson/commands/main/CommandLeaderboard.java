@@ -1,21 +1,15 @@
 package com.carson.commands.main;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import com.carson.commandManagers.*;
-import com.carson.dataObject.DataGetter;
-import com.carson.dataObject.GuildDataOrginizer;
-import com.carson.dataObject.GuildDataOrginizer.UserDataNoGuild;
-import com.carson.dataObject.UserData;
 
+import com.carson.dataObject.DBHandler;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.util.EmbedBuilder;
+import sx.blah.discord.util.RequestBuffer;
 
 public class CommandLeaderboard extends Command implements ICommand{
 
@@ -40,45 +34,38 @@ public class CommandLeaderboard extends Command implements ICommand{
 		Color randomColor = new Color(r, g, b);
 		builder.withColor(randomColor);
 		builder.withDesc("leaderboard for " + event.getGuild().getName());
-		GuildDataOrginizer  guildData = DataGetter.getInstance();
-//		List<UserData> users = guildData.getGuild(event.getGuild().getLongID()).getUsers(); //XP PER GUILd
-		List<UserDataNoGuild> users = guildData.getUsers();
+
+        DBHandler db = DBHandler.get();
+		List<DBHandler.GuildUserData> users = db.getGuildUserDataForGuild(event.getGuild().getLongID());
 		
-		List<UserData> toDelete = new ArrayList<>();
-		for(UserData user : users) {
-			if(event.getGuild().getUserByID(user.getId()) == null) {
+		List<DBHandler.GuildUserData> toDelete = new ArrayList<>();
+		for(DBHandler.GuildUserData user : users) {
+			if(event.getGuild().getUserByID(user.getUserId()) == null) {
 				toDelete.add(user);
 			}
 		}
-		toDelete.add(new UserData(client.getOurUser().getLongID()));
 		users.removeAll(toDelete);
 		
 		
 	
 		
-		Collections.sort(users, new Comparator<UserData>(){
-
-		  public int compare(UserData o1, UserData o2)
-		  {
-		     return (o1.getXP() > o2.getXP()) ? -1 : (   (o1.getXP() == o2.getXP())? 0 : 1);
-		  }
-		});
+		Collections.sort(users, (o1, o2) -> (o1.getXp() > o2.getXp()) ? -1 : (   (o1.getXp() == o2.getXp())? 0 : 1));
 		
 		
 		int index = 1;
-		for(UserData user : users) {
+		for(DBHandler.GuildUserData user : users) {
 //			builder.appendField(client.getUserByID(user.getId()).getDisplayName(event.getGuild()) + " has " + user.getXP() + " xp",index  + "  place!",false);
-			builder.appendField(client.getUserByID(user.getId()).getDisplayName(event.getGuild()) + " is in place " + index +"!",
-					"XP:" + user.getXP(),
+			builder.appendField(client.getUserByID(user.getUserId()).getDisplayName(event.getGuild()) + " is in place " + index +"!",
+					"XP:" + user.getXp(),
 					false);
 			if(index > 9) {
 				break;
 			}
 			index++;
-		} 
-		
-		event.getChannel().sendMessage(builder.build());
-		sendMessage(event,"<@425376884843347980> Uses global xp - so the more servers you're active on with the bot, the more xp you get!");
+		}
+        RequestBuffer.request(()-> {
+            event.getChannel().sendMessage(builder.build());
+        });
 	}
 
 	@Override

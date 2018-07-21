@@ -47,6 +47,10 @@ public class Main {
 	        
 	    }
 
+	    public static void main1(String[] args){
+
+		}
+
 	
 }
 

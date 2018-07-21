@@ -6,7 +6,7 @@ import java.util.List;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IRole;
 
-public class ProfanityChecker {
+public class ProfanityChecker {//TODO delete
 
 	
 	public static boolean check(MessageReceivedEvent event ) {

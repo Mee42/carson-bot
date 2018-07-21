@@ -3,7 +3,6 @@ package com.carson.commands.main.tac;
 import com.carson.commandManagers.Command;
 import com.carson.commandManagers.ICommand;
 import com.carson.dataObject.DataGetter;
-import com.carson.dataObject.GuildDataOrginizer;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
@@ -20,8 +19,7 @@ public class CommandContinueTac extends Command implements ICommand {
 		
 		if(!event.getMessage().getContent().matches("[0-9]")) {return false;}
 		
-		GuildDataOrginizer data = DataGetter.getInstance();
-		RunningTacGame game = data.getGameWithUser(id);
+		RunningTacGame game = DataGetter.getInstance().getGameWithUser(id);
 		
 		if(game == null) {
 			return false;
@@ -33,7 +31,7 @@ public class CommandContinueTac extends Command implements ICommand {
 	@Override
 	public void run(MessageReceivedEvent event) {
 		int move = Integer.parseInt(Character.toString(event.getMessage().getContent().charAt(0)));
-		GuildDataOrginizer data = DataGetter.getInstance();
+		DataGetter data = DataGetter.getInstance();
 		RunningTacGame game = data.getGameWithUser(event.getAuthor().getLongID());
 		if(!game.play(move)) {
 			sendMessage(event, "you couldn't go. remember - sending an invalid location will skip your turn it is now " +

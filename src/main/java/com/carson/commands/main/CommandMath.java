@@ -1,27 +1,25 @@
 package com.carson.commands.main;
 
 import com.carson.commandManagers.Command;
-import com.carson.commandManagers.ICommand;
 import com.carson.classes.Math;
 import com.carson.classes.Math.MathException;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class CommandMath extends Command implements ICommand{
+public class CommandMath extends Command {
 
 	public CommandMath(IDiscordClient c) {
 		super(c);
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event) {
-		return event.getMessage().getContent().toLowerCase().startsWith("~math");
+	public boolean test(MessageReceivedEvent event, String content, String[] args) {
+		return content.startsWith("~math");
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event) {
-		String[] args = event.getMessage().getContent().split(" ");
+	public void run(MessageReceivedEvent event, String content, String[] args) {
 		if(args.length == 1) {
 			sendMessage(event,"you need to have an equation");
 		}
@@ -42,5 +40,6 @@ public class CommandMath extends Command implements ICommand{
 	public String getDisciption() {
 		return "solve a math equation! you can use ()*/-+^, uses order of operations.Try and fuck it up with a still-valid equation!";
 	}
+
 
 }

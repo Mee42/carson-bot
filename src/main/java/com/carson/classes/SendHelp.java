@@ -1,6 +1,6 @@
 package com.carson.classes;
 
-import com.carson.commandManagers.ICommand;
+import com.carson.commandManagers.Command;
 import com.carson.commandManagers.Register;
 
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
@@ -22,15 +22,16 @@ public class SendHelp {
 		builder.withTitle("all of these amazing commands");
 		
 		builder.appendDescription("***use ~help*** *command_name* ***to get more detailed information***");
-		
 
-		for(ICommand c : reg.getCommands()){
+		Command.PermissionLevel permissionLevel = Register.getPermissionLevel(event);
+
+		for(Command c : reg.getCommands()){
 			try{
 				if(c.getName() == null || c.getDisciption() == null) {
 					continue;
 				}
-                if(c.getName().startsWith("cb") || c.getName().startsWith("~gumbo")){
-                    continue;
+                if(!c.hasPermission(c.getWantedPermissionLevel(),permissionLevel)){
+				    continue;
                 }
                 builder.appendField(c.getName(), c.getDisciption(), false);
 

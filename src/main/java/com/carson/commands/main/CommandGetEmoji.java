@@ -2,30 +2,24 @@ package com.carson.commands.main;
 
 
 import com.carson.commandManagers.Command;
-import com.carson.commandManagers.ICommand;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class CommandGetEmoji extends Command implements ICommand{
+public class CommandGetEmoji extends Command {
 
 	public CommandGetEmoji(IDiscordClient c) {
 		super(c);
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event) {
-		return event.getMessage().getContent().equals("cb-emoji");
+	public boolean test(MessageReceivedEvent event, String content, String[] args) {
+		return 	content.equals("~emoji");
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event) {
-		//makes the emoji
-//		Image i = Image.forFile(new File("/home/carson/discord/files/carson-bot-emoji"));
-		
-//		client.getGuildByID(432560125299916810L).createEmoji("carson_bot", i, new IRole[0]);
-		
-		
+	public void run(MessageReceivedEvent event, String content, String[] args) {
+
 		sendMessage(event, client.getGuildByID(432560125299916810L).getEmojiByName("carson_bot").toString());
 	}
 
@@ -38,8 +32,8 @@ public class CommandGetEmoji extends Command implements ICommand{
 	public String getDisciption() {
 		return "sends the carsonbot emoji";
 	}
-	
-	
-	
+
+
+
 
 }

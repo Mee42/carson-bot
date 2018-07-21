@@ -1,21 +1,10 @@
 package com.carson;
 
 
-import java.io.File;
-import java.io.IOException;
-import java.lang.Math;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
 import com.carson.classes.*;
 import com.carson.commandManagers.Register;
-import com.carson.commands.gg.GGHandler;
 import com.carson.commands.gg.Taxation;
-import com.carson.dataObject.DataGetter;
+import com.carson.dataObject.DBHandler;
 import com.carson.lavaplayer.GuildMusicManager;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
@@ -23,22 +12,23 @@ import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-
-import com.vdurmont.emoji.Emoji;
-import com.vdurmont.emoji.EmojiManager;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.ReadyEvent;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageDeleteEvent;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
-import sx.blah.discord.handle.impl.events.guild.channel.message.reaction.ReactionAddEvent;
 import sx.blah.discord.handle.impl.events.guild.member.UserJoinEvent;
 import sx.blah.discord.handle.impl.events.guild.member.UserLeaveEvent;
-import sx.blah.discord.handle.impl.events.shard.LoginEvent;
 import sx.blah.discord.handle.obj.*;
-import sx.blah.discord.util.EmbedBuilder;
-import sx.blah.discord.util.Image;
-import sx.blah.discord.util.RequestBuffer;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class CarsonBot {
 	private IDiscordClient client;
@@ -50,7 +40,7 @@ public class CarsonBot {
     private Register reg;
     
     
-	public void importClient(IDiscordClient client) {
+	void importClient(IDiscordClient client) {
 		this.client = client;
 	}
 	
@@ -66,7 +56,6 @@ public class CarsonBot {
 		
         reg = Register.build(client); //puts the subregisters into the reg. and imports the client
         
-        DataGetter.getInstance().importFromJson(); //starts up the data getter. takes the data from the json file
 
 		new Thread(() -> Prime.getInstance().initulize()).start();
         Taxation.start(client);
@@ -135,9 +124,9 @@ public class CarsonBot {
 	@EventSubscriber
 	public void onUserLeave(UserLeaveEvent event) {
         updateMemberCount();
-        String userName = event.getUser().mention();
-		long channelId = DataGetter.getInstance().getGuild(event.getGuild().getLongID()).getDeathChannel();
-		String deathMessage = DataGetter.getInstance().getGuild(event.getGuild().getLongID()).getDeathMessage();
+        String userName = event.getUser().getName();
+		long channelId = DBHandler.get().getGuildDataBy(event.getGuild().getLongID()).getLeaveChannel();//correct
+		String deathMessage = DBHandler.get().getGuildDataBy(event.getGuild().getLongID()).getLeaveMessage();//correct
 		if(channelId == -1L) { //if not set yet
 			channelId = event.getGuild().getSystemChannel().getLongID();
 		}
@@ -162,31 +151,7 @@ public class CarsonBot {
 		if(event.getMessage().getContent().equals("~help")) { //sends the help message. needs to be here, because we need to be able to pass the register to the help command462681259370610689
 			SendHelp.sendHelp(event, reg);
 		}
-		
-		//check for profanity is some servers. note - needs to make configuring this a bot action, not hardcoded
-		if(ProfanityChecker.check(event)) {return;} 
-
-//		client.getGuildByID(462681259370610689L).createEmoji(
-//		        "up",
-//                Image.forFile(new File("/home/carson/java/files/emojis/up.png")),
-//                new IRole[]{client.getGuildByID(462681259370610689L).getEveryoneRole()}
-//                ); //creates the :gg: emjoi
-
-
-
-        boolean generateEaster = (int)(Math.random()*20) == 1;
-		generateEaster = event.getGuild().getLongID() == 462681259370610689L && generateEaster;//only generate if in @game server
-		if(generateEaster) {
-            RequestBuffer.request(() -> {
-                    IMessage message = client.getChannelByID(467766140991438850L).sendMessage(":radio_button: add a reaction to get " + GGHandler.GG);
-                    DataGetter.getInstance().getEaster().add(message.getLongID());
-                    Emoji e = EmojiManager.getForAlias("radio_button");
-                    message.addReaction(e);
-            });
-        }
-
-		DataGetter.getInstance().privateSterilize();
-	}//end of handle method
+		}//end of handle method
 
 
 	private void startBTCApiCaller(IDiscordClient client){
@@ -211,41 +176,7 @@ public class CarsonBot {
 	
 	
 	
-	
-    @EventSubscriber
-    public void onReactionAdded(ReactionAddEvent event){
-	    if(event.getUser().isBot()){
-	        return;
-        }
-	    long id = event.getMessageID();
-	    for(long channel : DataGetter.getInstance().getEaster()){
-	        if(channel == id){
-	            int amount = (int)(Math.random() * 500);
-	            DataGetter.getInstance().getUser(event.getUser()).increaseMoney(amount);
 
-                EmbedBuilder b = new EmbedBuilder();
-                b.appendField(":radio_button:\nyou got " + amount + GGHandler.GG + "!","your balance: " + DataGetter.getInstance().getUser(event.getUser()).getMoney() + GGHandler.GG ,false);
-                IMessage m = client.getMessageByID(id);
-                if(m == null){
-                    System.out.println("null message at 220~ CarsonBot");
-                    continue;
-                }
-                RequestBuffer.request(() -> {
-                   m.getChannel().sendMessage(b.build());
-                });
-                RequestBuffer.request(()->{
-                   m.delete();
-                });
-                return;
-            }
-        }
-    }
-	
-	
-
-
-	
-	
 	
 		
 	//LAVAPLAYER CLASSES

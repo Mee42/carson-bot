@@ -1,7 +1,8 @@
 package com.carson.commands.gg;
 
+import com.carson.classes.Messanger;
 import com.carson.commandManagers.Command;
-import com.carson.dataObject.GuildDataOrginizer;
+import com.carson.dataObject.DBHandler;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.util.EmbedBuilder;
 import sx.blah.discord.util.RequestBuffer;
@@ -12,15 +13,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class Roulette extends Command {
+public class Roulette {
 
 
     /**
      * called if message starts with gg~roulette
      */
-    public Roulette(MessageReceivedEvent event, UserGG user, GuildDataOrginizer data){
-        super(event.getClient());
+    public Roulette(MessageReceivedEvent event, UserGG user,Bank bank){
         String[] args = event.getMessage().getContent().toLowerCase().split(" ");
+        DBHandler db = DBHandler.get();
         if(args.length == 0 || //no message
                 args.length == 1 ||//only gg~roulette
                 args.length == 2){//only a bet/place
@@ -38,8 +39,8 @@ public class Roulette extends Command {
             sendEmbed(event,"error","you do not have enough money. you have " + user.toString());
             return;
         }
-        if(data.getBank().getMoney() < bet * 36){
-            sendEmbed(event, "the bank doesn't have enough money.",data.getBank().outOfMoneyMessage());
+        if(bank.getMoney() < bet * 36){
+            sendEmbed(event, "the bank doesn't have enough money.",bank.outOfMoneyMessage());
             return;
         }
 
@@ -72,7 +73,6 @@ public class Roulette extends Command {
         }
 
         sendEmbed(event, "It was a " + number,color + "  " + place + "  "  + half);
-        Bank bank = data.getBank();
 
         if(nextIsInt){//if number bet
             List<String> remaining = Arrays.asList(args).subList(2,args.length);
@@ -86,14 +86,10 @@ public class Roulette extends Command {
                     }
                     bets.add(square);
                 }catch(NumberFormatException e){
-                    sendMessage(event, "can not bet on square " + s);
+                    new Messanger().sendMessage(event.getChannel(), "can not bet on square " + s);
                 }
             }
-            String str = "";
-            for(int i : bets){
-                str += i + " ";
-            }
-            str = str.trim();
+
             if(bets.contains(role)) {
 //                sendEmbed(event, "You won!","your rolls:" + str);
                 int winAmount = bet * (36 / bets.size()) - bet;
@@ -101,7 +97,6 @@ public class Roulette extends Command {
 //                sendEmbed(event,"you got a " + (36 / bets.size()) + " multiplier, so you got " + winAmount,"your balance:" + user.getMoney() + GGHandler.GG);
                 bank.changeMoney(-1*((36 / bets.size())*bet));
                 sendEmbed(event,"YOU WONNN!!!!! you got:" + (36 / bets.size())*bet + GGHandler.GG,"your balance:" + user.getMoney() + GGHandler.GG + "\nyour ");
-
                 return;
             }else{
                 user.increaseMoney(-1 * bet);
@@ -158,7 +153,7 @@ public class Roulette extends Command {
                 }
                 break;
             default:
-                sendMessage(event,"that is not an option. you lose no money");
+                new Messanger().sendMessage(event.getChannel(),"that is not an option. you lose no money");
                 return;
         }
         if(win){

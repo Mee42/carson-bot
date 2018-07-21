@@ -3,11 +3,12 @@ package com.carson.commands.gg;
 
 
 import com.carson.classes.BTC;
+import com.carson.classes.DB;
 import com.carson.commandManagers.Command;
-import com.carson.commandManagers.ICommand;
 
+import com.carson.dataObject.DBHandler;
 import com.carson.dataObject.DataGetter;
-import com.carson.dataObject.GuildDataOrginizer;
+import com.mongodb.client.model.Filters;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IUser;
@@ -22,27 +23,30 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class GGHandler extends Command implements ICommand{
+public class GGHandler extends Command {
     public static final String GG = " <:gg:467728709139562497> ";
 //    public static final String GG = " :squid: ";
     private static final String STAR = " :squid: ";
 
     public static double last = -1;
 
-	GGHandler(IDiscordClient c) {
+	public GGHandler(IDiscordClient c) {
 		super(c);
 	}
-	
 
-	@Override
-	public boolean test(MessageReceivedEvent event) {
-		return event.getGuild().getLongID() == 462681259370610689L && event.getMessage().getContent().toLowerCase().startsWith("gg~");
+    @Override
+    public boolean test(MessageReceivedEvent event, String content, String[] args) {
+	    if(event.getGuild().getLongID() != 462681259370610689L)return false;
+        return event.getMessage().getContent().toLowerCase().startsWith("gg~");
 	}
 
-	@Override
-	public void run(MessageReceivedEvent event) {
-        GuildDataOrginizer data = DataGetter.getInstance();
-        UserGG user = data.getUser(event.getAuthor());
+    @Override
+    public void run(MessageReceivedEvent event, String content, String[] args) {
+
+        DataGetter data = DataGetter.getInstance();
+        DBHandler db = DBHandler.get();
+        Bank bank = new Bank(db.getBank().getMoney());
+        UserGG user = UserGG.from(db.toUserGG(DB.getById(event.getAuthor().getLongID(),db.getGGDB())));
         switch (event.getMessage().getContent().toLowerCase()) {
             case "gg~money":
 //                sendEmbed( event , "you have " + user.getMoney() + GG);
@@ -61,7 +65,7 @@ public class GGHandler extends Command implements ICommand{
                 sendEmbed(event, "you got " + condense(amount), "current balance:" + condense(user.getMoney()));
                 break;
             case "gg~all":
-                sendAll(data,event);
+                sendAll(event);
                 break;
             case "gg~edu":
                 sendEmbed(event, "your education level is " +user.getEducationLevel(),"cost to next level:" + condense(user.getCost()));
@@ -74,39 +78,34 @@ public class GGHandler extends Command implements ICommand{
                 }
                 user.increaseMoney(-1 * cost);
                 user.increaseEducationLevel(1);
-                data.getBank().changeMoney(cost);
+                bank.changeMoney(cost);
                 sendEmbed(event,"your new education level:" + user.getEducationLevel(),"cost of next level:" + condense(user.getCost()));
                 break;
             case "gg~bank":
-                sendEmbed(event,"BANK:" + condense(data.getBank().getMoney()),"_ _");
+                sendEmbed(event,"BANK:" + condense(bank.getMoney()),"_ _");
                 return;
             default:
                 if (event.getMessage().getContent().toLowerCase().startsWith("gg~slot")) {
-                    slot(event, user, data);
+                    slot(event, user,bank);
                 } else if (event.getMessage().getContent().toLowerCase().startsWith("gg~mod")) {
-                    mod(event, user, data);
+                    mod(event,bank);
                 }else if(event.getMessage().getContent().toLowerCase().startsWith("gg~roulette")){
-                    new Roulette(event,user,data);
+                    new Roulette(event,user,bank);
                 }else if(event.getMessage().getContent().toLowerCase().startsWith("gg~get_loan")){
-                    loan(event,user,data);
+                    loan(event,user,bank);
                 }else if(event.getMessage().getContent().toLowerCase().startsWith("gg~pay_loan")){
-                    payLoan(event,user,data);
+                    payLoan(event,user,bank);
                 }//else if (event.getMessage().getContent().toLowerCase().startsWith("gg~pay")) {
                 else if(event.getMessage().getContent().toLowerCase().startsWith("gg~btc")){
-                    btc(event,user,data);
+                    btc(event,user,bank);
                 }
-//                    pay(event, user, data);
-//                }
-                break;
 
-        }
-        cleanUsers(data);
-        data.privateSterilize();
-
-
+        }//end switch
+        db.update(DBHandler.get().new Bank(bank.getMoney()));
+        db.update(user.to());
     }
 
-    private void payLoan(MessageReceivedEvent event, UserGG user, GuildDataOrginizer data) {
+    private void payLoan(MessageReceivedEvent event, UserGG user, Bank bank) {
         int amount = getAmount(event.getMessage().getContent().split(" "));
         if(amount == -1){
             sendEmbed(event,"error","invalid amount");
@@ -126,7 +125,7 @@ public class GGHandler extends Command implements ICommand{
         }
 
         user.payBack(amount);
-        data.getBank().changeMoney(amount);
+        bank.changeMoney(amount);
         if(user.getDebt() == 0){
             sendEmbed(event,"you paid back your entire loan!","your balance:" + condense(user.getMoney()));
         }else {
@@ -134,7 +133,7 @@ public class GGHandler extends Command implements ICommand{
         }
     }
 
-    private void loan(MessageReceivedEvent event, UserGG user, GuildDataOrginizer data) {
+    private void loan(MessageReceivedEvent event, UserGG user, Bank bank) {
 	    int amount = getAmount(event.getMessage().getContent().split(" "));
 	    if(amount == -1){
 	        sendEmbed(event,"error","invalid amount");
@@ -149,28 +148,32 @@ public class GGHandler extends Command implements ICommand{
         if(amount > 1_000_000)interest = 0.25;
         if(amount > 1_000_000_000)interest = 0.5;
         try {
-            data.getBank().withdrawl(amount);
+            bank.withdrawl(amount);
             user.loan(amount, interest);
             sendEmbed(event, "you got a loan of " + condense(amount), "your interest:" + user.getInterest() * 100 + "%");
         } catch (Bank.OutOfMoneyException e) {
-            sendEmbed(event, "the bank doesn't have enough money.",data.getBank().outOfMoneyMessage());
+            sendEmbed(event, "the bank doesn't have enough money.",bank.outOfMoneyMessage());
         }
     }
 
-    private static void sendAll(GuildDataOrginizer data, MessageReceivedEvent event) {
+    private static void sendAll(MessageReceivedEvent event) {
 //                String send = "";
         EmbedBuilder b = new EmbedBuilder();
-        List<UserGG> users = data.getUserGGs();
+        List<DBHandler.UserGG> users = DBHandler.get().getUserGG();
         GGHandler.sort(users);
-        b.appendField("BANK:" + condense(data.getBank().getMoney()),"_ _",false);
+        b.appendField("BANK:" + condense(DBHandler.get().getBank().getMoney()),"_ _",false);
         double worth = -1;
         try{
             worth = new BTC().downloadPrice(event.getClient());
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-        for (UserGG u : users) {
+        for (DBHandler.UserGG user : users) {
 //                      send+=      "`" +  u.getId() + "`  " + client.getUserByID(u.getId()).getName() + " : " + u.getMoney() + GG   + "\n";
+            UserGG u = UserGG.from(user);
+            if(u.getMoney() == 0 && u.getEducationLevel() == 0 && u.getDebt() == 0 & u.getInterest() == 0 & u.getCoins() == 0 && u.getInvested() == 0 && u.getGotten() == 0){
+                continue;//skip
+            }
             b.appendField(event.getClient().getUserByID(u.getId()).getName(),u.toString(worth), false);
         }
 //                sendEmbed(event, send);
@@ -180,7 +183,7 @@ public class GGHandler extends Command implements ICommand{
     }
 
 
-    private void mod(MessageReceivedEvent event, UserGG user, GuildDataOrginizer data) {
+    private void mod(MessageReceivedEvent event,Bank bank) {
 	    if(!event.getAuthor().getRolesForGuild(event.getGuild()).contains(event.getGuild().getRolesByName("MOD").get(0))){
             sendMessage(event,"you need the @MOD role to use this command");
             return;
@@ -198,7 +201,7 @@ public class GGHandler extends Command implements ICommand{
             return;
         }
         if(Arrays.asList(args).contains("bank")) {
-            data.getBank().setMoney(amount);
+            bank.setMoney(amount);
         }else if(Arrays.asList(args).contains("help")){
             String help = "**gg~mod**\n" +
                     "needs number\n" +
@@ -209,7 +212,6 @@ public class GGHandler extends Command implements ICommand{
                     "         \\\\--int\n" +
                     "         \\\\--debt\n" +
                     "         \\\\--btc\n" +
-                    "         \\\\--gotten        (applys to both gotten and invested)\n" +
                     "         \\\\--reset\n" +
                     " \\\\---does not need mention\n" +
                     "      \\\\--bank\n" +
@@ -222,39 +224,51 @@ public class GGHandler extends Command implements ICommand{
                 sendEmbed(event, "error", "you need to mention someone");
                 return;
             }
+            DBHandler db = DBHandler.get();
+            List<DBHandler.UserGG> users = new ArrayList<>();
+            for (IUser u : mentioned) {
+                users.add(db.toUserGG(DB.getById(u.getLongID(),db.getGGDB())));
+            }
+
             if (Arrays.asList(args).contains("add")) {
-                for (IUser u : mentioned) {
-                    data.getUser(u).increaseMoney(amount);
+                for (DBHandler.UserGG u : users) {
+                    u.setMoney(u.getMoney() + amount);
+                    db.update(u);
                 }
             } else if (Arrays.asList(args).contains("set")) {
-                for (IUser u : mentioned) {
-                    data.getUser(u).setMoney(amount);
+                for (DBHandler.UserGG u : users) {
+                    u.setMoney(amount);
+                    db.update(u);
                 }
             } else if (Arrays.asList(args).contains("edu")) {
-                for (IUser u : mentioned) {
-                    data.getUser(u).setEducation(amount);
+                for (DBHandler.UserGG u : users) {
+                    u.setEduLevel(amount);
+                    db.update(u);
                 }
             } else if (Arrays.asList(args).contains("int")) {
-                for (IUser u : mentioned) {
-                    data.getUser(u).setInterest(amount);
+                for (DBHandler.UserGG u : users) {
+                    u.setInterest(amount);
+                    db.update(u);
                 }
             } else if (Arrays.asList(args).contains("debt")) {
-                for (IUser u : mentioned) {
-                    data.getUser(u).setDebt(amount);
+                for (DBHandler.UserGG u : users) {
+                    u.setDebt(amount);
+                    db.update(u);
                 }
+
             } else if (Arrays.asList(args).contains("btc")) {
-                for (IUser u : mentioned) {
-                    data.getUser(u).setCoins(amount);
+                for (DBHandler.UserGG u : users) {
+                    u.setCoins(amount);
+                    db.update(u);
                 }
-            }else if (Arrays.asList(args).contains("gotten")) {
-                for (IUser u : mentioned) {
-                    data.getUser(u).setInvested(amount);
-                    data.getUser(u).setGotten(amount);
-                }
+
             }else if (Arrays.asList(args).contains("reset")) {
-                for (IUser u : mentioned) {
-                    data.getUser(u).reset();
+                for (DBHandler.UserGG u : users) {
+                    UserGG resettable = UserGG.from(u);
+                    resettable.reset();
+                    db.update(resettable.to());
                 }
+
             }
         }
 
@@ -262,15 +276,7 @@ public class GGHandler extends Command implements ICommand{
 
     }
 
-    private void cleanUsers(GuildDataOrginizer data) {
-	    List<UserGG> hasZero = new ArrayList<>();
-	    for(UserGG u : data.getUserGGs()){
-	        if(u.getMoney() == 0 && u.getDebt() == 0 && u.getEducationLevel() == 0 ){
-	            hasZero.add(u);
-            }
-        }
-       data.getUserGGs().removeAll(hasZero);
-    }
+
 
     private int getAmount(String[] args) throws NumberFormatException{
         for(String str : args){
@@ -286,7 +292,7 @@ public class GGHandler extends Command implements ICommand{
     }
 
 
-    private void slot(MessageReceivedEvent event, UserGG user, GuildDataOrginizer data) {
+    private void slot(MessageReceivedEvent event, UserGG user, Bank bank) {
         int amount = -1;
         for(String str : event.getMessage().getContent().split(" ")){
             int temp ;
@@ -314,8 +320,8 @@ public class GGHandler extends Command implements ICommand{
         int match3 = 75;
         int match2StarBonus = 100;
 
-        if(data.getBank().getMoney() < (star3 * amount)) {
-            sendEmbed(event, "the bank doesn't have enough money. max bet: " + condense(data.getBank().getMoney() / 15_000), data.getBank().outOfMoneyMessage());
+        if(bank.getMoney() < (star3 * amount)) {
+            sendEmbed(event, "the bank doesn't have enough money. max bet: " + condense(bank.getMoney() / star3), bank.outOfMoneyMessage());
             return;
         }
         //:regional_indicator_a:
@@ -359,7 +365,6 @@ public class GGHandler extends Command implements ICommand{
                 letters[b] + " " +
                 letters[c]
         );
-        Bank bank = data.getBank();
         if(a == b && b == c && a == letters.length - 1){//n^3
             user.increaseMoney(-1 * amount);
             user.increaseMoney(amount * star3);
@@ -412,7 +417,7 @@ public class GGHandler extends Command implements ICommand{
 
     }
 
-    private void btc(MessageReceivedEvent event, UserGG user, GuildDataOrginizer data){
+    private void btc(MessageReceivedEvent event, UserGG user, Bank bank){
 	    int amount;
 	    try {
             amount = getAmount(event.getMessage().getContent().split(" "));
@@ -456,45 +461,6 @@ public class GGHandler extends Command implements ICommand{
         }
 
     }
-//pay script \/
-
-//    private void pay(MessageReceivedEvent event, UserGG user, GuildDataOrginizer data){//disabled for now - no point /shrug
-//        String[] args = event.getMessage().getContent().toLowerCase().split(" ");
-//        if(args.length == 1){
-//            sendMessage(event, "you need more args");
-//            return;
-//        }
-//        int amount = getAmount(args);
-//        if(amount == -1){
-//            sendEmbed(event, "error","you need an amount to pay");
-//            return;
-//        }
-//        if(amount < 1){
-//            sendEmbed(event, "error","you can not pay that");
-//            return;
-//        }
-//
-//        List<IUser> mentioned = event.getMessage().getMentions();
-//        if(mentioned.size() == 0){
-//            sendEmbed(event,"error","you need to mention someone");
-//            return;
-//        }
-//
-//
-//        if(amount * mentioned.size() > user.getMoney()){
-//            sendEmbed(event,"error:", "you do not have enough money to pay " + mentioned.size() + " people " + amount + GG + "\n" + "you have " + user.getMoney() + GG);
-//            return;
-//        }
-//        user.setMoney(user.getMoney() - (amount * mentioned.size()));
-//        for(IUser recipient : mentioned){
-//            if(recipient.isBot()){
-//                sendMessage(event, "you can not pay the bot. You are losing that money <:thonk:440249411574956032>");
-//            }
-//            data.getUser(recipient).increaseMoney(amount);
-//        }
-//        sendEmbed(event,"Worked!","your balance:" + user.getMoney());
-//
-//    }
 
 
 	@Override
@@ -508,14 +474,14 @@ public class GGHandler extends Command implements ICommand{
 	}
 	
 
-    private static List<UserGG> sort(List<UserGG> users){
+    private static List<DBHandler.UserGG> sort(List<DBHandler.UserGG> users){
         for (int i = 0; i < users.size() - 1; i++){
             int index = i;
             for (int j = i + 1; j < users.size(); j++) {
                 if (users.get(j).getMoney() > users.get(index).getMoney())
                     index = j;
                 }
-            UserGG temp = users.get(index);
+            DBHandler.UserGG temp = users.get(index);
             users.set(index, users.get(i));
             users.set(i,temp);
         }

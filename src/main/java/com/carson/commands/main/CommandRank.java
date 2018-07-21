@@ -4,9 +4,10 @@ import java.util.List;
 
 import com.carson.commandManagers.Command;
 import com.carson.commandManagers.ICommand;
+import com.carson.dataObject.DBHandler;
 import com.carson.dataObject.DataGetter;
-import com.carson.dataObject.GuildDataOrginizer;
 
+import com.mongodb.client.model.Filters;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IUser;
@@ -26,7 +27,7 @@ public class CommandRank extends Command implements ICommand{
 	public void run(MessageReceivedEvent event) {
 		String text = event.getMessage().getContent().toLowerCase();
 		if(text.equals("~rank")) {//ranks for that one person
-			sendMessage(event, "XP for " + event.getAuthor().getName() + " is:`" + CommandRank.getXPForUser(event.getAuthor().getLongID()) + "`");
+			sendMessage(event, "XP for " + event.getAuthor().getName() + " is:`" + CommandRank.getXPForUser(event.getAuthor().getLongID(),event.getGuild().getLongID()) + "`");
 		}else {
 			List<IUser> peopleMentioned =event.getMessage().getMentions();
 			
@@ -36,7 +37,7 @@ public class CommandRank extends Command implements ICommand{
 				if(name.length() > 30) {
 					name = name.substring(0, 25);
 				}
-				builder.append(name + " has `" + CommandRank.getXPForUser(person.getLongID()) + "` XP\n");
+				builder.append(name + " has `" + CommandRank.getXPForUser(person.getLongID(),event.getGuild().getLongID()) + "` XP\n");
 				if(builder.length() > 1500) {
 					builder.append("I can't send any more people as of right now, discord limits message length");
 					break;
@@ -50,9 +51,8 @@ public class CommandRank extends Command implements ICommand{
 		}
 	}
 	
-	public static long getXPForUser(long id) {
-		GuildDataOrginizer guildData = DataGetter.getInstance();
-		return guildData.getXPForUser(id);
+	public static long getXPForUser(long userId,long guildId) {
+		return DBHandler.get().toGuildUserData(DBHandler.get().getUsersDB().find(Filters.eq("_id",userId + "" + guildId)).first()).getXp();
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class CommandRank extends Command implements ICommand{
 
 	@Override
 	public String getDisciption() {
-		return "gets your rank (global, not server-based). mention someone to get their rank";
+		return "gets your rank (server-based). mention someone to get their rank";
 	}
 
 }

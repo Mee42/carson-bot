@@ -1,16 +1,16 @@
 package com.carson.classes;
 
-import com.carson.dataObject.DataGetter;
+import com.carson.dataObject.DBHandler;
 
 //import java.io.File;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.mongodb.client.model.Filters;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IUser;
 
 import java.io.File;
-import java.io.IOException;
 
 public class Logger { 
 
@@ -19,7 +19,12 @@ public class Logger {
 	public static void log(MessageReceivedEvent event) {
 		IUser author = event.getAuthor();
 		int xp = (int)(java.lang.Math.random()*15+1);
-		DataGetter.getInstance().increaseXPForUser(author.getLongID(), xp);
+
+        DBHandler db = DBHandler.get();
+        DBHandler.GuildUserData user = db.toGuildUserData(db.getUsersDB().find(Filters.eq(event.getAuthor().getLongID() + "" + event.getGuild().getLongID())).first());
+        user.setXp(user.getXp() + xp);
+        db.update(user);
+
 		IChannel channel = event.getChannel();
 		String text = event.getMessage().getContent();
 		text = text.replace(System.getProperty("line.separator"), "\\n");

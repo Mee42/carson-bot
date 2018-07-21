@@ -1,5 +1,7 @@
 package com.carson.commands.gg;
 
+import com.carson.dataObject.DBHandler;
+
 public class UserGG {
     private final long id;
     private int money = 0;
@@ -9,6 +11,7 @@ public class UserGG {
     private int coins = 0;
     private int invested = 0;
     private int gotten = 0;
+
 
 
 
@@ -134,4 +137,31 @@ public class UserGG {
     public void setCoins(int coins) {
         this.coins = coins;
     }
+
+
+    public static UserGG from(DBHandler.UserGG user){
+        UserGG newUser = new UserGG(user.getId());
+        newUser.money = user.getMoney();
+        newUser.educationLevel = user.getEduLevel();
+        newUser.debt = user.getDebt();
+        newUser.interest = user.getInterest();
+        newUser.coins = user.getCoins();
+        newUser.invested = user.getInvested();
+        newUser.gotten = user.getGotten();
+        return newUser;
+    }
+    public DBHandler.UserGG to(){
+        DBHandler.UserGG user = DBHandler.get().new UserGG(id);
+        user.setMoney(money);
+        user.setEduLevel(educationLevel);
+        user.setDebt(debt);
+        user.setInterest(interest);
+        user.setCoins(coins);
+        user.setInvested(invested);
+        user.setGotten(gotten);
+        return user;
+    }
+
+
+
 }

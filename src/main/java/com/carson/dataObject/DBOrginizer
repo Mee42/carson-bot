@@ -1,0 +1,36 @@
+CarsonBot
+    -global
+    \- user
+      -id
+
+    --guilds
+     \-guild
+       -_id : id
+       -leave_message
+       -leave_channel
+
+    --users
+     \-user
+       - _id : id (user + guild id)
+       - user_id
+       - guild_id
+       - xp
+
+    --gg
+     \-user
+       - _id : user_id
+       - money
+       - edu_level
+       - debt
+       - interest
+       - coins
+       - invested
+       - gotten
+       - is_user  :  true
+     \-bank
+       - money
+       - is_user  :  false
+    --perms
+     \-channel
+       -id
+       -list of

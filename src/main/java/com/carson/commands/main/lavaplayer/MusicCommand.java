@@ -4,7 +4,7 @@ import com.carson.commandManagers.Command;
 
 import sx.blah.discord.api.IDiscordClient;
 
-public class MusicCommand extends Command{
+public abstract class MusicCommand extends Command{
 	LavaplayerMain m;
 	/*
 	 * this is to set up the constructer for lavaplayer automaticly.

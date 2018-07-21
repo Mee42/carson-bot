@@ -1,26 +1,25 @@
 package com.carson.commands.main;
 
 import com.carson.commandManagers.Command;
-import com.carson.commandManagers.ICommand;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class CommandMemberCount extends Command implements ICommand{
+public class CommandMemberCount extends Command {
 
 	public CommandMemberCount(IDiscordClient c) {
 		super(c);
 	}
 
-
 	@Override
-	public boolean test(MessageReceivedEvent event) {
+	public boolean test(MessageReceivedEvent event, String content, String[] args) {
 		if(event.getChannel().isPrivate()) return false;
-		return event.getMessage().getContent().equals("~members");
+		return content.equals("~members");
+
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event) {
+	public void run(MessageReceivedEvent event, String content, String[] args) {
 		sendMessage(event.getChannel(), " Current Member count:**" + event.getGuild().getTotalMemberCount() + "**! ");
 		return ;
 	}

@@ -5,7 +5,6 @@ import java.util.List;
 import com.carson.commandManagers.Command;
 import com.carson.commandManagers.ICommand;
 import com.carson.dataObject.DataGetter;
-import com.carson.dataObject.GuildDataOrginizer;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
@@ -33,7 +32,7 @@ public class CommandTac extends Command implements ICommand {
 		
 		long player2 = mentions.get(0).getLongID();
 		long id = event.getAuthor().getLongID();
-		GuildDataOrginizer data = DataGetter.getInstance();
+		DataGetter data = DataGetter.getInstance();
 		RunningTacGame game = data.getGameWithUser(id);
 		if(game != null) {
 			if(game.getIdP1() == id || game.getIdP2() == id) {

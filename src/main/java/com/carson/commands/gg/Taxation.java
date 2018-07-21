@@ -1,21 +1,19 @@
 package com.carson.commands.gg;
 
 import com.carson.classes.Messanger;
-import com.carson.dataObject.DataGetter;
-import com.carson.dataObject.GuildDataOrginizer;
+import com.carson.dataObject.DBHandler;
 import sx.blah.discord.api.IDiscordClient;
 
-import java.time.Duration;
 import java.util.Calendar;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public class Taxation {
 
     public static final double TAX_AMOUNT = 0.9;
 
     public static void start(IDiscordClient client){
+        if(true)return;
+
         final Runnable runner = new Runnable() {
             private IDiscordClient client;
             public Runnable submit(IDiscordClient client) {
@@ -55,13 +53,11 @@ public class Taxation {
 
 
         Messanger m = new Messanger();
-        GuildDataOrginizer data = DataGetter.getInstance();
-        List<UserGG> users = data.getUserGGs();
+        List<DBHandler.UserGG> users = DBHandler.get().getUserGG();
         String print = "***Tax was taken from your accounts***";//. here are the results:***\n";
-        for(UserGG user : users){
-//            print+=client.getUserByID(user.getId()).getName() + " had " + user.getMoney() + GGHandler.GG + " but now has ";
-            user.midnight();
-//            print+=user.getMoney() + GGHandler.GG + "\n";
+        for(DBHandler.UserGG user : users){
+            user.setDebt((int) (user.getDebt() * user.getInterest() + user.getDebt()));
+            DBHandler.get().update(user);
         }
         m.sendMessage(client.getChannelByID(468188465662656513L),print);
     }

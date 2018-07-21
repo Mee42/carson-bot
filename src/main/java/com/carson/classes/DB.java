@@ -28,11 +28,16 @@ public class DB {
 
 
     public static void print(Document d){
-        System.out.println("{");
+        System.out.println(toString(d));
+    }
+    public static String toString(Document d){
+        String str = "";
+        str+="{\n";
         for(String key : d.keySet()){
-            System.out.println("\t" + "\"" + key + "\" : \"" + d.get(key) + "\"");
+            str+="\t" + "\"" + key + "\" : \"" + d.get(key) + "\"\n";
         }
-        System.out.println("}");
+        str+="}";
+        return str;
     }
     public static boolean delete(Object id,MongoCollection<Document> collection){
         Document d = collection.find(Filters.eq("_id",id)).first();

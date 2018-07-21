@@ -3,13 +3,13 @@ package com.carson.commands.cb;
 import java.util.List;
 
 import com.carson.commandManagers.Command;
-import com.carson.commandManagers.ICommand;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IVoiceChannel;
 
-public class CommandStatus extends Command implements ICommand{
+public class CommandStatus extends Command{
+
 	
 	private long bootTime = System.currentTimeMillis();
 	
@@ -18,12 +18,13 @@ public class CommandStatus extends Command implements ICommand{
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event) {
-		return event.getMessage().getContent().equals("cb-status");
+	public boolean test(MessageReceivedEvent event,String content, String[] args, PermissionLevel level) {
+		if(!hasPermission(PermissionLevel.BOT_ADMIN,level))return false;
+		return content.equals("cb-status");
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event) {
+	public void run(MessageReceivedEvent event,String content, String[] args) {
 		String temp = "voice channels:\n";
 		List<IVoiceChannel> vc = client.getConnectedVoiceChannels();
 		for(IVoiceChannel v : vc) {
