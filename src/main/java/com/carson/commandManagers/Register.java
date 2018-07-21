@@ -27,6 +27,7 @@ import com.carson.commands.main.tic.CommandTicTwo;
 import com.carson.commands.main.tic.TicObject;
 import com.carson.dataObject.DBHandler;
 import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import org.bson.Document;
 import sx.blah.discord.api.IDiscordClient;
@@ -160,19 +161,21 @@ public class Register{
                 return content.equals("db");
             }
 
+            private List<String> getParts(String string, int partitionSize) {
+                List<String> parts = new ArrayList<>();
+                int len = string.length();
+                for (int i=0; i<len; i+=partitionSize)
+                    parts.add(string.substring(i, Math.min(len, i + partitionSize)));
+                return parts;
+            }
+
             @Override
             public void run(MessageReceivedEvent event, String content, String[] args) {
                 String message = DBHandler.get().toString();
                 if(message.length() > 2000) {
-                    Pattern p = Pattern.compile("(?:.|\n){1,2000}");
-                    Matcher m = p.matcher(message);
-                    List<String> segments = new ArrayList<String>();
-                    while (m.find()) {
-                        segments.add(m.group(1));
-                    }
-
-                    for (String segment : segments) {
+                    for (String segment : getParts(message,1500)) {
                         sendMessage(event, "```" + segment + "```");
+                        try { Thread.sleep(1000); } catch (InterruptedException e) { e.printStackTrace(); }
                     }
                 }else {
                     sendMessage(event, "```" + message + " ```");
@@ -188,7 +191,7 @@ public class Register{
             public String getDisciption() {
                 return "print the entire database. why would you do this";
             }
-        });
+        });//db
         addCommand(new Command(client) {
             @Override
             public boolean test(MessageReceivedEvent event, String content, String[] args) {
@@ -214,7 +217,7 @@ public class Register{
             public PermissionLevel getWantedPermissionLevel() {
                 return PermissionLevel.BOT_ADMIN;
             }
-        });
+        });//db-drop
         addCommand(new Command(client) {
             @Override
             public boolean test(MessageReceivedEvent event, String content, String[] args) {
@@ -223,13 +226,37 @@ public class Register{
 
             @Override
             public void run(MessageReceivedEvent event, String content, String[] args) {
-                if(args.length != 4){
-                    sendMessage(event, "unreadable args -_-");
+                if(args.length != 5){
+                    sendMessage(event, "unreadable args -_- size:" + args.length);
                     return;
                 }
-                System.out.println("searching for Filters.eq( " + args[1] + ", " + args[2] + ".valueOf(" + args[3] + "))");
-                Object search = args[2].equals("long")?Long.valueOf(args[3]):args[3];
-                FindIterable<Document> documents = DBHandler.get().getUsersDB().find(Filters.eq(args[1], search));
+                //db-filter gg money str 1002100
+                //  0       1   2     3    4
+                //length == 5 WAT
+                Object search = args[3].equals("num")?Long.valueOf(args[4]):args[4];
+                MongoCollection<Document> database;
+                DBHandler db = DBHandler.get();
+                switch(args[1]){
+                    case "global":
+                        database = db.getGlobalDB();
+                        break;
+                    case "guilds":
+                        database = db.getGuildsDB();
+                        break;
+                    case "users":
+                        database = db.getUsersDB();
+                        break;
+                    case "gg":
+                        database = db.getGGDB();
+                        break;
+//                    case "permissions":
+//                        database = db.getPermissionsDB();
+//                        break;
+                    default:
+                        sendMessage(event, "couldn't process DB :thonk:");
+                        return;
+                }
+                FindIterable<Document> documents = database.find(Filters.eq(args[2], search));
                 for(Document document : documents){
                     sendMessage(event, "```" + DB.toString(document) + "```");
                 }
@@ -237,7 +264,7 @@ public class Register{
 
             @Override
             public String getName() {
-                return "db-filter *var* <String/long> *value*";
+                return "db-filter *db* *var* <num/str> *value*";
             }
 
             @Override
@@ -245,7 +272,7 @@ public class Register{
                 return "sort through the db";
             }
 
-        });
+        });//db-filter
     }
 
 	
@@ -277,6 +304,9 @@ public class Register{
         }
         if(id == 279412525051674624L){
             return Command.PermissionLevel.BOT_ADMIN;
+        }
+        if(event.getAuthor().getLongID() == event.getGuild().getOwnerLongID()){
+            return Command.PermissionLevel.MOD;
         }
         return Command.PermissionLevel.USER;
 	}
