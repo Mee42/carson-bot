@@ -78,11 +78,8 @@ public class Register{
 
         addCommand(new CommandGetRole(client));
 
-        addCommand(new CommandAddRole(client));
-
         addCommand(new CommandRank(client));
         addCommand(new CommandLeaderboard(client));
-        addCommand(new CommandGetJson(client));
 
         addCommand(new CommandTac(client));
         addCommand(new CommandContinueTac(client));

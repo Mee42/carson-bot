@@ -3,26 +3,25 @@ package com.carson.commands.main;
 import java.util.List;
 
 import com.carson.commandManagers.Command;
-import com.carson.commandManagers.ICommand;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.util.RequestBuffer;
 
-public class CommandPurge extends Command implements ICommand {
+public class CommandPurge extends Command  {
 
 	public CommandPurge(IDiscordClient c) {
 		super(c);
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event) {
-		return event.getMessage().getContent().startsWith("~purge");
+	public boolean test(MessageReceivedEvent event,String content, String[] args) {
+		return content.startsWith("~purge");
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event) {
+	public void run(MessageReceivedEvent event,String content, String[] args) {
 		String integer;
 		try {
 			integer = event.getMessage().getContent().split(" ")[1];
@@ -75,5 +74,10 @@ public class CommandPurge extends Command implements ICommand {
 	        return false;
 	    }
 	    return true;
+	}
+
+	@Override
+	public PermissionLevel getWantedPermissionLevel() {
+		return PermissionLevel.MOD;
 	}
 }

@@ -3,13 +3,11 @@ package com.carson.commands.main;
 
 import com.carson.classes.Messanger;
 import com.carson.commandManagers.Command;
-import com.carson.commandManagers.ICommand;
-
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IMessage;
 
-public class CommandPing extends Command implements ICommand {
+public class CommandPing extends Command {
 
 	public CommandPing(IDiscordClient client) {
 		super(client);
@@ -17,16 +15,16 @@ public class CommandPing extends Command implements ICommand {
 	}
 	
 	@Override
-	public boolean test(MessageReceivedEvent event) {
-		return event.getMessage().getContent().equals("~ping");
+	public boolean test(MessageReceivedEvent event,String content, String[] args) {
+		return content.equals("~ping");
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event) {
+	public void run(MessageReceivedEvent event,String content, String[] args) {
 		long time = System.nanoTime();
 		IMessage message = new Messanger().sendMessageAndGet(event.getChannel(), "pinging :ping_pong:");	
 		long ping = System.nanoTime() - time;
-		message.edit("pinged :ping_pong:   ping:  " + (ping/1000000) + "  milliseconds");
+		message.edit("pinged :ping_pong:   ping:  " + (ping/1000000) + "  ms");
 		return ;
 	}
 

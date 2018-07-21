@@ -11,19 +11,19 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 import sx.blah.discord.util.EmbedBuilder;
 import sx.blah.discord.util.RequestBuffer;
 
-public class CommandLeaderboard extends Command implements ICommand{
+public class CommandLeaderboard extends Command{
 
 	public CommandLeaderboard(IDiscordClient c) {
 		super(c);
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event) {
+	public boolean test(MessageReceivedEvent event,String content, String[] args) {
 		return (event.getMessage().getContent().toLowerCase().equals("~lb") || event.getMessage().getContent().toLowerCase().equals("~leaderboard"));
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event) {
+	public void run(MessageReceivedEvent event,String content, String[] args) {
 		EmbedBuilder builder = new EmbedBuilder();
 		builder.withAuthorName("Carson-Bot");
 		

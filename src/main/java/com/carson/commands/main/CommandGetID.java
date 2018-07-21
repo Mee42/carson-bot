@@ -4,26 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.carson.commandManagers.Command;
-import com.carson.commandManagers.ICommand;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IRole;
 import sx.blah.discord.handle.obj.IUser;
 
-public class CommandGetID extends Command implements ICommand{
+public class CommandGetID extends Command {
 
 	public CommandGetID(IDiscordClient c) {
 		super(c);
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event) {
-		return event.getMessage().getContent().startsWith("~id");
+	public boolean test(MessageReceivedEvent event, String content, String[] args) {
+		return content.startsWith("~id");
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event) {
+	public void run(MessageReceivedEvent event, String content, String[] args) {
 		try {
 			String message = "";
 			List<IUser> users = event.getMessage().getMentions();

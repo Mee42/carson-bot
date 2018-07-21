@@ -1,12 +1,13 @@
 package com.carson.commands.main.tic;
 
 import com.carson.commandManagers.Command;
-import com.carson.commandManagers.ICommand;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class CommandTicStart extends Command implements ICommand{
+import java.util.Random;
+
+public class CommandTicStart extends Command{
 
 	
 	
@@ -18,12 +19,12 @@ public class CommandTicStart extends Command implements ICommand{
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event) {
-		return event.getMessage().getContent().equalsIgnoreCase("~tic");
+	public boolean test(MessageReceivedEvent event,String content, String[] args) {
+		return content.equalsIgnoreCase("~tic");
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event) {
+	public void run(MessageReceivedEvent event,String content, String[] args) {
 		if(t.v.getActive()) {
 			sendMessage(event.getChannel(),"Sorry, Someone is using the Tic Tac Toe game right now.");
 			System.out.println("EVENT:" +t.v.getInitalEvent().getAuthor().getName() + " is using the ticTacToe game right now, so " + event.getAuthor().getName() + " can't");
@@ -32,7 +33,7 @@ public class CommandTicStart extends Command implements ICommand{
 		
 		
 		t.v.set(event);
-		if((int)(Math.random()*2+1) == 2) {
+		if(new Random().nextBoolean()) {
 			t.messageID = event.getChannel().sendMessage(t.tac.start(0)).getLongID();
 		}else{
 			t.messageID = event.getChannel().sendMessage(t.tac.start(-1)).getLongID();

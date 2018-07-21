@@ -4,25 +4,26 @@ import java.io.File;
 import java.util.List;
 
 import com.carson.classes.FileIO;
-import com.carson.commandManagers.ICommand;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.util.EmbedBuilder;
 
-public class CommandPlayLocal extends MusicCommand implements ICommand{
+public class CommandPlayLocal extends MusicCommand{
 	
 	public CommandPlayLocal(IDiscordClient c, LavaplayerMain m) {
 		super(c,m);
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event) {
+	public boolean test(MessageReceivedEvent event,String content, String[] args) {
 		return event.getMessage().getContent().startsWith("v~local");
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event) {
+	public void run(MessageReceivedEvent event, String content, String[] args) {
+		sendMessage(event,"this command is currently broken -_-");
+		if(true)return;
 		if(event.getMessage().getContent().equals("v~local~get") || event.getMessage().getContent().equals("v~local")) {
 			getLocal(event);
 			return;

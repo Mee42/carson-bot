@@ -1,30 +1,27 @@
 package com.carson.commands.main;
 
-import java.util.List;
-
 import com.carson.commandManagers.Command;
-import com.carson.commandManagers.ICommand;
 import com.carson.dataObject.DBHandler;
-import com.carson.dataObject.DataGetter;
-
 import com.mongodb.client.model.Filters;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IUser;
 
-public class CommandRank extends Command implements ICommand{
+import java.util.List;
+
+public class CommandRank extends Command {
 
 	public CommandRank(IDiscordClient c) {
 		super(c);
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event) {
-		return event.getMessage().getContent().toLowerCase().startsWith("~rank");
+	public boolean test(MessageReceivedEvent event, String content, String[] args) {
+		return content.toLowerCase().startsWith("~rank");
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event) {
+	public void run(MessageReceivedEvent event, String content, String[] args) {
 		String text = event.getMessage().getContent().toLowerCase();
 		if(text.equals("~rank")) {//ranks for that one person
 			sendMessage(event, "XP for " + event.getAuthor().getName() + " is:`" + CommandRank.getXPForUser(event.getAuthor().getLongID(),event.getGuild().getLongID()) + "`");

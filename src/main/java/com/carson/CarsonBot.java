@@ -49,22 +49,22 @@ public class CarsonBot {
 
 	@EventSubscriber
 	public void onStartup(ReadyEvent event) {
-	    updateMemberCount();
+	    CarsonBot.updateMemberCount(client);
         //this enables the logger
 //        ((Discord4J.Discord4JLogger) Discord4J.LOGGER).setLevel(Level.TRACE);
 		
 		
-        reg = Register.build(client); //puts the subregisters into the reg. and imports the client
+        reg = new Register(client);
         
 
 		new Thread(() -> Prime.getInstance().initulize()).start();
-        Taxation.start(client);
+//        Taxation.start(client);
         startBTCApiCaller(client);
         System.out.println("BOOT: bot started");
 
     }
 	
-	private void updateMemberCount(){
+	public static void updateMemberCount(IDiscordClient client){
         List<IGuild> guilds = client.getGuilds();
         int users = 0;
         for(IGuild guild : guilds){
@@ -92,7 +92,7 @@ public class CarsonBot {
 	
 	@EventSubscriber
 	public void onUserJoin(UserJoinEvent event) {
-	    updateMemberCount();
+		CarsonBot.updateMemberCount(client);
 		if(event.getGuild().getLongID() == 208023865127862272L) {
 			return;
 		}/**/
@@ -123,7 +123,7 @@ public class CarsonBot {
 	
 	@EventSubscriber
 	public void onUserLeave(UserLeaveEvent event) {
-        updateMemberCount();
+		CarsonBot.updateMemberCount(client);
         String userName = event.getUser().getName();
 		long channelId = DBHandler.get().getGuildDataBy(event.getGuild().getLongID()).getLeaveChannel();//correct
 		String deathMessage = DBHandler.get().getGuildDataBy(event.getGuild().getLongID()).getLeaveMessage();//correct

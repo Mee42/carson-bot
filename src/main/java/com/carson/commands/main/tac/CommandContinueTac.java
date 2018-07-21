@@ -1,20 +1,19 @@
 package com.carson.commands.main.tac;
 
 import com.carson.commandManagers.Command;
-import com.carson.commandManagers.ICommand;
 import com.carson.dataObject.DataGetter;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class CommandContinueTac extends Command implements ICommand {
+public class CommandContinueTac extends Command{
 
 	public CommandContinueTac(IDiscordClient c) {
 		super(c);
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event) {
+	public boolean test(MessageReceivedEvent event,String content, String[] args) {
 		long id = event.getAuthor().getLongID();
 		
 		if(!event.getMessage().getContent().matches("[0-9]")) {return false;}
@@ -29,7 +28,7 @@ public class CommandContinueTac extends Command implements ICommand {
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event) {
+	public void run(MessageReceivedEvent event,String content, String[] args) {
 		int move = Integer.parseInt(Character.toString(event.getMessage().getContent().charAt(0)));
 		DataGetter data = DataGetter.getInstance();
 		RunningTacGame game = data.getGameWithUser(event.getAuthor().getLongID());

@@ -1,25 +1,24 @@
 package com.carson.commands.main;
 
 import com.carson.commandManagers.Command;
-import com.carson.commandManagers.ICommand;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IRole;
 
-public class CommandGetRoles extends Command implements ICommand{
+public class CommandGetRoles extends Command{
 
 	public CommandGetRoles(IDiscordClient c) {
 		super(c);
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event) {
-		return event.getMessage().getContent().equals("~getroles");
+	public boolean test(MessageReceivedEvent event, String content, String[] args) {
+		return content.equals("~getroles");
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event) {
+	public void run(MessageReceivedEvent event, String content, String[] args) {
 		sendMessage(event, "use ~getrole *rolename* to get a role.\nroles:```" + new Object() { public String getStr() {String str = "";for(IRole role : CommandGetRole.getRoles(client)) {str+="\n" + role.getName();} return str;}}.getStr() + "```");
 	}
 
@@ -30,7 +29,7 @@ public class CommandGetRoles extends Command implements ICommand{
 
 	@Override
 	public String getDisciption() {
-		return "gets all avalible roles for the Brass Players' Discord";
+		return "gets all available roles for the Brass Players' Discord";
 	}
 
 }

@@ -1,12 +1,10 @@
 package com.carson.commands.main.hangman;
 
 import com.carson.commandManagers.Command;
-import com.carson.commandManagers.ICommand;
-
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class CommandHangmanStart extends Command implements ICommand {  //TODO NEEDS TO BE REGISTARED
+public class CommandHangmanStart extends Command{
 
 	private HangmanObject h;
 	
@@ -16,12 +14,7 @@ public class CommandHangmanStart extends Command implements ICommand {  //TODO N
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event) {
-		return event.getMessage().getContent().equals("~hangman");
-	}
-
-	@Override
-	public void run(MessageReceivedEvent event) {
+	public void run(MessageReceivedEvent event, String content, String[] args) {
 		if(h.hangman.set(event)) {
 			System.out.println("EVENT:starting hangman game with" + event.getAuthor().getName());
 			sendMessage(event.getChannel(), "Nice! Now go check your DM's");
@@ -32,6 +25,12 @@ public class CommandHangmanStart extends Command implements ICommand {  //TODO N
 		}
 		
 	}
+
+	@Override
+	public boolean test(MessageReceivedEvent event, String content, String[] args) {
+		return content.equals("~hangman");
+	}
+
 
 	@Override
 	public String getName() {

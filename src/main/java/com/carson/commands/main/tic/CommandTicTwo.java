@@ -1,12 +1,11 @@
 package com.carson.commands.main.tic;
 
 import com.carson.commandManagers.Command;
-import com.carson.commandManagers.ICommand;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class CommandTicTwo extends Command implements ICommand{
+public class CommandTicTwo extends Command{
 
 	private TicObject t;
 	
@@ -16,7 +15,7 @@ public class CommandTicTwo extends Command implements ICommand{
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event) {
+	public boolean test(MessageReceivedEvent event,String content, String[] args) {
 
 		if(isInteger(event.getMessage().getContent()) && 
 				Integer.valueOf(event.getMessage().getContent()) < 10) {
@@ -26,11 +25,10 @@ public class CommandTicTwo extends Command implements ICommand{
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event) {
-		String text = event.getMessage().getContent();
-		
+	public void run(MessageReceivedEvent event,String content, String[] args) {
+
 			
-			String next = t.tac.moveNext(Integer.valueOf(text));
+			String next = t.tac.moveNext(Integer.valueOf(content));
 			client.getMessageByID(t.messageID).edit(next);
 			
 			if(t.tac.checkWin() == 1) {
@@ -50,7 +48,7 @@ public class CommandTicTwo extends Command implements ICommand{
 				t.tac = new Tac();
 				t.moves = "";
 			}else {
-				t.moves+=text;
+				t.moves+=content;
 				
 				if(t.moves.length() >= 3 ) {
 					sendMessage(event,next);
@@ -64,13 +62,11 @@ public class CommandTicTwo extends Command implements ICommand{
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getDisciption() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	private static boolean isInteger(String s) {

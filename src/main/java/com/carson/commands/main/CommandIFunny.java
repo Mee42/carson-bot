@@ -5,25 +5,23 @@ import java.util.List;
 
 import com.carson.classes.PhotoStream;
 import com.carson.commandManagers.Command;
-import com.carson.commandManagers.ICommand;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class CommandIFunny extends Command implements ICommand{
+public class CommandIFunny extends Command{
 
 	public CommandIFunny(IDiscordClient c) {
 		super(c);
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event) {
-		return event.getMessage().getContent().equals("~ifunny");
+	public boolean test(MessageReceivedEvent event, String content, String[] args) {
+		return content.equals("~ifunny");
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event) {
-		
+	public void run(MessageReceivedEvent event, String content, String[] args) {
 		List<String> pics;
 		try {
 			pics = PhotoStream.getUrl("https://www.ifunny.co");
@@ -46,7 +44,7 @@ public class CommandIFunny extends Command implements ICommand{
 
 	@Override
 	public String getName() {
-		return 	"~ifunny";
+		return "~ifunny";
 	}
 	
 	@Override

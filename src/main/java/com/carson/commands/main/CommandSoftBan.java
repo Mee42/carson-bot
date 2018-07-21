@@ -1,7 +1,6 @@
 package com.carson.commands.main;
 
 import com.carson.commandManagers.Command;
-import com.carson.commandManagers.ICommand;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IChannel;
@@ -9,23 +8,23 @@ import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.handle.obj.Permissions;
 
-public class CommandSoftBan extends Command implements ICommand {
+public class CommandSoftBan extends Command {
     public CommandSoftBan(IDiscordClient c) {
         super(c);
     }
 
     @Override
-    public boolean test(MessageReceivedEvent event) {
-        return event.getMessage().getContent().startsWith("~softban");
-
+    public boolean test(MessageReceivedEvent event, String content, String[] args) {
+        return content.startsWith("~softban");
     }
 
     @Override
-    public void run(MessageReceivedEvent event) {
-        if(!event.getAuthor().getPermissionsForGuild(event.getGuild()).contains(Permissions.ADMINISTRATOR)){
-            sendMessage(event, "you do not have permission to do that");
-            return;
-        }
+    public PermissionLevel getWantedPermissionLevel() {
+        return PermissionLevel.MOD;
+    }
+
+    @Override
+    public void run(MessageReceivedEvent event, String content, String[] args) {
         if(event.getMessage().getMentions().size() != 1){
             sendMessage(event, "you can only softban one person");
             return;
@@ -51,6 +50,6 @@ public class CommandSoftBan extends Command implements ICommand {
 
     @Override
     public String getDisciption() {
-        return "bans the mentioned user, and then unbans them. needs MANAGE_SERVER and BAN permission. User using command needs ADMIN permission. will only delete 7 days worth of messages";
+        return "bans the mentioned user, and then unbans them. needs MANAGE_SERVER and BAN permission. User using command needs to be MOD on CarsonBot. will only delete 7 days worth of messages";
     }
 }

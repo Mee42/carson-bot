@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.carson.commandManagers.Command;
-import com.carson.commandManagers.ICommand;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class CommandDndTwo  extends Command implements ICommand{
+public class CommandDndTwo  extends Command{
 
 	private DndObject d;
 	
@@ -19,12 +18,12 @@ public class CommandDndTwo  extends Command implements ICommand{
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event) {
+	public boolean test(MessageReceivedEvent event,String content, String[] args) {
 		return d.v.verify(event);
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event) {
+	public void run(MessageReceivedEvent event,String content, String[] args) {
 		String text = event.getMessage().getContent();
 		try {
 			int[] numbers = new int[] { 

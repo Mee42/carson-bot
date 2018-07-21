@@ -4,14 +4,13 @@ import java.io.File;
 
 import com.carson.classes.FileIO;
 import com.carson.commandManagers.Command;
-import com.carson.commandManagers.ICommand;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IUser;
 
-public class CommandHangmanTwo extends Command implements ICommand{
+public class CommandHangmanTwo extends Command {
 
 	private HangmanObject h;
 	
@@ -21,21 +20,21 @@ public class CommandHangmanTwo extends Command implements ICommand{
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event) {
+	public boolean test(MessageReceivedEvent event,String content, String[] args) {
 		return (h.hangmanBoolean && h.hangman.verifyFlop(event, event.getAuthor()) && !event.getChannel().isPrivate() && event.getMessage().getContent().length() == 1);
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event) {
+	public void run(MessageReceivedEvent event,String content, String[] args) {
 
 		
 		IUser author = event.getAuthor();
-		String text = event.getMessage().getContent();
+
 		IChannel channel = event.getChannel();
 		
 			
-			
-			char letter = text.charAt(0);
+
+			char letter = content.charAt(0);
 			
 			for(int i = 0;i<h.hangmanText.length();i++) {
 				if(letter == h.hangmanText.charAt(i)) {

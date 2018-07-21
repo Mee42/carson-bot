@@ -5,33 +5,29 @@ import java.util.List;
 
 import com.carson.classes.FileIO;
 import com.carson.commandManagers.Command;
-import com.carson.commandManagers.ICommand;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IRole;
 
-public class CommandGetRole extends Command implements ICommand{
+public class CommandGetRole extends Command{
+
+
 
 	public CommandGetRole(IDiscordClient c) {
 		super(c);
-		
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event) {
-		if(event.getChannel().isPrivate()) {
-			return false;
-		}
-		if(event.getGuild().getLongID() != 449905910807003147L){return false;}
-		if(event.getMessage().getContent().startsWith("~getrole")){
-			return true;
-		}
-		return false;
+	public boolean test(MessageReceivedEvent event, String content, String[] args) {
+		if(event.getChannel().isPrivate()) return false;
+		if(event.getGuild().getLongID() != 449905910807003147L)return false;
+		return content.startsWith("~getrole");
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event) {
+	public void run(MessageReceivedEvent event, String content, String[] args) {
+
 		if(event.getChannel().getLongID() != 449912350267539456L) {
 			sendMessage(event, "please be in <#449912350267539456>");
 			return;
@@ -69,7 +65,7 @@ public class CommandGetRole extends Command implements ICommand{
 
 	@Override
 	public String getName() {
-		return "v~getrole *role_name*";
+		return "~getrole *role_name*";
 	}
 
 	@Override

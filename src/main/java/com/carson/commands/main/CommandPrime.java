@@ -2,24 +2,23 @@ package com.carson.commands.main;
 
 import com.carson.classes.Prime;
 import com.carson.commandManagers.Command;
-import com.carson.commandManagers.ICommand;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class CommandPrime extends Command implements ICommand {
+public class CommandPrime extends Command{
     public CommandPrime(IDiscordClient c) {
         super(c);
     }
 
     @Override
-    public boolean test(MessageReceivedEvent event) {
-        return event.getMessage().getContent().toLowerCase().startsWith("~prime");
+    public boolean test(MessageReceivedEvent event,String content, String[] args) {
+        return content.startsWith("~prime");
     }
 
     @Override
-    public void run(MessageReceivedEvent event) {
+    public void run(MessageReceivedEvent event,String content, String[] args) {
         if(!Prime.getInstance().isDone()){
-            sendMessage(event, "We havn't proccessed all of the numbers yet. Check back in a minute or two");
+            sendMessage(event, "We haven't processed all of the numbers yet. Check back in a minute or two");
             return;
         }
         String[] primeStrArr = event.getMessage().getContent().replace(",","").split(" ");
@@ -27,8 +26,7 @@ public class CommandPrime extends Command implements ICommand {
             sendMessage(event, "Illegal arguments");
             return;
         }
-        long time = System.currentTimeMillis();
-        int pos = 0;
+        int pos;
         
         try {
         	pos = Integer.parseInt(primeStrArr[1]);
@@ -37,7 +35,7 @@ public class CommandPrime extends Command implements ICommand {
             return;
         }
         if(pos < 0 || pos > Prime.getInstance().getMax()) {
-        	sendMessage(event,"thats not inside the valid range: 0 - " + Prime.getInstance().getMax());
+        	sendMessage(event,"that's not inside the valid range: 0 - " + Prime.getInstance().getMax());
         	return;
         }
         boolean isPrime = Prime.getInstance().isPrime(pos);

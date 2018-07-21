@@ -30,7 +30,3 @@ CarsonBot
      \-bank
        - money
        - is_user  :  false
-    --perms
-     \-channel
-       -id
-       -list of

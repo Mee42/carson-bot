@@ -11,26 +11,25 @@ import com.carson.classes.FileIO;
 import com.carson.classes.PhotoStream;
 
 import com.carson.commandManagers.Command;
-import com.carson.commandManagers.ICommand;
 import com.google.gson.JsonIOException;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class CommandXKCD extends Command implements ICommand{
+public class CommandXKCD extends Command{
 
 	public CommandXKCD(IDiscordClient c) {
 		super(c);
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event) {
-		return event.getMessage().getContent().startsWith("~xkcd");
+	public boolean test(MessageReceivedEvent event, String content, String[] args) {
+		return content.startsWith("~xkcd");
+
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event) {
-		String[] args= event.getMessage().getContent().split(" ");
+	public void run(MessageReceivedEvent event, String content, String[] args) {
 		if(args.length == 1) {
 			try {
 				runNoArgs(event);
@@ -41,10 +40,8 @@ public class CommandXKCD extends Command implements ICommand{
 		}else {
 			try {
 				int i = Integer.parseInt(args[1]);
-				
 				runWithInt(event, i);
-				
-			}catch (Exception e) {
+			}catch (NumberFormatException e) {
 				sendMessage(event, "there was a problem processing your request.");
 			}
 			

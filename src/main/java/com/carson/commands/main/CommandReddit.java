@@ -5,38 +5,32 @@ import java.util.List;
 
 import com.carson.classes.PhotoStream;
 import com.carson.commandManagers.Command;
-import com.carson.commandManagers.ICommand;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class CommandReddit extends Command implements ICommand{
+public class CommandReddit extends Command{
 
 	public CommandReddit(IDiscordClient c) {
 		super(c);
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event) {
-		String[] args = event.getMessage().getContent().split(" ");
-		if(args.length == 0) 
+	public boolean test(MessageReceivedEvent event,String content, String[] args) {
+		if(args.length == 0)
 			return false;
 		if(!args[0].equals("~reddit")) {
 			return false;
 		}
 		if(args.length == 1) {
-			sendMessage(event, " you need a subreddit. ex: ~reddit *subreddit* ");
+			sendMessage(event, " you need a subreddit. ex: ~reddit thanosdidnothingwrong ");
 			return false;
 		}
 		return true;
-		
-		
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event) {
-		String[] args = event.getMessage().getContent().split(" ");
-		
+	public void run(MessageReceivedEvent event,String content, String[] args) {
 		List<String> pics;
 		try {
 			pics = PhotoStream.getUrl("https://www.reddit.com/r/" + args[1]);

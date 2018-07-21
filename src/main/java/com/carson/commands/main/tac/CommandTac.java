@@ -3,33 +3,30 @@ package com.carson.commands.main.tac;
 import java.util.List;
 
 import com.carson.commandManagers.Command;
-import com.carson.commandManagers.ICommand;
 import com.carson.dataObject.DataGetter;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IUser;
 
-public class CommandTac extends Command implements ICommand {
+public class CommandTac extends Command {
 
 	public CommandTac(IDiscordClient c) {
 		super(c);
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event) {
-		return event.getMessage().getContent().toLowerCase().startsWith("~tac");
+	public boolean test(MessageReceivedEvent event,String content, String[] args) {
+		return content.startsWith("~tac");
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event) {
+	public void run(MessageReceivedEvent event,String content, String[] args) {
 		List<IUser> mentions = event.getMessage().getMentions();
 		if(mentions.size() != 1) {
 			sendMessage(event, "make sure you are only mentioning one person");
 			return;
 		}
-		
-		
 		long player2 = mentions.get(0).getLongID();
 		long id = event.getAuthor().getLongID();
 		DataGetter data = DataGetter.getInstance();

@@ -18,8 +18,7 @@ public class CommandStatus extends Command{
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event,String content, String[] args, PermissionLevel level) {
-		if(!hasPermission(PermissionLevel.BOT_ADMIN,level))return false;
+	public boolean test(MessageReceivedEvent event,String content, String[] args) {
 		return content.equals("cb-status");
 	}
 

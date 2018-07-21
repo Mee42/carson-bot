@@ -1,28 +1,26 @@
 package com.carson.commands.main.lavaplayer;
 
 import com.carson.classes.Googler;
-import com.carson.commandManagers.ICommand;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class CommandYoutubeKeywords extends MusicCommand implements ICommand{
+public class CommandYoutubeKeywords extends MusicCommand{
 
 	public CommandYoutubeKeywords(IDiscordClient c, LavaplayerMain m) {
 		super(c,m);
 	}
 
+
 	@Override
-	public boolean test(MessageReceivedEvent event) {
-		return event.getMessage().getContent().startsWith("v~youtube");
+	public boolean test(MessageReceivedEvent event, String content, String[] args) {
+		return content.startsWith("v~youtube");
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event) {
-		String text = event.getMessage().getContent();
-
+	public void run(MessageReceivedEvent event, String content, String[] args) {
 		System.out.println("EVENT: youtube played with keywords");
-		String url = new Googler().GoogleYoutube(text.substring(10,text.length()));
+		String url = new Googler().GoogleYoutube(content.substring(10,content.length()));
 		System.out.println(url);
 		m.playLink(event.getChannel(),url);
 	}
@@ -34,8 +32,7 @@ public class CommandYoutubeKeywords extends MusicCommand implements ICommand{
 
 	@Override
 	public String getDisciption() {
-		// TODO Auto-generated method stub
-		return null;
+		return "play a song from youtube";
 	}
 
 }

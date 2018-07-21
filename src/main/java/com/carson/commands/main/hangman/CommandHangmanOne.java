@@ -1,32 +1,31 @@
 package com.carson.commands.main.hangman;
 
 import com.carson.commandManagers.Command;
-import com.carson.commandManagers.ICommand;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
-public class CommandHangmanOne  extends Command implements ICommand{
+public class CommandHangmanOne  extends Command {
 
 	private HangmanObject h;
 	
-	public CommandHangmanOne(IDiscordClient c,HangmanObject h) { //TODO add to registaer
+	public CommandHangmanOne(IDiscordClient c,HangmanObject h) {
 		super(c);
 		this.h = h;
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event) {
+	public boolean test(MessageReceivedEvent event,String content, String[] args) {
 		return h.hangman.verify(event);
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event) {
+	public void run(MessageReceivedEvent event,String content, String[] args) {
 		System.out.println("EVENT: hangman word found");
-		h.hangmanText = event.getMessage().getContent();
+		h.hangmanText = content;
 		sendMessage(event.getChannel(), "Great!");
 		h.hangmanBoolean = true;
-		String temp = "";
+		String temp;
 		String text = event.getMessage().getContent();
 		
 		for(int i = 0;i<text.length();i++) {
