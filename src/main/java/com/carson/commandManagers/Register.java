@@ -281,30 +281,45 @@ public class Register{
             @Override
             public void run(MessageReceivedEvent event, String content, String[] args) {
                 String message = DBHandler.get().toString();
-//                if(message.length() > 2000) {
-//                    for (String segment : getParts(message,1990)) {
-//                        sendMessage(event, "```" + segment + "```");
-//                        try { Thread.sleep(1000); } catch (InterruptedException e) { e.printStackTrace(); }
-//                    }
-//                }else {
-//                    sendMessage(event, "```" + message + " ```");
-//                }
-                File db = new File("db" + UUID.randomUUID().toString().replace("-","") + ".txt");
-                try {
-                    db.createNewFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                FileIO.use(db).write(message);
-                RequestBuffer.request(() -> {
+                if(!(message.length() > 10_000)) {
+                    if (message.length() > 2000) {
+                        for (String segment : getParts(message, 1990)) {
+                            sendMessage(event, "```" + segment + "```");
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    } else {
+                        sendMessage(event, "```" + message + " ```");
+                    }
+                }else{
+                    sendMessage(event, "to much text for me to send.sending a file");
+                    File db = new File("db" + UUID.randomUUID().toString().replace("-","").substring(0,5) + ".txt");
                     try {
-                        System.out.println(db.exists());
-                        event.getChannel().sendFile(db);
-                    } catch (FileNotFoundException e) {
+                        db.createNewFile();
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
-                });
-                db.delete();
+                    FileIO.use(db).write(message);
+                    RequestBuffer.request(() -> {
+                        try {
+                            System.out.println(db.exists());
+                            event.getChannel().sendFile(db);
+                        } catch (FileNotFoundException e) {
+//                        e.printStackTrace();
+                            try {
+                                FileIO.use(db).write(message);
+                                event.getChannel().sendFile(db);
+                            } catch (FileNotFoundException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
+                    });
+                    db.delete();
+                }
+
             }
 
             @Override
