@@ -1,6 +1,7 @@
 package com.carson.dataObject;
 
 import com.carson.classes.DB;
+import com.carson.commandManagers.Command;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -9,6 +10,7 @@ import org.bson.Document;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 public class DBHandler {
@@ -36,6 +38,9 @@ public class DBHandler {
     }
     public MongoCollection<Document> getGGDB(){
         return getDatabase().getCollection("gg");
+    }
+    public MongoCollection<Document> getPermissionDB(){
+        return getDatabase().getCollection("permissions");
     }
 
 
@@ -397,6 +402,94 @@ public class DBHandler {
                 .append("money", bank.getMoney());
     }
 
+
+
+    public class Entry{
+        private final String id;
+        private long user_id = -1;
+        private long role_id = -1;
+        private long guild_id;
+
+        private Command.PermissionLevel level;
+
+        public String getId() {
+            return id;
+        }
+        public long getUser_id() {
+            return user_id;
+        }
+        public void setUser_id(long user_id) {
+            this.user_id = user_id;
+        }
+        public long getRole_id() {
+            return role_id;
+        }
+        public void setRole_id(long role_id) {
+            this.role_id = role_id;
+        }
+        public long getGuild_id() {
+            return guild_id;
+        }
+        public void setGuild_id(long guild_id) {
+            this.guild_id = guild_id;
+        }
+        public Command.PermissionLevel getLevel() {
+            return level;
+        }
+        public void setLevel(Command.PermissionLevel level) {
+            this.level = level;
+        }
+
+        public Entry(String id) {
+            this.id = id;
+        }
+        public Entry(){
+            this.id = UUID.randomUUID().toString();
+        }
+
+        public Entry(String id, long user_id, long role_id, long guild_id,Command.PermissionLevel level) {
+            this.id = id;
+            this.user_id = user_id;
+            this.role_id = role_id;
+            this.guild_id = guild_id;
+            this.level = level;
+        }
+    }
+    public enum Scope{
+        GLOBAL,GUILD,CHANNEL;
+    }
+
+    public List<Entry> getEntrys(){
+        List<Entry> data = new ArrayList<>();
+        for (Document document : getPermissionDB().find()){
+            data.add(toEntry(document));
+        }
+        return data;
+    }
+    public void update(Entry entry){
+        DB.createOrReplace(fromEntry(entry),getPermissionDB());
+    }
+
+    public Entry toEntry(Document document){
+        Command.PermissionLevel level = String.valueOf(document.get("permission")).equals("BOT_ADMIN")?Command.PermissionLevel.BOT_ADMIN:
+                String.valueOf(document.get("permission")).equals("MOD")?Command.PermissionLevel.MOD:Command.PermissionLevel.USER;
+        return new Entry((String)document.get("_id"),
+                document.containsKey("user_id")?(long)document.get("user_id"):-1,
+                document.containsKey("role_id")?(long)document.get("role_id"):-1,
+                (long)document.get("guild_id"),
+                level);
+    }
+    public Document fromEntry(Entry e){
+        return new Document()
+                .append("_id",e.getId())
+                .append("user_id",e.getUser_id())
+                .append("role_id",e.getRole_id())
+                .append("guild_id",e.getGuild_id())
+                .append("permission",
+                        e.getLevel() == Command.PermissionLevel.BOT_ADMIN?"BOT_ADMIN":
+                                e.getLevel() == Command.PermissionLevel.MOD?"MOD":"USER");
+    }
+
     @Override
     public String toString(){
         String str = "CARSONBOT:\n";
@@ -416,10 +509,16 @@ public class DBHandler {
         for(Document document : getGGDB().find()){
             str+=DB.toString(document) + "\n";
         }
+        str+="-PERMISSIONS\n";
+        for(Document document : getPermissionDB().find()){
+            str+=DB.toString(document) + "\n";
+        }
+
         return str;
     }
 
-    public void print(){
-        System.out.println(this.toString());
-    }
+
+
+
+
 }

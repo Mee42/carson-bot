@@ -1,7 +1,6 @@
 package com.carson.commands.cb;
 
 import com.carson.commandManagers.Command;
-
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.util.RateLimitException;
@@ -42,6 +41,6 @@ public class CommandNick extends Command{
 
     @Override
     public PermissionLevel getWantedPermissionLevel() {
-        return PermissionLevel.BOT_ADMIN;
+        return PermissionLevel.MOD;
     }
 }

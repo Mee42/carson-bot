@@ -1,7 +1,7 @@
 package com.carson.commandManagers;
 
 import com.carson.classes.Messenger;
-
+import com.carson.dataObject.DBHandler;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IChannel;
@@ -29,8 +29,12 @@ public abstract class Command{
 	public abstract void run(MessageReceivedEvent event,String content, String[] args); //runs the command
 	public abstract String getName(); //gets the name of the command
 	public abstract String getDisciption(); //gets the description of the command
+
     public PermissionLevel getWantedPermissionLevel(){
      return PermissionLevel.USER;
+    }
+    public DBHandler.Scope getScope() {
+        return DBHandler.Scope.CHANNEL;
     }
 
     public enum PermissionLevel{

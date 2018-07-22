@@ -1,13 +1,11 @@
 
 package com.carson.commandManagers;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
 import com.carson.classes.DB;
+import com.carson.classes.FileIO;
 import com.carson.classes.Messenger;
-import com.carson.commands.cb.*;
+import com.carson.commands.cb.CommandNick;
+import com.carson.commands.cb.CommandStatus;
 import com.carson.commands.gg.GGHandler;
 import com.carson.commands.main.*;
 import com.carson.commands.main.dnd.CommandDndStart;
@@ -31,6 +29,17 @@ import org.bson.Document;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IMessage;
+import sx.blah.discord.handle.obj.IRole;
+import sx.blah.discord.handle.obj.IUser;
+import sx.blah.discord.util.EmbedBuilder;
+import sx.blah.discord.util.RequestBuffer;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class Register{
 
@@ -47,7 +56,9 @@ public class Register{
         addBuiltCommands();
 	}
 
-	private void addBuiltCommands(){
+
+
+    private void addBuiltCommands(){
 	    addCommand(new CommandBuilder()
             .setCommand("~ping")
             .setName("~ping")
@@ -68,6 +79,45 @@ public class Register{
                 new Messenger().sendMessage(event.getChannel(), "dm me at <@293853365891235841>, or join my support server at discord.gg/BxhRxHW");
             })
             .build(client)
+        );
+	    addCommand(new CommandBuilder()
+                .setCommand("cb-perms")
+                .setName("cb-perms")
+                .setDescription(null)
+                .setRunner((event,content,args) -> {
+                    DBHandler db = DBHandler.get();
+                    System.out.println("entry size:" + db.getEntrys().size());
+                    EmbedBuilder b = new EmbedBuilder();
+                    for(DBHandler.Entry entry : db.getEntrys()){
+                        b.appendField(entry.getId() + "",
+                                "user_id:" + entry.getUser_id() + "\nuser:" + client.getUserByID(entry.getUser_id())
+                                + "\nrole_id:" + entry.getRole_id()  + "\nrole:" + client.getRoleByID(entry.getRole_id())
+                                + "\nguild_id:" + entry.getGuild_id() + "\nguild:" + client.getGuildByID(entry.getGuild_id()).getName()
+                                + "\npermission_level:" + entry.getLevel(),false);
+                    }
+                    RequestBuffer.request(()->{
+                       event.getChannel().sendMessage(b.build());
+                    });
+                })
+                .build(client)
+        );
+	    addCommand(new CommandBuilder()
+                .setCommand("cb-test",CommandBuilder.TestType.STARTS_WITH)
+                .setName("cb-test")
+                .setDescription(null)
+                .setRunner((event,content,args) -> {
+                    Command.PermissionLevel level = Command.PermissionLevel.USER;
+                    if(args[1].equalsIgnoreCase("mod")){
+                        level = Command.PermissionLevel.MOD;
+                    }
+                    if(args[1].equalsIgnoreCase("bot_admin")){
+                        level = CommandSkip.PermissionLevel.BOT_ADMIN;
+                    }
+                    boolean works = new CommandBTC(client).hasPermission(level,getPermissionLevel(event));
+                    RequestBuffer.request(()->{
+                       event.getChannel().sendMessage(works?"permission granted":"permission denied");
+                    });
+                }).build(client)
         );
     }
 
@@ -131,7 +181,7 @@ public class Register{
     private void addCarsonBotCommands(){
         addCommand(new CommandStatus(client));
         addCommand(new CommandNick(client));
-        addCommand(new Command(client){
+        addCommand(new Command(client){ //cb-s
             @Override public boolean test(MessageReceivedEvent event, String content,String[] args) {
                 return content.equals("cb-s");
             }
@@ -147,7 +197,69 @@ public class Register{
             @Override public PermissionLevel getWantedPermissionLevel() {
                 return PermissionLevel.BOT_ADMIN;
             }
-        });
+        });//cb-s
+        addCommand(new Command(client) {
+            @Override
+            public boolean test(MessageReceivedEvent event, String content, String[] args) {
+                return args[0].equals("cb-perm");
+            }
+
+            @Override
+            public void run(MessageReceivedEvent event, String content, String[] args) {
+                //cb-perm @mention <bot_admin/mod/user>
+                //   0      1               3
+                List<IRole> roles = event.getMessage().getRoleMentions();
+                DBHandler.Entry entry = DBHandler.get().new Entry();
+                if(roles.size() == 0){
+                    IUser userMentioned = event.getMessage().getMentions().get(0);
+                    entry.setUser_id(userMentioned.getLongID());
+                }else{
+                    entry.setRole_id(roles.get(0).getLongID());
+                }
+                entry.setGuild_id(event.getGuild().getLongID());
+
+                PermissionLevel permissionLevel;
+
+                if(args[2].equalsIgnoreCase("bot_admin")){
+                    permissionLevel = PermissionLevel.BOT_ADMIN;
+                }else if(args[2].equalsIgnoreCase("mod")){
+                    permissionLevel = PermissionLevel.MOD;
+                }else if(args[2].equalsIgnoreCase("user")){
+                    permissionLevel = PermissionLevel.USER;
+                }else{
+                    sendMessage(event, "that is not a valid permission");
+                    return;
+                }
+                entry.setLevel(permissionLevel);
+                DBHandler.get().update(entry);
+            }
+
+            @Override
+            public String getName() {
+                return "cb-perm @mention <bot_admin/mod/user>";
+            }
+
+            @Override
+            public String getDisciption() {
+                return null;
+            }
+
+            @Override
+            public PermissionLevel getWantedPermissionLevel() {
+                return PermissionLevel.BOT_ADMIN;
+//                return PermissionLevel.MOD;
+            }
+        });//cb-perm
+
+        addCommand(new CommandBuilder()
+                .setCommand("cb-perm-remove", CommandBuilder.TestType.STARTS_WITH)
+                .setName("cb-perm-remove")
+                .setDescription(null)
+                .setRunner((event,content,args) -> {
+                    Object id = args[1];
+                    DBHandler.get().getPermissionDB().deleteOne(Filters.eq("_id",id));
+                })
+                .build(client));
     }
 
 	private void addDBCommands(){
@@ -169,14 +281,30 @@ public class Register{
             @Override
             public void run(MessageReceivedEvent event, String content, String[] args) {
                 String message = DBHandler.get().toString();
-                if(message.length() > 2000) {
-                    for (String segment : getParts(message,1500)) {
-                        sendMessage(event, "```" + segment + "```");
-                        try { Thread.sleep(1000); } catch (InterruptedException e) { e.printStackTrace(); }
-                    }
-                }else {
-                    sendMessage(event, "```" + message + " ```");
+//                if(message.length() > 2000) {
+//                    for (String segment : getParts(message,1990)) {
+//                        sendMessage(event, "```" + segment + "```");
+//                        try { Thread.sleep(1000); } catch (InterruptedException e) { e.printStackTrace(); }
+//                    }
+//                }else {
+//                    sendMessage(event, "```" + message + " ```");
+//                }
+                File db = new File("db" + UUID.randomUUID().toString().replace("-","") + ".txt");
+                try {
+                    db.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+                FileIO.use(db).write(message);
+                RequestBuffer.request(() -> {
+                    try {
+                        System.out.println(db.exists());
+                        event.getChannel().sendFile(db);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                });
+                db.delete();
             }
 
             @Override
@@ -186,7 +314,7 @@ public class Register{
 
             @Override
             public String getDisciption() {
-                return "print the entire database. why would you do this";
+                return "returns the entire database. why would you do this";
             }
         });//db
         addCommand(new Command(client) {
@@ -275,6 +403,7 @@ public class Register{
                 .setDescription("get the size(in chars) of the db")
                 .setCommand("db-size")
                 .setRunner((event,content,args) -> new Messenger().sendMessage(event.getChannel(),"db size:" + DBHandler.get().toString().length() + " chars")).build(client));
+
     }
 
 	
@@ -299,14 +428,36 @@ public class Register{
 		}
 	}
 
+
 	public static Command.PermissionLevel getPermissionLevel(MessageReceivedEvent event) {
         long id = event.getAuthor().getLongID();
-        if(id == 293853365891235841L){
-            return Command.PermissionLevel.BOT_ADMIN;
+        if(id == 293853365891235841L)return Command.PermissionLevel.BOT_ADMIN;
+        List<DBHandler.Entry> entries = DBHandler.get().getEntrys();
+        Command.PermissionLevel highest = Command.PermissionLevel.USER;
+        for(DBHandler.Entry entry : entries){
+            if(entry.getUser_id() == id ||
+                    event.getAuthor().getRolesForGuild(event.getGuild()).contains(event.getClient().getRoleByID(entry.getRole_id()))){//if has the role in that server
+                Command.PermissionLevel level = entry.getLevel();
+                if(level == Command.PermissionLevel.MOD && event.getGuild().getLongID() != entry.getGuild_id()){//if mod in another server
+                    continue;//skip this one+
+                }else{
+//                    System.out.println("current server:" + event.getGuild().getLongID());
+//                    System.out.println("    mod server:" + entry.getGuild_id());
+                }
+                if(level == highest){
+                    continue;//skip
+                }
+                if(level == Command.PermissionLevel.MOD && highest == Command.PermissionLevel.USER){
+                    highest = level;
+                }
+                if(level == Command.PermissionLevel.BOT_ADMIN){
+                    return Command.PermissionLevel.BOT_ADMIN;
+                }
+
+            }
         }
-        if(id == 279412525051674624L){
-            return Command.PermissionLevel.BOT_ADMIN;
-        }
+        if(highest != Command.PermissionLevel.USER)return highest;
+
         if(event.getAuthor().getLongID() == event.getGuild().getOwnerLongID()){
             return Command.PermissionLevel.MOD;
         }

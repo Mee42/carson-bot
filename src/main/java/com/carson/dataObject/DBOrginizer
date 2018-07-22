@@ -36,6 +36,4 @@ CarsonBot
       o-  user_id
       o-  role_id
        -  guild_id
-      o-  channel_id
-       -  scope  : <GLOBAL/GUILD/CHANNEL>
        -  permission : <BOT_ADMIN/MOD/USER>

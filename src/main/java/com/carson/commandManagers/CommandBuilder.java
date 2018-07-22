@@ -8,6 +8,9 @@ public class CommandBuilder {
     private String command;
     private TestType testType;//alternative is starts with
     private Tester tester;
+    private Command.PermissionLevel level = Command.PermissionLevel.USER;
+
+
     enum TestType{
         EQUAL,STARTS_WITH,CUSTOM
     }
@@ -38,7 +41,10 @@ public class CommandBuilder {
         return this;
 
     }
-
+    public CommandBuilder setPermissionLevel(Command.PermissionLevel user) {
+        level = user;
+        return this;
+    }
 
     public CommandBuilder setTester(Tester tester) {
         this.tester = tester;
@@ -88,6 +94,11 @@ public class CommandBuilder {
             @Override
             public String getDisciption() {
                 return description;
+            }
+
+            @Override
+            public PermissionLevel getWantedPermissionLevel() {
+                return level;
             }
         };
     }

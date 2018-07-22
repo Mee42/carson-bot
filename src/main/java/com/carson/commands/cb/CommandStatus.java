@@ -1,12 +1,11 @@
 package com.carson.commands.cb;
 
-import java.util.List;
-
 import com.carson.commandManagers.Command;
-
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IVoiceChannel;
+
+import java.util.List;
 
 public class CommandStatus extends Command{
 
@@ -44,4 +43,8 @@ public class CommandStatus extends Command{
 		return "gets the current status of the bot";
 	}
 
+	@Override
+	public PermissionLevel getWantedPermissionLevel() {
+		return PermissionLevel.BOT_ADMIN;
+	}
 }
