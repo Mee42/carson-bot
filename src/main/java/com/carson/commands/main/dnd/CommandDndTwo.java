@@ -1,12 +1,11 @@
 package com.carson.commands.main.dnd;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.carson.commandManagers.Command;
-
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CommandDndTwo  extends Command{
 
@@ -34,8 +33,8 @@ public class CommandDndTwo  extends Command{
 			int total = 0;
 			List<Integer> number = new ArrayList<Integer>();
 		
-			for(int i1 = 0;i1<numbers[1];i1++) {
-				int temp1 = (int)(Math.random()*numbers[0]+1);
+			for(int i1 = 0;i1<numbers[0];i1++) {
+				int temp1 = (int)(Math.random()*numbers[1]+1);
 				number.add(temp1);
 				total+=temp1;
 			}

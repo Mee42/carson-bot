@@ -64,6 +64,7 @@ public class Logger {
 				.append("_id",event.getMessageID())
 				.append("user_id",event.getAuthor().getLongID())
 				.append("channel_id",event.getChannel().getLongID())
+				.append("content",event.getMessage().getContent())
 				.append("hour",hour)
 				.append("day",day)
 				.append("month",month);

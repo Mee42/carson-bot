@@ -496,32 +496,48 @@ public class DBHandler {
     @Override
     public String toString(){
         String str = "CARSONBOT:\n";
-        str+="-Global\n";
+        str+="=============================================\n";
+        str+="========Global\n";
+        str+="=============================================\n";
         for(Document document : getGlobalDB().find()){
             str+=DB.toString(document) + "\n";
+            str+=DB.toString(document) + "\n";
         }
-        str+="-Guilds\n";
+        str+="=============================================\n";
+        str+="========Guilds\n";
+        str+="=============================================\n";
         for(Document document : getGuildsDB().find()){
             str+=DB.toString(document) + "\n";
         }
-        str+="-Users\n";
+        str+="=============================================\n";
+        str+="========Users\n";
+        str+="=============================================\n";
         for(Document document : getUsersDB().find()){
             str+=DB.toString(document) + "\n";
         }
-        str+="-GG\n";
+        str+="=============================================\n";
+        str+="========GG\n";
+        str+="=============================================\n";
         for(Document document : getGGDB().find()){
             str+=DB.toString(document) + "\n";
         }
-        str+="-PERMISSIONS\n";
+        str+="=============================================\n";
+        str+="========PERMISSIONS\n";
+        str+="=============================================\n";
         for(Document document : getPermissionDB().find()){
             str+=DB.toString(document) + "\n";
         }
-        str+="-MESSAGES\n";
-        for(Document document : getMessagesDB().find()){
+        str+="=============================================\n";
+        str+="========ATTACHMENTS\n";
+        str+="=============================================\n";
+
+        for(Document document : getAttachmentsDB().find()){
             str+=DB.toString(document) + "\n";
         }
-        str+="-ATTACHMENTS\n";
-        for(Document document : getAttachmentsDB().find()){
+        str+="=============================================\n";
+        str+="==========MESSAGES\n";
+        str+="=============================================\n";
+        for(Document document : getMessagesDB().find()){
             str+=DB.toString(document) + "\n";
         }
         return str;
