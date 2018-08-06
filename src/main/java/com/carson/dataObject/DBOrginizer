@@ -36,4 +36,28 @@ CarsonBot
       o-  user_id
       o-  role_id
        -  guild_id
-       -  permission : <BOT_ADMIN/MOD/USER>
+       -  permission  : <BOT_ADMIN/MOD/USER>
+
+
+
+   --messages
+    \-message
+      -  _id : message_id
+      -  user_id
+      -  channel_id
+      -  content
+     o-  attachments  :   [] attachment_id
+      -  hour   :  since 0:00 that day
+      -  day    :  days since epoch
+      -  month  :  days since epoch
+
+  --attachments
+    \-attachment
+       -  _id  :  random
+       -  message_id
+       -  name
+       -  url
+  --opt
+    \- entry
+      -  _id  :  user_id
+      -  opt  :  true/false   : true for opted in, false for opted out

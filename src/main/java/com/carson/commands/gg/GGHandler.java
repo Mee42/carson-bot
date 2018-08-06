@@ -1,20 +1,15 @@
 package com.carson.commands.gg;
 
 
-
 import com.carson.classes.BTC;
 import com.carson.classes.DB;
 import com.carson.commandManagers.Command;
-
 import com.carson.dataObject.DBHandler;
-import com.carson.dataObject.DataGetter;
-import com.mongodb.client.model.Filters;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.EmbedBuilder;
 import sx.blah.discord.util.RequestBuffer;
-
 
 import java.awt.*;
 import java.io.IOException;
@@ -36,6 +31,7 @@ public class GGHandler extends Command {
 
     @Override
     public boolean test(MessageReceivedEvent event, String content, String[] args) {
+	    if(event.getChannel().isPrivate())return false;
 	    if(event.getGuild().getLongID() != 462681259370610689L)return false;
         return event.getMessage().getContent().toLowerCase().startsWith("gg~");
 	}
@@ -93,7 +89,6 @@ public class GGHandler extends Command {
                     slot(event, user,bank);
                 } else if (event.getMessage().getContent().toLowerCase().startsWith("gg~mod")) {
                     mod(event,bank);
-                    return;
                 }else if(event.getMessage().getContent().toLowerCase().startsWith("gg~roulette")){
                     new Roulette(event,user,bank);
                 }else if(event.getMessage().getContent().toLowerCase().startsWith("gg~get_loan")){

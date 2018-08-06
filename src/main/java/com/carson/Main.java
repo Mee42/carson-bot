@@ -1,11 +1,12 @@
+
+
 package com.carson;
 
-import java.io.File;
-
-import com.carson.classes.*;
-import com.carson.main.*;
-
+import com.carson.classes.FileIO;
+import com.carson.main.BotUtils;
 import sx.blah.discord.api.IDiscordClient;
+
+import java.io.File;
 
 public class Main {
 
@@ -14,7 +15,6 @@ public class Main {
 
 
 	        String token = "";
-	    	
 	    	try {
 	    		token = FileIO.use(new File("/home/carson/java/jars/key")).readList().get(0);
 	    	}catch(Exception e) {
@@ -46,11 +46,6 @@ public class Main {
 	        
 	        
 	    }
-
-	    public static void main1(String[] args){
-
-		}
-
 	
 }
 

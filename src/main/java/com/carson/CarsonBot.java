@@ -5,12 +5,14 @@ import com.carson.classes.*;
 import com.carson.commandManagers.Register;
 import com.carson.dataObject.DBHandler;
 import com.carson.lavaplayer.GuildMusicManager;
+import com.mongodb.client.model.Filters;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import org.bson.Document;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.ReadyEvent;
@@ -96,16 +98,16 @@ public class CarsonBot {
 		if(event.getGuild().getLongID() == 208023865127862272L) {
 			return;
 		}/**/
+		String joinMessage = "Welcome " + event.getUser().toString() + " to " + event.getGuild().getName() + "\n"
+				+ "current members:`" + event.getGuild().getTotalMemberCount() + "`";
 		try {
-			sendMessage(event.getGuild().getSystemChannel(), "Welcome " + event.getUser().toString() + " to " + event.getGuild().getName() + "\n"
-					+ "current members:`" + event.getGuild().getTotalMemberCount() + "`");
+			sendMessage(event.getGuild().getSystemChannel(), joinMessage);
 		}catch (NullPointerException | MissingPermissionsException e) {
 			for(IChannel channel : event.getGuild().getChannels()) {
 				if(channel.getModifiedPermissions(client.getOurUser()).contains(Permissions.SEND_MESSAGES) &&
 						channel.getModifiedPermissions(client.getOurUser()).contains(Permissions.READ_MESSAGES)) {
 					try {
-						sendMessage(channel, "Welcome " + event.getUser().toString() + " to " + event.getGuild().getName() + "\n"
-								+ "current members:`" + event.getGuild().getTotalMemberCount() + "`");
+						sendMessage(channel, joinMessage);
 						break;
 					}catch (NullPointerException | MissingPermissionsException ee) {
 //						ee.printStackTrace();
@@ -140,7 +142,35 @@ public class CarsonBot {
 	
 	@EventSubscriber
     public void onMessageReceived(MessageReceivedEvent event){
+        Document first = DBHandler.get().getDB("opt").find(Filters.eq("_id", event.getAuthor().getLongID())).first();
+        if(!(first == null || !first.containsKey("opt") || (boolean)first.get("opt"))){
+            return;//don't run anything if they are not
+        }
 
+
+
+
+//        if(event.getMessage().getContent().equals("send_message") && event.getAuthor().getLongID() == 293853365891235841L){
+//            for(IUser user : event.getGuild().getUsers()){
+//                RequestBuffer.request(()->{
+//                    try{
+//                        user.getOrCreatePMChannel().sendMessage("Hey its Carson-Bot here, just wanted to let you know that a new data collection policy" +
+//                                ". To put it simply, I am going to start collecting messages and some other pieces of information. This will run the ranking system " +
+//                                "and is also going to enable me to generate statistics based on your messages, for example, " +
+//                                "\n`you are most active in guild X\n" +
+//                                "you send the most messages at 5pm\n" +
+//                                "your activity in guild X has increased 17% over the last month`\n" +
+//                                "I am telling you this in compliance with the Discord Developer TOS\n" +
+//                                "by ignoring this message, you agree to all data collection done by CarsonBot." +
+//                                "please dm <@293853365891235841> if you would like to opt-out of Carson-Bot" +
+//                                "You will eventually be given the option to download your data.");
+//                    }catch(DiscordException e){
+//                        System.out.println("was unable to send to " + user.getName() + ":" + user.getLongID());
+//                    }
+//                });
+//
+//            }
+//        }
 		
 		//prints the message to the console, as well as the text logs, and gives XP onto global XP
 		Logger.log(event);
@@ -151,7 +181,7 @@ public class CarsonBot {
 		if(event.getMessage().getContent().equals("~help")) { //sends the help message. needs to be here, because we need to be able to pass the register to the help command462681259370610689
 			SendHelp.sendHelp(event, reg);
 		}
-		}//end of handle method
+	}//end of handle method
 
 
 	private void startBTCApiCaller(IDiscordClient client){
@@ -210,7 +240,7 @@ public class CarsonBot {
 	            public void trackLoaded(AudioTrack track) {
 	               sendMessage(channel, "Adding to queue " + track.getInfo().title);
 
-	                play(musicManager, track);
+	                play(musicManager,  track );
 	            }
 
 	            @Override
@@ -220,10 +250,10 @@ public class CarsonBot {
 	                if (firstTrack == null) {
 	                    firstTrack = playlist.getTracks().get(0);
 	                }
-
+                    play(musicManager, firstTrack);
+                    //swap /\   and \/  if you want to use
 	                sendMessage(channel, "Adding to queue " + firstTrack.getInfo().title + " (first track of playlist " + playlist.getName() + ")");
 
-	                play(musicManager, firstTrack);
 	            }
 
 	            @Override

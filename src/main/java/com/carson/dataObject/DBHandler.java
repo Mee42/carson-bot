@@ -42,6 +42,9 @@ public class DBHandler {
     public MongoCollection<Document> getPermissionDB(){
         return getDatabase().getCollection("permissions");
     }
+    public MongoCollection<Document> getMessagesDB(){return getDatabase().getCollection("messages");}
+    public MongoCollection<Document> getAttachmentsDB(){return getDatabase().getCollection("attachments");}
+    public MongoCollection<Document> getDB(String name){return getDatabase().getCollection(name);}
 
 
     public class UserData  {
@@ -513,7 +516,14 @@ public class DBHandler {
         for(Document document : getPermissionDB().find()){
             str+=DB.toString(document) + "\n";
         }
-
+        str+="-MESSAGES\n";
+        for(Document document : getMessagesDB().find()){
+            str+=DB.toString(document) + "\n";
+        }
+        str+="-ATTACHMENTS\n";
+        for(Document document : getAttachmentsDB().find()){
+            str+=DB.toString(document) + "\n";
+        }
         return str;
     }
 

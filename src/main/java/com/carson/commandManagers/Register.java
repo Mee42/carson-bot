@@ -418,6 +418,47 @@ public class Register{
                 .setDescription("get the size(in chars) of the db")
                 .setCommand("db-size")
                 .setRunner((event,content,args) -> new Messenger().sendMessage(event.getChannel(),"db size:" + DBHandler.get().toString().length() + " chars")).build(client));
+        addCommand(new CommandBuilder()
+                .setName("optout")
+                .setDescription("opt out of all features of Carson-Bot, including data collection")
+                .setCommand("~optout")
+                .setRunner((event,content,args) -> {
+                    DBHandler.get().getDB("opt").deleteOne(Filters.eq("_id",event.getAuthor().getLongID()));
+                    DBHandler.get().getDB("opt").insertOne(new Document().append("_id",event.getAuthor().getLongID()).append("opt",false));
+                }).build(client));
+        addCommand(new CommandBuilder()
+                .setName("optin")
+                .setDescription("opt back in to all features of Carson-Bot, including data collection")
+                .setCommand("~optin")
+                .setRunner((event,content,args) -> {
+                    DBHandler.get().getDB("opt").deleteOne(Filters.eq("_id",event.getAuthor().getLongID()));
+                    DBHandler.get().getDB("opt").insertOne(new Document().append("_id",event.getAuthor().getLongID()).append("opt",true));
+                }).build(client));
+        addCommand(new CommandBuilder()
+                .setName("opt")
+                .setDescription("get your current opt status")
+                .setCommand("~opt")
+                .setRunner((event,content,args) -> {
+                    Document document = DBHandler.get().getDB("opt").find(Filters.eq("_id",event.getAuthor().getLongID())).first();
+                    if(document == null || !document.containsKey("opt") || (boolean)document.get("opt")){
+                        RequestBuffer.request(()->event.getChannel().sendMessage("You are opted in. opt out with ~optout"));
+                    }else{
+                        RequestBuffer.request(()->event.getChannel().sendMessage("You are opted out. opt int with ~optin"));
+                    }
+                }).build(client));
+        addCommand(new CommandBuilder()
+                .setName("opt_info")
+                .setDescription("opt info")
+                .setCommand("cb-opt")
+                .setRunner((event,content,args) -> {
+                    String message = "all of these people have opted out:\n";
+                    for(Document d : DBHandler.get().getDB("opt").find(Filters.eq("opt",false))){
+                        message+=client.getUserByID((long)d.get("_id")).getName() + "\n";
+                    }
+                    final String messageFinal = message;
+                    RequestBuffer.request(()->{event.getChannel().sendMessage(messageFinal);});
+                }).build(client));
+
 
     }
 

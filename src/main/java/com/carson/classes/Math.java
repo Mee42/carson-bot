@@ -73,7 +73,7 @@ public class Math {
 //							if(lastIndex == segments.size()) {
 //								System.out.println("lastHalf is empty");
 //								lastHalf = new ArrayList<>();
-//							} //TODO i dont belive this is nessesary with the stuff on lines ~50-51
+//							} //README i dont belive this is nessesary with the stuff on lines ~50-51
 							lastHalf = copy(segments.subList(lastIndex + 1, segments.size()));//the part after the )
 													//-1 and +1 and to get rid of the () while not passing them to dealWith();
 							//format:

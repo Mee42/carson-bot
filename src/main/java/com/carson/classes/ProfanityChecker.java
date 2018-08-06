@@ -1,12 +1,12 @@
 package com.carson.classes;
 
-import java.io.File;
-import java.util.List;
-
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IRole;
 
-public class ProfanityChecker {//TODO delete
+import java.io.File;
+import java.util.List;
+
+public class ProfanityChecker {//TODO fix up or delete
 
 	
 	public static boolean check(MessageReceivedEvent event ) {
