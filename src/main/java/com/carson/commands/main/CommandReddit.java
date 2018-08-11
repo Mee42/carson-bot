@@ -16,10 +16,10 @@ public class CommandReddit extends Command{
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event,String content, String[] args) {
+	public boolean test(String prefix, String content, MessageReceivedEvent event, String rawContent, String[] args) {
 		if(args.length == 0)
 			return false;
-		if(!args[0].equals("~reddit")) {
+		if(!content.startsWith("reddit")) {
 			return false;
 		}
 		if(args.length == 1) {
@@ -30,7 +30,7 @@ public class CommandReddit extends Command{
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event,String content, String[] args) {
+	public void run(String prefix, String content, MessageReceivedEvent event, String rawContent, String[] args) {
 		List<String> pics;
 		try {
 			pics = PhotoStream.getUrl("https://www.reddit.com/r/" + args[1]);
@@ -52,17 +52,11 @@ public class CommandReddit extends Command{
 			e1.printStackTrace();
 		}
 		
-		return ;
+		return;
 	}
 
 	@Override
-	public String getName() {
-		return "~reddit *subreddit_name*";
+	public String getCommandId() {
+		return "reddit";
 	}
-
-	@Override
-	public String getDisciption() {
-		return "gets the latest reddit memes. browes your favoret subriddit, or just use \"memes\" for some  memes :ok_hand:";
-	}
-
 }

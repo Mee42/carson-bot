@@ -14,16 +14,16 @@ public class CommandMath extends Command {
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event, String content, String[] args) {
-		return content.startsWith("~math");
+	public boolean test(String prefix, String content, MessageReceivedEvent event, String rawContent, String[] args) {
+		return content.startsWith("math");
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event, String content, String[] args) {
+	public void run(String prefix, String content, MessageReceivedEvent event, String rawContent, String[] args) {
 		if(args.length == 1) {
 			sendMessage(event,"you need to have an equation");
 		}
-		String command = event.getMessage().getContent().replaceFirst("~math ", "");
+		String command = content.replaceFirst("math ", "");
 		try {
 			sendMessage(event,"`" + command + "` = `" + Math.format(new Math().calculate(command)) + "`");
 		}catch(MathException e) {
@@ -32,14 +32,7 @@ public class CommandMath extends Command {
 	}
 
 	@Override
-	public String getName() {
-		return "~math *equation*";
+	public String getCommandId() {
+		return "math";
 	}
-
-	@Override
-	public String getDisciption() {
-		return "solve a math equation! you can use ()*/-+^, uses order of operations";
-	}
-
-
 }

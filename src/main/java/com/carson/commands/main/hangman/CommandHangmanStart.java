@@ -14,7 +14,7 @@ public class CommandHangmanStart extends Command{
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event, String content, String[] args) {
+	public void run(String prefix, String content, MessageReceivedEvent event, String rawContent, String[] args) {
 		if(h.hangman.set(event)) {
 			System.out.println("EVENT:starting hangman game with" + event.getAuthor().getName());
 			sendMessage(event.getChannel(), "Nice! Now go check your DM's");
@@ -27,19 +27,13 @@ public class CommandHangmanStart extends Command{
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event, String content, String[] args) {
-		return content.equals("~hangman");
-	}
-
-
-	@Override
-	public String getName() {
-		return "~hangman";
+	public boolean test(String prefix, String content, MessageReceivedEvent event, String rawContent, String[] args) {
+		if(true)return false;
+		return content.equals("hangman");
 	}
 
 	@Override
-	public String getDisciption() {
-		return "starts a hangman game";
+	public String getCommandId() {
+		return "hangman_starter";
 	}
-
 }

@@ -17,69 +17,61 @@ public class CommandGetID extends Command {
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event, String content, String[] args) {
-		return content.startsWith("~id");
+	public boolean test(String prefix, String content, MessageReceivedEvent event, String rawContent, String[] args) {
+		return content.startsWith("id");
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event, String content, String[] args) {
+	public void run(String prefix, String content, MessageReceivedEvent event, String rawContent, String[] args) {
 		try {
 			String message = "";
 			List<IUser> users = event.getMessage().getMentions();
 			List<IRole> roles = event.getMessage().getRoleMentions();
 			List<IUser> allUsers = event.getGuild().getUsers();
-			
+
 			List<IUser> toDelete = new ArrayList<IUser>();
-			
-			for(IUser user : users) {
-				for(IUser allUser : allUsers) {
-					if(user.equals(allUser)) {
+
+			for (IUser user : users) {
+				for (IUser allUser : allUsers) {
+					if (user.equals(allUser)) {
 						toDelete.add(allUser);
 					}
 				}
 			}
 			allUsers.removeAll(toDelete);
-			
-				
-			for(IUser user : allUsers) {
-				for(IRole role : roles) {
-					if(user.hasRole(role)) {
+
+
+			for (IUser user : allUsers) {
+				for (IRole role : roles) {
+					if (user.hasRole(role)) {
 						users.add(user);
 						toDelete.add(user);
 						break;
 					}
 				}
-				
+
 			}
-			
+
 			sendMessage(event, users.size() + " users found");
-			for(IUser user : users) {
-				message+=user.getDisplayName(event.getGuild()) + " has an id of: `" +user.getStringID() +"`\n";
-				if(message.length() > 1800) {
+			for (IUser user : users) {
+				message += user.getDisplayName(event.getGuild()) + " has an id of: `" + user.getStringID() + "`\n";
+				if (message.length() > 1800) {
 					sendMessage(event, message);
 					message = ".";
 				}
 			}
-			if(!message.equals("")) {
+			if (!message.equals("")) {
 				sendMessage(event, message);
-			}else {
+			} else {
 				sendMessage(event, "no users found");
 			}
-		}catch (IndexOutOfBoundsException e) {
+		} catch (IndexOutOfBoundsException e) {
 			sendMessage(event, "yeah... no. that doesn't work");
 		}
-		
-		
 	}
 
 	@Override
-	public String getName() {
-		return "~id *mention people or roles*";
+	public String getCommandId() {
+		return "id";
 	}
-
-	@Override
-	public String getDisciption() {
-		return "gets the developer id for the mentioned player";
-	}
-
 }

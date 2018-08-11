@@ -11,12 +11,12 @@ public class CommandPrime extends Command{
     }
 
     @Override
-    public boolean test(MessageReceivedEvent event,String content, String[] args) {
-        return content.startsWith("~prime");
+    public boolean test(String prefix, String content, MessageReceivedEvent event, String rawContent, String[] args) {
+        return content.startsWith("prime");
     }
 
     @Override
-    public void run(MessageReceivedEvent event,String content, String[] args) {
+    public void run(String prefix, String content, MessageReceivedEvent event, String rawContent, String[] args) {
         if(!Prime.getInstance().isDone()){
             sendMessage(event, "We haven't processed all of the numbers yet. Check back in a minute or two");
             return;
@@ -54,12 +54,7 @@ public class CommandPrime extends Command{
     }
 
     @Override
-    public String getName() {
-        return "~prime *number*";
-    }
-
-    @Override
-    public String getDisciption() {
-        return "test to see if the number is prime. Uses a sieve";
+    public String getCommandId() {
+        return "prime";
     }
 }

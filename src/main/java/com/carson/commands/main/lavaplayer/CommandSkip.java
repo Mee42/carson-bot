@@ -14,28 +14,18 @@ public class CommandSkip extends MusicCommand {
 
 
 	@Override
-	public boolean test(MessageReceivedEvent event, String content, String[] args) {
-		return content.startsWith("v~skip");
+	public boolean test(String prefix, String content, MessageReceivedEvent event,String rawContent, String[] args) {
+//		return rawContent.startsWith("skip");
+		return content.equals("skip");
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event, String content, String[] args) {
+	public void run(String prefix, String content, MessageReceivedEvent event,String rawContent, String[] args) {
 		m.skipTrack(event.getChannel());
 	}
 
 	@Override
-	public String getName() {
-		return "v~skip";
+	public String getCommandId() {
+		return "skip";
 	}
-
-	@Override
-	public String getDisciption() {
-		return "skips the current song. voting system coming soon";
-	}
-
-	@Override
-	public PermissionLevel getWantedPermissionLevel() {
-		return PermissionLevel.USER;
-	}
-
 }

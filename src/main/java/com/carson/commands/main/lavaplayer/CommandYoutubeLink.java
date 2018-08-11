@@ -11,28 +11,19 @@ public class CommandYoutubeLink extends MusicCommand {
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event,String content, String[] args) {
-		return content.startsWith("v~link");
+	public boolean test(String prefix, String content, MessageReceivedEvent event, String rawContent, String[] args) {
+		return content.startsWith("link");
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event,String content, String[] args) {
-		String text = event.getMessage().getContent();
-		String url = text.substring(7,text.length());
+	public void run(String prefix, String content, MessageReceivedEvent event, String rawContent, String[] args) {
+		String url = content.substring("link".length());
 		m.playLink(event.getChannel(),url);
-	}
+	}//TODO check substring index
+
 
 	@Override
-	public String getName() {
-		return "v~link *link*";
+	public String getCommandId() {
+		return "youtube_link";
 	}
-
-	@Override
-	public String getDisciption() {
-		return "starts playing the link. works with youtube, NO ADS! might also work for soundcloud";
-	}
-
-	
-	
-	
 }

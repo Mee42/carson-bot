@@ -12,32 +12,27 @@ public class CommandJoin extends Command {
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event,String content, String[] args) {
-		return content.toLowerCase().startsWith("v~join");
+	public boolean test(String prefix, String content, MessageReceivedEvent event,String rawContent, String[] args) {
+		return content.toLowerCase().equals("join");
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event,String content, String[] args) {
-		System.out.println("EVENT:Joining voice channel");
-		event.getGuild().getVoiceChannels().get(0).join();
-		for(IVoiceChannel c : event.getGuild().getVoiceChannels()){
+	public void run(String prefix, String content, MessageReceivedEvent event,String rawContent, String[] args) {
+		event.getGuild().getVoiceChannels().get(0).join();//join the first channel
+		for(IVoiceChannel c : event.getGuild().getVoiceChannels()){//attempt to join every channel called music. overrides channel 0 (if found)
 			if(c.getName().toLowerCase().matches("(?=.*m)(?=.*u)(?=.*s)(?=.*i)(?=.*c).+")){
 				c.join();
 			}
 		}
-		event.getAuthor().getVoiceStateForGuild(event.getGuild()).getChannel().join();
+		try {
+			event.getAuthor().getVoiceStateForGuild(event.getGuild()).getChannel().join();//try and join the channel the user is in. overrides the other joiners if found
+		}catch(NullPointerException e){
 
-
+		}
 	}
 
 	@Override
-	public String getName() {
-		return "v~join";
+	public String getCommandId() {
+		return "join";
 	}
-
-	@Override
-	public String getDisciption() {
-		return "joins a voice channel";
-	}
-
 }

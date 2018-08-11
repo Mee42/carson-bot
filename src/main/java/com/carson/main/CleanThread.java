@@ -20,7 +20,7 @@ public class CleanThread extends Thread{
 	}
 
 //	@Override
-//	public void run() {
+//	public void runX() {
 //		DataGetter.getInstance().privateSterilize();
 //		try {
 //            if (client.isReady()) {

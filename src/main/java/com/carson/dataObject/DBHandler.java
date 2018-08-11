@@ -8,9 +8,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import org.bson.Document;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 
 public class DBHandler {
@@ -458,9 +456,6 @@ public class DBHandler {
             this.level = level;
         }
     }
-    public enum Scope{
-        GLOBAL,GUILD,CHANNEL;
-    }
 
     public List<Entry> getEntrys(){
         List<Entry> data = new ArrayList<>();
@@ -493,53 +488,43 @@ public class DBHandler {
                                 e.getLevel() == Command.PermissionLevel.MOD?"MOD":"USER");
     }
 
+
+
+    //prefix handler. keeps a cache to avoid 50 calls a message
+    static Map<Long, String> prefixes;
+    static{
+        prefixes = new HashMap<>();
+    }
+    public String getPrefix(long id){
+        if(prefixes.containsKey(id))return prefixes.get(id);
+        Document doc = DB.getById(id, getGuildsDB());
+        if(doc == null || !doc.containsKey("prefix")){
+            return "~";
+        }
+        String str = (String)doc.get("prefix");
+        if(str == null || str.equals(""))return "~";
+        return str;
+    }
+    public void resetPrefixCache(){
+        prefixes = new HashMap<>();
+    }
+
+
+
+
     @Override
     public String toString(){
         String str = "CARSONBOT:\n";
-        str+="=============================================\n";
-        str+="========Global\n";
-        str+="=============================================\n";
-        for(Document document : getGlobalDB().find()){
-            str+=DB.toString(document) + "\n";
-            str+=DB.toString(document) + "\n";
+        for(String collection : getDatabase().listCollectionNames()){
+            str+="============================================================\n";
+            str+="===================" + collection + "=======================\n";
+            str+="============================================================\n";
+            for(Document document : getDB(collection).find()){
+                str+=DB.toString(document) + "\n";
+            }
         }
-        str+="=============================================\n";
-        str+="========Guilds\n";
-        str+="=============================================\n";
-        for(Document document : getGuildsDB().find()){
-            str+=DB.toString(document) + "\n";
-        }
-        str+="=============================================\n";
-        str+="========Users\n";
-        str+="=============================================\n";
-        for(Document document : getUsersDB().find()){
-            str+=DB.toString(document) + "\n";
-        }
-        str+="=============================================\n";
-        str+="========GG\n";
-        str+="=============================================\n";
-        for(Document document : getGGDB().find()){
-            str+=DB.toString(document) + "\n";
-        }
-        str+="=============================================\n";
-        str+="========PERMISSIONS\n";
-        str+="=============================================\n";
-        for(Document document : getPermissionDB().find()){
-            str+=DB.toString(document) + "\n";
-        }
-        str+="=============================================\n";
-        str+="========ATTACHMENTS\n";
-        str+="=============================================\n";
 
-        for(Document document : getAttachmentsDB().find()){
-            str+=DB.toString(document) + "\n";
-        }
-        str+="=============================================\n";
-        str+="==========MESSAGES\n";
-        str+="=============================================\n";
-        for(Document document : getMessagesDB().find()){
-            str+=DB.toString(document) + "\n";
-        }
+
         return str;
     }
 

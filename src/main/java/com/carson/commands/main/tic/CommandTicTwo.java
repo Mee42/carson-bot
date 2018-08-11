@@ -15,7 +15,7 @@ public class CommandTicTwo extends Command{
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event,String content, String[] args) {
+	public boolean test(String prefix, String content, MessageReceivedEvent event,String rawContent, String[] args) {
 
 		if(isInteger(event.getMessage().getContent()) && 
 				Integer.valueOf(event.getMessage().getContent()) < 10) {
@@ -25,7 +25,7 @@ public class CommandTicTwo extends Command{
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event,String content, String[] args) {
+	public void run(String prefix, String content, MessageReceivedEvent event,String rawContent, String[] args) {
 
 			
 			String next = t.tac.moveNext(Integer.valueOf(content));
@@ -48,8 +48,7 @@ public class CommandTicTwo extends Command{
 				t.tac = new Tac();
 				t.moves = "";
 			}else {
-				t.moves+=content;
-				
+				t.moves+=rawContent;
 				if(t.moves.length() >= 3 ) {
 					sendMessage(event,next);
 				}
@@ -60,15 +59,12 @@ public class CommandTicTwo extends Command{
 		
 	}
 
-	@Override
-	public String getName() {
-		return null;
-	}
 
 	@Override
-	public String getDisciption() {
-		return null;
+	public String getCommandId() {
+		return "tic_two";
 	}
+
 	private static boolean isInteger(String s) {
 	    try { 
 	        Integer.parseInt(s); 

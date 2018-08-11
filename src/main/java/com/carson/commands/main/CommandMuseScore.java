@@ -11,13 +11,13 @@ public class CommandMuseScore extends Command{
     }
 
     @Override
-    public boolean test(MessageReceivedEvent event, String content, String[] args) {
-        return content.startsWith("~musescore");
+    public boolean test(String prefix, String content, MessageReceivedEvent event, String rawContent, String[] args) {
+        return content.startsWith("musescore");
     }
 
     @Override
-    public void run(MessageReceivedEvent event, String content, String[] args) {
-        if(content.split(" ",2).length != 2){
+    public void run(String prefix, String content, MessageReceivedEvent event, String rawContent, String[] args) {
+        if(content.split(" ",2).length != 2){//can't use agrs bc of i=2;
             sendMessage(event,"uh oh - I couldn't process that");
             return;
         }
@@ -32,17 +32,13 @@ public class CommandMuseScore extends Command{
 //
 //        RequestBuffer.request(()->{
 //            event.getChannel().sendMessage(b.build());
-//        });
+//        });//TODO work on
         sendMessage(event,"got it:" + link);
     }
 
-    @Override
-    public String getName() {
-        return "~musescore *keywords*";
-    }
 
     @Override
-    public String getDisciption() {
-        return "search musescore for music!";
+    public String getCommandId() {
+        return "musescore";
     }
 }

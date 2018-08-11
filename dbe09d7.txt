@@ -1,0 +1,292 @@
+============================================================
+============================================================
+============================================================
+===================commands=======================
+============================================================
+============================================================
+============================================================
+{
+	"_id" : "membercount"
+	"desc" : "get the member count for your guild"
+	"name" : "membercount"
+	"trigger" : "membercount"
+}
+{
+	"_id" : "ifunny"
+	"name" : "ifunny"
+	"desc" : "stream not just memes but everything from ifunny.co (highly unrecommended)"
+	"trigger" : "ifunny"
+}
+{
+	"_id" : "google"
+	"name" : "google"
+	"desc" : "google stuff!"
+	"trigger" : "google *keywords*"
+}
+{
+	"_id" : "reddit"
+	"name" : "reddit"
+	"desc" : "stream images from that subreddit. (highly unrecommended)"
+	"trigger" : "reddit *subreddit_name*"
+}
+{
+	"_id" : "xkcd"
+	"name" : "xkcd"
+	"desc" : "pulls a random (or specified) xkcd comic from the internet. Also sends alt text"
+	"trigger" : "xkcd (optional number)"
+}
+{
+	"_id" : "purge"
+	"name" : "purge"
+	"desc" : "deletes a lot of messages. generally around *num of messages*"
+	"trigger" : "purge *num. of messages*"
+}
+{
+	"_id" : "join"
+	"name" : "join"
+	"desc" : "join a voice channel for music"
+	"trigger" : "join"
+}
+{
+	"_id" : "leavevoice"
+	"desc" : "leave the current voice channel"
+	"name" : "leave"
+	"trigger" : "leave"
+}
+{
+	"_id" : "playlocal"
+	"broken" : "true"
+}
+{
+	"_id" : "skip"
+	"name" : "skip"
+	"desc" : "skip this song"
+	"trigger" : "skip"
+}
+{
+	"_id" : "youtubekeyword"
+	"name" : "youtube"
+	"desc" : "youtube a song and play it"
+	"trigger" : "youtube *keywords*"
+}
+{
+	"_id" : "youtube_link"
+	"name" : "link"
+	"desc" : "play music from youtube and maybe other places"
+	"trigger" : "link *link*"
+}
+{
+	"_id" : "dndstart"
+	"broken" : "true"
+}
+{
+	"_id" : "dndtwo"
+	"nohelp" : "true"
+}
+{
+	"_id" : "ticstart"
+	"broken" : "true"
+}
+{
+	"_id" : "tic_two"
+	"nohelp" : "true"
+	"dndtwo" : "true"
+	"continuetac" : "true"
+	"CommandHangmanOne" : "true"
+	"commandhangmantwo" : "true"
+}
+{
+	"_id" : "hangman_starter"
+	"broken" : "true"
+}
+{
+	"_id" : "CommandHangmanOne"
+	"nohelp" : "true"
+}
+{
+	"_id" : "commandhangmantwo"
+	"nohelp" : "true"
+}
+{
+	"_id" : "emoji"
+	"desc" : "get the <:carson_bot:444911243547901952> emoji"
+	"name" : "emoji"
+	"trigger" : "emoji"
+}
+{
+	"_id" : "id"
+	"desc" : "get the id(s) of (a) user(s), role(s), or everyone"
+	"name" : "id"
+	"trigger" : "id @mention"
+}
+{
+	"_id" : "getroles"
+	"name" : "getroles"
+	"desc" : "get all joinable roles"
+	"onlyfor" : "449905910807003147"
+	"onlyforStr" : "Brass Player's Discord"
+	"trigger" : "getroles"
+}
+{
+	"_id" : "getrole"
+	"name" : "getrole"
+	"desc" : "join that role"
+	"onlyfor" : "449905910807003147"
+	"onlyforStr" : "Brass Player's Discord"
+	"trigger" : "getrole *role name*"
+}
+{
+	"_id" : "rank"
+	"name" : "rank"
+	"desc" : "get you or other's current xp level IN DEVELOPMENT"
+	"trigger" : "rank || rank @mention"
+}
+{
+	"_id" : "leaderboard"
+	"name" : "leaderboard"
+	"desc" : "get the leaderboard for your server"
+	"trigger" : "leaderboard || lb"
+}
+{
+	"_id" : "tac"
+	"name" : "tac"
+	"desc" : "play tictactoe with someone"
+	"trigger" : "tac @mention"
+}
+{
+	"_id" : "continuetac"
+	"nohelp" : "true"
+}
+{
+	"_id" : "setleave"
+	"name" : "setleave"
+	"desc" : "set the message to be printed when someone leaves the server. [name] will be replaced by the person's name"
+	"trigger" : "setleave *leave_message*"
+}
+{
+	"_id" : "math"
+	"name" : "math"
+	"desc" : "solves equations with OOO, and (). supports 4-function plus ^ for exponents"
+	"trigger" : "math *equation*"
+}
+{
+	"_id" : "prime"
+	"desc" : "returns true if the number is prime, otherwise it returns a list of its prime factors"
+	"name" : "prime"
+	"trigger" : "prime number"
+}
+{
+	"_id" : "softban"
+	"name" : "softban"
+	"desc" : "ban and send an invite to a player. deletes all messages less then 7 years old"
+	"trigger" : "softban @mention"
+}
+{
+	"_id" : "musescore"
+	"name" : "musescore"
+	"desc" : "look for music on musescore"
+	"trigger" : "musescore *keyword*"
+}
+{
+	"_id" : "btc"
+	"desc" : "get the current price of btc"
+	"name" : "btc"
+	"trigger" : "btc"
+}
+{
+	"_id" : "ping"
+	"desc" : "ping the bot, time how long it takes"
+	"name" : "ping"
+	"trigger" : "ping"
+}
+{
+	"_id" : "support"
+	"desc" : "get support for the bot"
+	"name" : "support"
+	"trigger" : "support"
+}
+{
+	"_id" : "gghandler"
+	"desc" : "work, upgrade, and play with a slot machine + roulette"
+	"name" : "gg~help"
+	"trigger" : "gg~help"
+}
+{
+	"_id" : "status"
+	"desc" : "get the current bot status"
+	"name" : "cb-status"
+	"trigger" : "cb-status"
+}
+{
+	"_id" : "nick"
+	"desc" : "set the bot's nickname"
+	"name" : "cb-nick"
+	"trigger" : "cb-nick nickname"
+}
+{
+	"_id" : "shutdown"
+	"name" : "cb-shutdown"
+	"desc" : "shutdown the bot"
+	"trigger" : "cb-shutdown || cb-s"
+}
+{
+	"_id" : "perm"
+	"desc" : "remove a permission || get all permissions || add a permission"
+	"name" : "cb-perm-remove"
+	"trigger" : "cb-perm-remove permid || cb-perms || cb-perm @mention <MOD/BOT_ADMIN>"
+}
+{
+	"_id" : "testperm"
+	"desc" : "test to see if you have permission to use commands reserved for mods/bot_admins"
+	"name" : "cb-test"
+	"trigger" : "cb-test <USER/MOD/BOT_ADMIN>"
+}
+{
+	"_id" : "cbtest"
+	"desc" : "run Test#run()"
+	"name" : "cb-runteset"
+	"trigger" : "cb-runteset"
+}
+{
+	"_id" : "add"
+	"name" : "cb-add"
+	"desc" : "add a datapoint to the db. only works with string keys"
+	"trigger" : "cb-add *collection* *id* *key* *value*"
+}
+{
+	"_id" : "todo"
+	"name" : "cb-todo"
+	"desc" : "temp while i write command name+descs"
+	"trigger" : "cb-todo"
+}
+{
+	"_id" : "db"
+	"desc" : "get the entire database, or just those collections. will send as a file if over 10k chars"
+	"name" : "db"
+	"trigger" : "db || get-db [collections]"
+}
+{
+	"_id" : "dbsize"
+	"desc" : "get the size of the database"
+	"name" : "db-size"
+	"trigger" : "db-size"
+}
+{
+	"_id" : "optout"
+	"desc" : "optout of all data collection"
+	"name" : "optout"
+	"trigger" : "optout"
+}
+{
+	"_id" : "opt"
+	"name" : "cb-opt"
+	"desc" : "get who opted out"
+	"trigger" : "cb-opt"
+}
+============================================================
+============================================================
+============================================================
+===================-file-=======================
+============================================================
+============================================================
+============================================================

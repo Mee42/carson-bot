@@ -13,7 +13,7 @@ public class CommandContinueTac extends Command{
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event,String content, String[] args) {
+	public boolean test(String prefix, String content, MessageReceivedEvent event,String rawContent, String[] args) {
 		long id = event.getAuthor().getLongID();
 		
 		if(!event.getMessage().getContent().matches("[0-9]")) {return false;}
@@ -28,7 +28,7 @@ public class CommandContinueTac extends Command{
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event,String content, String[] args) {
+	public void run(String prefix, String content, MessageReceivedEvent event,String rawContent, String[] args) {
 		int move = Integer.parseInt(Character.toString(event.getMessage().getContent().charAt(0)));
 		DataGetter data = DataGetter.getInstance();
 		RunningTacGame game = data.getGameWithUser(event.getAuthor().getLongID());
@@ -62,13 +62,7 @@ public class CommandContinueTac extends Command{
 	}
 
 	@Override
-	public String getName() {
-		return null;
+	public String getCommandId() {
+		return "continuetac";
 	}
-
-	@Override
-	public String getDisciption() {
-		return null;
-	}
-
 }

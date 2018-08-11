@@ -1,7 +1,7 @@
 package com.carson.classes;
 
 
-//run help to print descriptions of all methods
+//runX help to print descriptions of all methods
 
 import java.io.*;
 import java.util.*;
@@ -46,6 +46,7 @@ public class FileIO {
 			//open FileWriter
 			FileWriter  fw = new FileWriter(file);
 			//write
+
 			fw.write(text);
 			//close
 			fw.close();

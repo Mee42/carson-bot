@@ -23,13 +23,15 @@ public class CommandXKCD extends Command{
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event, String content, String[] args) {
-		return content.startsWith("~xkcd");
+	public boolean test(String prefix, String content, MessageReceivedEvent event, String rawContent, String[] args) {
+		return content.startsWith("xkcd");
 
 	}
 
+
+
 	@Override
-	public void run(MessageReceivedEvent event, String content, String[] args) {
+	public void run(String prefix, String content, MessageReceivedEvent event, String rawContent, String[] args) {
 		if(args.length == 1) {
 			try {
 				runNoArgs(event);
@@ -61,16 +63,7 @@ public class CommandXKCD extends Command{
 		FileIO alt = new FileIO("/home/carson/java/files/xkcd/alt/" + no);
 		
 		if(file.exists() && alt.exists()) {
-			try {
-				file.rename(no + ".png");
-				event.getChannel().sendFile(file.getFile());
-				file.rename(no + "");
-				sendMessage(event, '`' + alt.readList().get(0) + '`');
-			} catch (FileNotFoundException e) {
-				sendMessage(event, "tryed to find a file we know exists. problem");
-				System.out.println("ERROR: missread a file");
-			}
-			
+			sendFile(no, event,file,alt);
 			return;
 		}
 		
@@ -94,9 +87,15 @@ public class CommandXKCD extends Command{
 				}
 				
 		} catch (IOException e1) {
-			System.out.println("ERROR: running ~xkcd threw a IOExecption");
 			e1.printStackTrace();
 		}
+		sendFile(no, event, file,alt);
+		return ;
+		
+		
+	}
+
+	private void sendFile(int no, MessageReceivedEvent event, FileIO file, FileIO alt){
 		try {
 			file.rename(no + ".png");
 			event.getChannel().sendFile(file.getFile());
@@ -106,10 +105,9 @@ public class CommandXKCD extends Command{
 			sendMessage(event, "tryed to find a file we know exists. problem");
 			System.out.println("ERROR: missread a file");
 		}
-		return ;
-		
-		
+
 	}
+
 	
 	public void saveImage(String imageUrl, String destinationFile) throws IOException {
 		URL url = new URL(imageUrl);
@@ -127,17 +125,9 @@ public class CommandXKCD extends Command{
 		os.close();
 	}
 
-	@Override
-	public String getName() {
-		return  "~xkcd";
-	}
 
 	@Override
-	public String getDisciption() {
-		return "posts a random xkcd comic";
+	public String getCommandId() {
+		return "xkcd";
 	}
-
-
-	 
-	
 }

@@ -13,26 +13,20 @@ public class CommandGoogle extends Command  {
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event,String content, String[] args) {
-		return content.startsWith("~google");
+	public boolean test(String prefix, String content, MessageReceivedEvent event,String rawContent, String[] args) {
+		return content.startsWith("google");
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event,String content, String[] args) {
+	public void run(String prefix, String content, MessageReceivedEvent event,String rawContent, String[] args) {
 		Googler googler = new Googler();
 		sendMessage(event.getChannel(),"Done! Heres the first result:");
-		sendMessage(event.getChannel(), googler.Google(content.substring(8,content.length())));
+		sendMessage(event.getChannel(), googler.Google(rawContent.substring(8,content.length())));
 
 	}
 
 	@Override
-	public String getName() {
-		return "~google *text*";
+	public String getCommandId() {
+		return "google";
 	}
-
-	@Override
-	public String getDisciption() {
-		return "returns the first link you would have found if you googled *text*";
-	}
-
 }

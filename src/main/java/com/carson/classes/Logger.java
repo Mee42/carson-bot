@@ -20,7 +20,6 @@ import java.util.UUID;
 
 public class Logger { 
 
-    public static final String messPath = "/home/carson/java/files/messages/";
 	
 	public static void log(MessageReceivedEvent event) {
 
@@ -35,8 +34,7 @@ public class Logger {
 
 			DBHandler db = DBHandler.get();
 			DBHandler.GuildUserData user;
-			Document doc = db.getUsersDB().
-					find(Filters.eq(event.getAuthor().getLongID() + "" + event.getGuild().getLongID())).first();
+			Document doc = db.getUsersDB().find(Filters.eq(event.getAuthor().getLongID() + "" + event.getGuild().getLongID())).first();
 			if(doc == null){
 				doc = db.fromGuildUserData(db.new GuildUserData(event.getAuthor().getLongID(),event.getGuild().getLongID(),0));
 			}
@@ -44,7 +42,7 @@ public class Logger {
 			user.setXp(user.getXp() + xp);
 			db.update(user);
 
-			System.out.println("MESSAGE:" + author.getName() + ":" + text +"(" + event.getGuild().getName() +" - " +channel.getName() + ")");	
+			System.out.println("MESSAGE:" + author.getName() + ":" + text +"(" + event.getGuild().getName() +" - " +channel.getName() + ")");
 		}else {
 			System.out.println("MESSAGE:" + author.getName() + ":" + text +"(dm - " + event.getChannel().getUsersHere().get(0).getName() + ")");
 		}
@@ -61,7 +59,7 @@ public class Logger {
 		long month = ChronoUnit.MONTHS.between(epoch,now);
 
 		Document doc = new Document()
-				.append("_id",event.getMessageID())
+				.append("_id",event.getMessage().getLongID())
 				.append("user_id",event.getAuthor().getLongID())
 				.append("channel_id",event.getChannel().getLongID())
 				.append("content",event.getMessage().getContent())
@@ -79,13 +77,17 @@ public class Logger {
 			messageIds.add((String)d.get("_id"));
 			DBHandler.get().getAttachmentsDB().insertOne(d);
 		}
+
 		if(messageIds.size() != 0){
 			doc.append("attachments", messageIds);
 		}
-		DBHandler.get().getMessagesDB().insertOne(doc);
-
-
-    }
+		if(DBHandler.get().getMessagesDB().find(Filters.eq("_id", event.getMessage().getLongID())) != null){
+			DBHandler.get().getMessagesDB().replaceOne(Filters.eq("_id", event.getMessage().getLongID()),doc);
+		}else{
+			DBHandler.get().getMessagesDB().insertOne(doc);//yes I know im calling DBHandler.get#getMessagesDB three times. idc
+		}
+		//throws a dup key exception. trailing backwards alone the path - nothing else logs messages, so idk what the problem could be. Fixing with replace
+	}
 	
 	public static void logBot(IChannel channel, String text) {
 		text = text.replace(System.getProperty("line.separator"), "\\n");

@@ -13,26 +13,19 @@ public class CommandYoutubeKeywords extends MusicCommand{
 
 
 	@Override
-	public boolean test(MessageReceivedEvent event, String content, String[] args) {
-		return content.startsWith("v~youtube");
+	public boolean test(String prefix, String content, MessageReceivedEvent event,String rawContent, String[] args) {
+		return content.startsWith("youtube");
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event, String content, String[] args) {
-		System.out.println("EVENT: youtube played with keywords");
-		String url = new Googler().GoogleYoutube(content.substring(10,content.length()));
+	public void run(String prefix, String content, MessageReceivedEvent event,String rawContent, String[] args) {
+		String url = new Googler().GoogleYoutube(content.replaceFirst("youtube","").replace(" ",""));
 		System.out.println(url);
 		m.playLink(event.getChannel(),url);
 	}
 
 	@Override
-	public String getName() {
-		return "v~youtube *keywords*";
+	public String getCommandId() {
+		return "youtubekeyword";
 	}
-
-	@Override
-	public String getDisciption() {
-		return "play a song from youtube";
-	}
-
 }

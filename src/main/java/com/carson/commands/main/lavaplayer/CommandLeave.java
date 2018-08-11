@@ -15,13 +15,12 @@ public class CommandLeave extends Command {
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event,String content, String[] args) {
-		return content.equals("v~leave");
+	public boolean test(String prefix, String content, MessageReceivedEvent event,String rawContent, String[] args) {
+		return content.equals("leave");
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event,String content, String[] args) {
-		System.out.println("EVENT:leaving voice channel");
+	public void run(String prefix, String content, MessageReceivedEvent event,String rawContent, String[] args) {
 		List<IVoiceChannel> channels = event.getGuild().getVoiceChannels();
 		for(IVoiceChannel channel : channels) {
 			if(channel.isConnected()) {
@@ -32,13 +31,7 @@ public class CommandLeave extends Command {
 	}
 
 	@Override
-	public String getName() {
-		return "v~leave";
+	public String getCommandId() {
+		return "leavevoice";
 	}
-
-	@Override
-	public String getDisciption() {
-		return "leaves the voice channel";
-	}
-
 }

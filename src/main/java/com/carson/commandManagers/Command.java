@@ -6,6 +6,8 @@ import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IChannel;
 
+import java.util.regex.Pattern;
+
 public abstract class Command{
 	
 	 protected IDiscordClient client;
@@ -25,16 +27,18 @@ public abstract class Command{
 		 sendMessage(event.getChannel(), text);
 	}
 
-	public abstract boolean test(MessageReceivedEvent event,String content, String[] args); //returns true if the command should be called
-	public abstract void run(MessageReceivedEvent event,String content, String[] args); //runs the command
-	public abstract String getName(); //gets the name of the command
-	public abstract String getDisciption(); //gets the description of the command
+	public abstract boolean test(String prefix, String content, MessageReceivedEvent event,String rawContent, String[] args); //returns true if the command should be called
+	public abstract void run(String prefix, String content,MessageReceivedEvent event,String rawContent, String[] args); //runs the command
+
+    /**
+     *
+     * @return a unique identifyer for the command
+     */
+    public abstract String getCommandId();
+
 
     public PermissionLevel getWantedPermissionLevel(){
      return PermissionLevel.USER;
-    }
-    public DBHandler.Scope getScope() {
-        return DBHandler.Scope.CHANNEL;
     }
 
     public enum PermissionLevel{
@@ -43,12 +47,26 @@ public abstract class Command{
         BOT_ADMIN//carsonbot admin
     }
 
+    /**
+     * this method generates several variables and passes them onto the subclass
+     * it also makes sure that the message starts with the prefix, and that the user has the right permission level
+     *
+     * @param event the message event recived
+     * @return true if the command should be runX, false if not
+     *
+     */
     public boolean test(MessageReceivedEvent event){
+        if(!event.getMessage().getContent().startsWith(getPrefix(event)))return false;
         if(!hasPermission(getWantedPermissionLevel(),Register.getPermissionLevel(event)))return false;
-        return test(event,event.getMessage().getContent(),event.getMessage().getContent().split(" "));
+        return test(getPrefix(event), event.getMessage().getContent().replaceFirst(Pattern.quote(getPrefix(event)),""), event,event.getMessage().getContent(),event.getMessage().getContent().split(" "));
     }
     public void run(MessageReceivedEvent event){
-        run(event,event.getMessage().getContent(),event.getMessage().getContent().split(" "));
+        run(getPrefix(event),event.getMessage().getContent().replaceFirst(Pattern.quote(getPrefix(event)),""),event,event.getMessage().getContent(),event.getMessage().getContent().split(" "));
+    }
+
+    public static String getPrefix(MessageReceivedEvent event){
+        if(event.getGuild() == null)return "~";
+        return DBHandler.get().getPrefix(event.getGuild().getLongID());
     }
 
     public boolean hasPermission(PermissionLevel wanted, PermissionLevel given){
@@ -66,4 +84,6 @@ public abstract class Command{
         //cb        cb      true
         return false;
     }
+
+
 }

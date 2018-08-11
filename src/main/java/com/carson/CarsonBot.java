@@ -2,6 +2,7 @@ package com.carson;
 
 
 import com.carson.classes.*;
+import com.carson.commandManagers.Command;
 import com.carson.commandManagers.Register;
 import com.carson.dataObject.DBHandler;
 import com.carson.lavaplayer.GuildMusicManager;
@@ -57,8 +58,7 @@ public class CarsonBot {
 		
 		
         reg = new Register(client);
-        
-
+        Test.setRegister(reg);
 		new Thread(() -> Prime.getInstance().initulize()).start();
 //        Taxation.start(client);
         startBTCApiCaller(client);
@@ -130,7 +130,9 @@ public class CarsonBot {
 		long channelId = DBHandler.get().getGuildDataBy(event.getGuild().getLongID()).getLeaveChannel();//correct
 		String deathMessage = DBHandler.get().getGuildDataBy(event.getGuild().getLongID()).getLeaveMessage();//correct
 		if(channelId == -1L) { //if not set yet
-			channelId = event.getGuild().getSystemChannel().getLongID();
+		    try {
+                channelId = event.getGuild().getSystemChannel().getLongID();
+            }catch(NullPointerException e){}
 		}
 		deathMessage = deathMessage.replace("[name]", userName);
 		try {
@@ -155,7 +157,7 @@ public class CarsonBot {
 //                RequestBuffer.request(()->{
 //                    try{
 //                        user.getOrCreatePMChannel().sendMessage("Hey its Carson-Bot here, just wanted to let you know that a new data collection policy" +
-//                                ". To put it simply, I am going to start collecting messages and some other pieces of information. This will run the ranking system " +
+//                                ". To put it simply, I am going to start collecting messages and some other pieces of information. This will runX the ranking system " +
 //                                "and is also going to enable me to generate statistics based on your messages, for example, " +
 //                                "\n`you are most active in guild X\n" +
 //                                "you send the most messages at 5pm\n" +
@@ -178,7 +180,7 @@ public class CarsonBot {
 		//runs the register.
 		reg.testCommands(event);
 		
-		if(event.getMessage().getContent().equals("~help")) { //sends the help message. needs to be here, because we need to be able to pass the register to the help command462681259370610689
+		if(event.getMessage().getContent().equals(Command.getPrefix(event) + "help")) { //sends the help message. needs to be here, because we need to be able to pass the register to the help command462681259370610689
 			SendHelp.sendHelp(event, reg);
 		}
 	}//end of handle method

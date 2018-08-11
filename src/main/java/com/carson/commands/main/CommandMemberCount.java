@@ -12,26 +12,20 @@ public class CommandMemberCount extends Command {
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event, String content, String[] args) {
+	public boolean test(String prefix, String content, MessageReceivedEvent event,String rawContent, String[] args) {
 		if(event.getChannel().isPrivate()) return false;
-		return content.equals("~members");
+		return content.equals("members");
 
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event, String content, String[] args) {
+	public void run(String prefix, String content, MessageReceivedEvent event,String rawContent, String[] args) {
 		sendMessage(event.getChannel(), " Current Member count:**" + event.getGuild().getTotalMemberCount() + "**! ");
 		return ;
 	}
 
 	@Override
-	public String getName() {
-		return "~members";
+	public String getCommandId() {
+		return "membercount";
 	}
-
-	@Override
-	public String getDisciption() {
-		return "tells you how many members are in the current server";
-	}
-
 }

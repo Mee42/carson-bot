@@ -16,12 +16,12 @@ public class CommandPurge extends Command  {
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event,String content, String[] args) {
-		return content.startsWith("~purge");
+	public boolean test(String prefix, String content, MessageReceivedEvent event,String rawContent, String[] args) {
+		return content.startsWith("purge");
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event,String content, String[] args) {
+	public void run(String prefix, String content, MessageReceivedEvent event,String rawContent, String[] args) {
 		String integer;
 		try {
 			integer = event.getMessage().getContent().split(" ")[1];
@@ -54,17 +54,6 @@ public class CommandPurge extends Command  {
 				
 	}
 
-	@Override
-	public String getName() {
-		return "~purge *int_message_count*";
-	}
-
-	@Override
-	public String getDisciption() {
-		return "deletes the last *int* messages";
-	}
-
-	
 	private static boolean isInteger(String s) {
 	    try { 
 	        Integer.parseInt(s); 
@@ -79,5 +68,11 @@ public class CommandPurge extends Command  {
 	@Override
 	public PermissionLevel getWantedPermissionLevel() {
 		return PermissionLevel.MOD;
+	}
+
+
+	@Override
+	public String getCommandId() {
+		return "purge";
 	}
 }

@@ -1,15 +1,17 @@
 package com.carson.commands.main;
 
-import java.awt.Color;
-import java.util.*;
-
-import com.carson.commandManagers.*;
-
+import com.carson.commandManagers.Command;
 import com.carson.dataObject.DBHandler;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.util.EmbedBuilder;
 import sx.blah.discord.util.RequestBuffer;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 public class CommandLeaderboard extends Command{
 
@@ -18,15 +20,15 @@ public class CommandLeaderboard extends Command{
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event,String content, String[] args) {
-		return (event.getMessage().getContent().toLowerCase().equals("~lb") || event.getMessage().getContent().toLowerCase().equals("~leaderboard"));
+	public boolean test(String prefix, String content, MessageReceivedEvent event, String rawContent, String[] args) {
+		return (content.toLowerCase().equals("lb") ||
+				content.toLowerCase().equals("leaderboard"));
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event,String content, String[] args) {
+	public void run(String prefix, String content, MessageReceivedEvent event, String rawContent, String[] args) {
 		EmbedBuilder builder = new EmbedBuilder();
 		builder.withAuthorName("Carson-Bot");
-		
 		Random rand = new Random();
 		float r = rand.nextFloat();
 		float g = rand.nextFloat();
@@ -69,13 +71,7 @@ public class CommandLeaderboard extends Command{
 	}
 
 	@Override
-	public String getName() {
-		return "~leaderboard, or ~lb";
+	public String getCommandId() {
+		return "leaderboard";
 	}
-
-	@Override
-	public String getDisciption() {
-		return "gets the leaderboard for everyone on the server";
-	}
-
 }

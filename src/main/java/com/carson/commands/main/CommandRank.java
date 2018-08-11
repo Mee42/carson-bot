@@ -16,14 +16,13 @@ public class CommandRank extends Command {
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event, String content, String[] args) {
-		return content.toLowerCase().startsWith("~rank");
+	public boolean test(String prefix, String content, MessageReceivedEvent event, String rawContent, String[] args) {
+		return content.toLowerCase().startsWith("rank");
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event, String content, String[] args) {
-		String text = event.getMessage().getContent().toLowerCase();
-		if(text.equals("~rank")) {//ranks for that one person
+	public void run(String prefix, String content, MessageReceivedEvent event, String rawContent, String[] args) {
+		if(content.equals("rank")) {//ranks for that one person
 			sendMessage(event, "XP for " + event.getAuthor().getName() + " is:`" + CommandRank.getXPForUser(event.getAuthor().getLongID(),event.getGuild().getLongID()) + "`");
 		}else {
 			List<IUser> peopleMentioned =event.getMessage().getMentions();
@@ -52,14 +51,9 @@ public class CommandRank extends Command {
 		return DBHandler.get().toGuildUserData(DBHandler.get().getUsersDB().find(Filters.eq("_id",userId + "" + guildId)).first()).getXp();
 	}
 
-	@Override
-	public String getName() {
-		return "~rank";
-	}
 
 	@Override
-	public String getDisciption() {
-		return "gets your rank (server-based). mention someone to get their rank";
+	public String getCommandId() {
+		return "rank";
 	}
-
 }

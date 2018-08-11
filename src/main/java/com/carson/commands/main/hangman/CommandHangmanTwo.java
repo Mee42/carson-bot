@@ -20,22 +20,22 @@ public class CommandHangmanTwo extends Command {
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event,String content, String[] args) {
+	public boolean test(String prefix, String content, MessageReceivedEvent event,String rawContent, String[] args) {
 		return (h.hangmanBoolean && h.hangman.verifyFlop(event, event.getAuthor()) && !event.getChannel().isPrivate() && event.getMessage().getContent().length() == 1);
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event,String content, String[] args) {
+	public void run(String prefix, String content, MessageReceivedEvent event,String rawContent, String[] args) {
 
-		
+
 		IUser author = event.getAuthor();
 
 		IChannel channel = event.getChannel();
-		
-			
 
-			char letter = content.charAt(0);
-			
+
+
+			char letter = rawContent.charAt(0);
+
 			for(int i = 0;i<h.hangmanText.length();i++) {
 				if(letter == h.hangmanText.charAt(i)) {
 					if(h.hangmanDone.get(i) == '-') {
@@ -44,16 +44,16 @@ public class CommandHangmanTwo extends Command {
 						sendMessage(channel,"you already sent that character");
 					}
 				}
-				
-				
+
+
 			}
-			
-			
+
+
 			String temp = "";
 			for(int q = 0;q<h.hangmanDone.size();q++) {
 				temp+=h.hangmanDone.get(q);
 			}
-			
+
 			if(temp.equals(h.hangmanText)) {
 				sendMessage(channel,"Correct! the word was: **" + h.hangmanText + "**. The winner was " + author.getName()+". They get 500 XP!");
 				new File("C:\\users\\carson\\desktop\\discord\\carson-bot\\ranks\\" + event.getGuild().getName() + "\\").mkdirs();
@@ -61,7 +61,7 @@ public class CommandHangmanTwo extends Command {
 				long xp = Long.valueOf(fR.readList().get(0));
 				xp+= 500;
 				fR.write(String.valueOf(xp));
-				
+
 				System.out.println("EVENT:hangman game ended, " + author.getName() + " won");
 				h.hangman.setActive(false);
 			}else {
@@ -69,13 +69,13 @@ public class CommandHangmanTwo extends Command {
 				for(int q = 0;q<h.hangmanDone.size();q++) {
 					temp = temp +" " + h.hangmanDone.get(q);
 				}
-				
+
 				sendMessage(channel,"the word is:```" + temp + "```");
 			}
-			
-			
+
+
 			return ;
-			
+
 			
 		
 		
@@ -84,9 +84,7 @@ public class CommandHangmanTwo extends Command {
 	}
 
 	@Override
-	public String getName() {return null;}
-
-	@Override
-	public String getDisciption() {return null;}
-
+	public String getCommandId() {
+		return "commandhangmantwo";
+	}
 }

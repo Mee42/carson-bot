@@ -13,27 +13,17 @@ public class CommandGetEmoji extends Command {
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event, String content, String[] args) {
-		return 	content.equals("~emoji");
+	public boolean test(String prefix, String content, MessageReceivedEvent event,String rawContent, String[] args) {
+		return 	content.equals("emoji");
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event, String content, String[] args) {
-
+	public void run(String prefix, String content, MessageReceivedEvent event,String rawContent, String[] args) {
 		sendMessage(event, client.getGuildByID(432560125299916810L).getEmojiByName("carson_bot").toString());
 	}
 
 	@Override
-	public String getName() {
-		return "~emoji";
+	public String getCommandId() {
+		return "emoji";
 	}
-
-	@Override
-	public String getDisciption() {
-		return "sends the carsonbot emoji";
-	}
-
-
-
-
 }

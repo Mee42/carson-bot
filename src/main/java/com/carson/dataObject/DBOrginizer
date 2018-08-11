@@ -8,6 +8,7 @@ CarsonBot
        -_id : id
        -leave_message
        -leave_channel
+       -prefix
 
     --users
      \-user
@@ -61,3 +62,11 @@ CarsonBot
     \- entry
       -  _id  :  user_id
       -  opt  :  true/false   : true for opted in, false for opted out
+
+
+  --commands
+   \- command
+     -  _id     :   the command id
+     -  name    :   command name
+     -  trigger :   for printing in the help menu
+     -  help    :   the how-to help menu

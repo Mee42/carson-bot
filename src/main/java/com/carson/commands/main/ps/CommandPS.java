@@ -25,7 +25,7 @@
 //	}
 //
 //	@Override
-//	public void run(MessageReceivedEvent event) {
+//	public void runX(MessageReceivedEvent event) {
 //		if(event.getGuild().getLongID() != 428613801269788687L) {return;}
 //
 //		String[] args = event.getMessage().getContent().split(" ");
@@ -48,7 +48,7 @@
 //			System.out.println("DEBUG: extracting");
 //			long id = event.getAuthor().getLongID();
 //			if(!(id == 293853365891235841L || id == 317104272405823489L || id ==279412525051674624L)) {
-//				sendMessage(event, "you lack perms to run that command. please contact <@279412525051674624> or <@317104272405823489> or <@293853365891235841>");
+//				sendMessage(event, "you lack perms to runX that command. please contact <@279412525051674624> or <@317104272405823489> or <@293853365891235841>");
 //				return ;
 //			}
 //
@@ -60,7 +60,7 @@
 //		case "admin":
 //			long id1 = event.getAuthor().getLongID();
 //			if(!(id1 == 293853365891235841L || id1 == 317104272405823489L || id1 ==279412525051674624L)) {
-//				sendMessage(event, "you lack perms to run that command. please contact <@279412525051674624> or <@317104272405823489> or <@293853365891235841>");
+//				sendMessage(event, "you lack perms to runX that command. please contact <@279412525051674624> or <@317104272405823489> or <@293853365891235841>");
 //				return ;
 //			}
 //			admin(event);

@@ -13,12 +13,12 @@ public class CommandSetLeaveMessage extends Command{
 	}
 
     @Override
-    public boolean test(MessageReceivedEvent event, String content,String[] args) {
-		return content.startsWith("~setleave");
+    public boolean test(String prefix, String content, MessageReceivedEvent event, String rawContent, String[] args) {
+		return content.startsWith("setleave");
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event, String content, String[] args) {
+	public void run(String prefix, String content, MessageReceivedEvent event, String rawContent, String[] args) {
 		String message = event.getMessage().getContent().substring("~setleave".length(), event.getMessage().getContent().length());
 		DBHandler db = DBHandler.get();
 		DBHandler.GuildData guild = db.getGuildDataBy(event.getGuild().getLongID());
@@ -29,19 +29,15 @@ public class CommandSetLeaveMessage extends Command{
 		db.update(guild);
 	} 
 
-	@Override
-	public String getName() {
-		return "~setleave *leave text*";
-	}
 
-	@Override
-	public String getDisciption() {
-		return "sets the message that is displayed every time someone leaves the server. use [name] to use their name. you must be the owner of the guild to use this. The channel you send this is will be the channel leave messages will be sent in.";
-	}
 
 	@Override
 	public PermissionLevel getWantedPermissionLevel() {
 		return PermissionLevel.MOD;
 	}
 
+	@Override
+	public String getCommandId() {
+		return "setleave";
+	}
 }

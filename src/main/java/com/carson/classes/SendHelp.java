@@ -2,15 +2,17 @@ package com.carson.classes;
 
 import com.carson.commandManagers.Command;
 import com.carson.commandManagers.Register;
+import com.carson.dataObject.DBHandler;
+import com.mongodb.client.model.Filters;
+import org.bson.Document;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.util.EmbedBuilder;
-
 import java.lang.Math;
 
 public class SendHelp {
 
-	public static void sendHelp(MessageReceivedEvent event, Register reg) {
+	public static void sendHelpOld(MessageReceivedEvent event, Register reg) {
 		System.out.println("EVENT:sending help message to " + event.getAuthor().getName());
 //		String message = "I'm Carson-Bot, and i'm Sliding into your DM's using mag-lev technology";
 		String message = "I'm Carson-Bot, and I'm sliding into your DM's while I wait for the technological singularity.";
@@ -22,19 +24,33 @@ public class SendHelp {
 		builder.withAuthorName("Carson-Bot");
 		builder.withTitle("all of these amazing commands");
 
-		builder.appendDescription("***use ~help*** *command_name* ***to get more detailed information***");
-
-		Command.PermissionLevel permissionLevel = Register.getPermissionLevel(event);
-
+//		builder.appendDescription("***use ~help*** *command_name* ***to get more detailed information***");//not done TODO
+        int count = 0;
+        DBHandler d = DBHandler.get();
 		for(Command c : reg.getCommands()){
 			try{
-				if(c.getName() == null || c.getDisciption() == null) {
+			    if(count > 20){
+                    dm.sendMessage(builder.build());
+                    builder.clearFields();
+                    count = 0;
+                }
+                count++;
+                Document doc = d.getDB("commands").find(Filters.eq("_id",c.getCommandId())).first();
+                if(doc == null){
+                    continue;
+                }
+				if(doc.containsKey("nohelp") && doc.get("nohelp").equals("true")){
 					continue;
 				}
-                if(!c.hasPermission(c.getWantedPermissionLevel(),permissionLevel)){
-				    continue;
-                }
-                builder.appendField(c.getName(), c.getDisciption(), false);
+				if(doc.containsKey("broken") && doc.get("broken").equals("true")){
+					continue;
+				}
+
+				String name = (String)doc.get("name");
+                String desc = (String)doc.get("desc");
+                if(name==null){name ="null:" + (doc.get("_id"));}
+                if(desc==null){desc="null";}
+                builder.appendField(name, desc, false);//TODO TEST
 
 			}catch(IllegalArgumentException e) {
 				e.printStackTrace();
@@ -48,4 +64,37 @@ public class SendHelp {
 
 	}
 
+
+	public static void sendHelp(MessageReceivedEvent event, Register reg){
+		System.out.println("EVENT:sending help message to " + event.getAuthor().getName());
+//		String message = "I'm Carson-Bot, and i'm Sliding into your DM's using mag-lev technology";
+		String message = "I'm Carson-Bot, and I'm sliding into your DM's while I wait for the technological singularity.";
+		event.getChannel().sendMessage("```" + message + "```");
+		IChannel dm = event.getClient().getOrCreatePMChannel(event.getAuthor());
+
+		String str = "Commands. use ~help to get more info\n`";
+		DBHandler d = DBHandler.get();
+		for(Command c : reg.getCommands()){
+			Document doc = d.getDB("commands").find(Filters.eq("_id",c.getCommandId())).first();
+			if(doc == null){
+				continue;
+			}
+			if(doc.containsKey("nohelp") && doc.get("nohelp").equals("true")){
+				continue;
+			}
+			if(doc.containsKey("broken") && doc.get("broken").equals("true")){
+				continue;
+			}
+			String name =  (String)doc.get("name");
+			if(name == null){
+				System.out.println(c.getCommandId() + " has no name :eyes:");
+				continue;
+			}
+			str+=name + "    ";
+			if(str.split("\n")[str.split("\n").length-1].length()> 50){
+				str+="\n";
+			}
+		}
+		event.getChannel().sendMessage(str + "`");
+	}
 }

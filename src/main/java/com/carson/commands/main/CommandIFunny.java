@@ -1,13 +1,12 @@
 package com.carson.commands.main;
 
-import java.io.IOException;
-import java.util.List;
-
 import com.carson.classes.PhotoStream;
 import com.carson.commandManagers.Command;
-
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+
+import java.io.IOException;
+import java.util.List;
 
 public class CommandIFunny extends Command{
 
@@ -16,12 +15,12 @@ public class CommandIFunny extends Command{
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event, String content, String[] args) {
-		return content.equals("~ifunny");
+	public boolean test(String prefix, String content, MessageReceivedEvent event,String rawContent, String[] args) {
+		return content.equals("ifunny");
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event, String content, String[] args) {
+	public void run(String prefix, String content, MessageReceivedEvent event,String rawContent, String[] args) {
 		List<String> pics;
 		try {
 			pics = PhotoStream.getUrl("https://www.ifunny.co");
@@ -43,13 +42,7 @@ public class CommandIFunny extends Command{
 	}
 
 	@Override
-	public String getName() {
-		return "~ifunny";
+	public String getCommandId() {
+		return "ifunny";
 	}
-	
-	@Override
-	public String getDisciption() {
-		return "gets the latest and greatest ifunny memes. Don't bother using this command more then once, as it pulls the top 10, and they only update every hour or so";
-	}
-
 }

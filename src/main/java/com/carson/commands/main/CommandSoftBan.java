@@ -14,8 +14,8 @@ public class CommandSoftBan extends Command {
     }
 
     @Override
-    public boolean test(MessageReceivedEvent event, String content, String[] args) {
-        return content.startsWith("~softban");
+    public boolean test(String prefix, String content, MessageReceivedEvent event, String rawContent, String[] args) {
+        return content.startsWith("softban");
     }
 
     @Override
@@ -24,7 +24,7 @@ public class CommandSoftBan extends Command {
     }
 
     @Override
-    public void run(MessageReceivedEvent event, String content, String[] args) {
+    public void run(String prefix, String content, MessageReceivedEvent event, String rawContent, String[] args) {
         if(event.getMessage().getMentions().size() != 1){
             sendMessage(event, "you can only softban one person");
             return;
@@ -44,12 +44,7 @@ public class CommandSoftBan extends Command {
     }
 
     @Override
-    public String getName() {
-        return "~softban @mention";
-    }
-
-    @Override
-    public String getDisciption() {
-        return "bans the mentioned user, and then unbans them. needs MANAGE_SERVER and BAN permission. User using command needs to be MOD on CarsonBot. will only delete 7 days worth of messages";
+    public String getCommandId() {
+        return "softban";
     }
 }

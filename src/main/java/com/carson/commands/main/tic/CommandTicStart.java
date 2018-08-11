@@ -19,12 +19,12 @@ public class CommandTicStart extends Command{
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event,String content, String[] args) {
-		return content.equalsIgnoreCase("~tic");
+	public boolean test(String prefix, String content, MessageReceivedEvent event, String rawContent, String[] args) {
+		return content.equalsIgnoreCase("tic");
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event,String content, String[] args) {
+	public void run(String prefix, String content, MessageReceivedEvent event, String rawContent, String[] args) {
 		if(t.v.getActive()) {
 			sendMessage(event.getChannel(),"Sorry, Someone is using the Tic Tac Toe game right now.");
 			System.out.println("EVENT:" +t.v.getInitalEvent().getAuthor().getName() + " is using the ticTacToe game right now, so " + event.getAuthor().getName() + " can't");
@@ -43,12 +43,7 @@ public class CommandTicStart extends Command{
 	}
 
 	@Override
-	public String getName() {
-		return "~tic";
-	}	
-
-	@Override
-	public String getDisciption() {
-		return "starts a tic tac toe game. try and win!";
+	public String getCommandId() {
+		return "ticstart";
 	}
 }

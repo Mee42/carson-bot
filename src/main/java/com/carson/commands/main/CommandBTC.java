@@ -15,12 +15,12 @@ public class CommandBTC extends Command {
     }
 
     @Override
-    public boolean test(MessageReceivedEvent event,String content, String[] args) {
-        return content.toLowerCase().equals("~btc");
+    public boolean test(String prefix, String content, MessageReceivedEvent event, String rawContent, String[] args) {
+        return content.toLowerCase().equals("btc");
     }
 
     @Override
-    public void run(MessageReceivedEvent event,String content, String[] args) {
+    public void run(String prefix, String content, MessageReceivedEvent event, String rawContent, String[] args) {
         EmbedBuilder b = new EmbedBuilder();
         b.withTitle("BTC price:");
         b.withUrl("https://www.coindesk.com/price/");
@@ -41,12 +41,7 @@ public class CommandBTC extends Command {
     }
 
     @Override
-    public String getName() {
-        return "~btc";
-    }
-
-    @Override
-    public String getDisciption() {
-        return "get the current btc price from coindesk";
+    public String getCommandId() {
+        return "btc";
     }
 }

@@ -1,6 +1,7 @@
 package com.carson.commands.cb;
 
 import com.carson.commandManagers.Command;
+import com.carson.commandManagers.Register;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IVoiceChannel;
@@ -17,12 +18,18 @@ public class CommandStatus extends Command{
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event,String content, String[] args) {
-		return content.equals("cb-status");
+	public boolean test(String prefix, String content, MessageReceivedEvent event,String rawContent, String[] args) {
+		throw new RuntimeException();//should never happen
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event,String content, String[] args) {
+	public boolean test(MessageReceivedEvent event) {
+		if(!hasPermission(getWantedPermissionLevel(), Register.getPermissionLevel(event)))return false;
+		return event.getMessage().getContent().toLowerCase().equals("cb-status");
+	}
+
+	@Override
+	public void run(String prefix, String content, MessageReceivedEvent event,String rawContent, String[] args) {
 		String temp = "voice channels:\n";
 		List<IVoiceChannel> vc = client.getConnectedVoiceChannels();
 		for(IVoiceChannel v : vc) {
@@ -34,13 +41,8 @@ public class CommandStatus extends Command{
 	}
 
 	@Override
-	public String getName() {
-		return "cb-status";
-	}
-
-	@Override
-	public String getDisciption() {
-		return "gets the current status of the bot";
+	public String getCommandId() {
+		return "status";
 	}
 
 	@Override

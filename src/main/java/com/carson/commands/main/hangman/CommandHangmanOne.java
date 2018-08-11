@@ -15,12 +15,12 @@ public class CommandHangmanOne  extends Command {
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event,String content, String[] args) {
+	public boolean test(String prefix, String content, MessageReceivedEvent event,String rawContent, String[] args) {
 		return h.hangman.verify(event);
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event,String content, String[] args) {
+	public void run(String prefix, String content, MessageReceivedEvent event,String rawContent, String[] args) {
 		System.out.println("EVENT: hangman word found");
 		h.hangmanText = content;
 		sendMessage(event.getChannel(), "Great!");
@@ -43,9 +43,7 @@ public class CommandHangmanOne  extends Command {
 	}
 
 	@Override
-	public String getName() {return null;}
-
-	@Override
-	public String getDisciption() {return null;}
-
+	public String getCommandId() {
+		return "CommandHangmanOne";
+	}
 }

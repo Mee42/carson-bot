@@ -1,13 +1,12 @@
 package com.carson.commands.main.lavaplayer;
 
-import java.io.File;
-import java.util.List;
-
 import com.carson.classes.FileIO;
-
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.util.EmbedBuilder;
+
+import java.io.File;
+import java.util.List;
 
 public class CommandPlayLocal extends MusicCommand{
 	
@@ -16,12 +15,12 @@ public class CommandPlayLocal extends MusicCommand{
 	}
 
 	@Override
-	public boolean test(MessageReceivedEvent event,String content, String[] args) {
-		return event.getMessage().getContent().startsWith("v~local");
+	public boolean test(String prefix, String content, MessageReceivedEvent event,String rawContent, String[] args) {
+		return false;
 	}
 
 	@Override
-	public void run(MessageReceivedEvent event, String content, String[] args) {
+	public void run(String prefix, String content, MessageReceivedEvent event,String rawContent, String[] args) {
 		sendMessage(event,"this command is currently broken -_-");
 		if(true)return;
 		if(event.getMessage().getContent().equals("v~local~get") || event.getMessage().getContent().equals("v~local")) {
@@ -67,16 +66,10 @@ public class CommandPlayLocal extends MusicCommand{
 			
 			event.getChannel().sendMessage(builder.build());
 		}
-	
+
 
 	@Override
-	public String getName() {
-		return "v~local";
+	public String getCommandId() {
+		return "playlocal";
 	}
-
-	@Override
-	public String getDisciption() {
-		return "not done yet....";
-	}
-
 }

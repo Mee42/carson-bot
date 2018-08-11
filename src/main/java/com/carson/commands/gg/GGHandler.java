@@ -30,15 +30,19 @@ public class GGHandler extends Command {
 	}
 
     @Override
-    public boolean test(MessageReceivedEvent event, String content, String[] args) {
+    public boolean test(String prefix, String content, MessageReceivedEvent event, String rawContent, String[] args) {
+        throw new AssertionError();
+    }
+
+    @Override
+    public boolean test(MessageReceivedEvent event) {
 	    if(event.getChannel().isPrivate())return false;
 	    if(event.getGuild().getLongID() != 462681259370610689L)return false;
         return event.getMessage().getContent().toLowerCase().startsWith("gg~");
 	}
 
     @Override
-    public void run(MessageReceivedEvent event, String content, String[] args) {
-
+    public void run(String prefix, String content, MessageReceivedEvent event,String rawContent, String[] args) {
         DBHandler db = DBHandler.get();
         Bank bank = new Bank(db.getBank().getMoney());
         UserGG user;
@@ -475,16 +479,10 @@ public class GGHandler extends Command {
     }
 
 
-	@Override
-	public String getName() {
-		return "GG handle";
-	}
-
-	@Override
-	public String getDisciption() {
-		return null;
-	}
-	
+    @Override
+    public String getCommandId() {
+        return "gghandler";
+    }
 
     private static List<DBHandler.UserGG> sort(List<DBHandler.UserGG> users){
         for (int i = 0; i < users.size() - 1; i++){
