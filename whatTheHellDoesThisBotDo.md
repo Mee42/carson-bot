@@ -1,5 +1,5 @@
-# WHAT THE HELL DOES THIS BOT DO
-well, it does quite a lot, actually
+### WHAT THE HELL DOES THIS BOT DO
+#####well, it does quite a lot, actually
 
 
 * server info:
@@ -15,15 +15,24 @@ well, it does quite a lot, actually
  * games!
    - tictactoe (bot or with a friend)
    - hangman
-   - economy simulator, with:
+   - economy game, with:
      - upgrades
      - btc investment
      - slots + roulette
  - AUDIO!
-   - stream music from youtube with a search or links
+   - stream music from youtube with a search or links into voice chats
  - moderation
-   - joinable roles
+   - joinable roles (ask dev to set up)
    - message purgers
    - softbans
    - custom leave messages
    
+   asfdasd
+   
+   
+   features | free | paid
+   ---------|------|-----
+   everything! | :heavy_check_mark: |  :heavy_check_mark:
+   
+   
+![profile pic](profile.jpg)

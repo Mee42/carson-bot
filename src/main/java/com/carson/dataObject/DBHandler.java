@@ -214,6 +214,8 @@ public class DBHandler {
         }
         return data;
     }
+
+
     public void update(GuildUserData data) {
         DB.createOrReplace(fromGuildUserData(data),getUsersDB());
     }
