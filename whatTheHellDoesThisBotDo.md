@@ -27,12 +27,16 @@
    - softbans
    - custom leave messages
    
-   asfdasd
-   
-   
-   features | free | paid
+   Features | Free | Paid
    ---------|------|-----
-   everything! | :heavy_check_mark: |  :heavy_check_mark:
+   Everything! | :heavy_check_mark: |  :heavy_check_mark:
    
-   
-![profile pic](profile.jpg)
+    ![profile pic](profile.jpg)
+    
+    ```java
+    class A{
+        public static void Main(String[] args){
+           System.out.println("Carson Bot!");
+        }
+    }
+    ```
