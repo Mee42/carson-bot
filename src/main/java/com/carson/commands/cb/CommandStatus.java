@@ -32,12 +32,12 @@ public class CommandStatus extends Command{
 			temp+=v.getName() + " (in " + v.getGuild().getName() +" ) \n";
 		}
 		temp+="been up " + TimeManager.getSecondsUp() + " seconds in the last " + TimeManager.secondsSinceTime() + " seconds\n";
-		temp+="uptime: " + (100*TimeManager.getUptime()) + "%\n";
-		temp+="uptime today: " + TimeManager.getDay(TimeManager.getTodaysDay(),TimeManager.getTodaysYear()).uptime + "\n";
-		temp+="uptime yesterday: " + TimeManager.getDay(TimeManager.getTodaysDay()-1,TimeManager.getTodaysYear()).uptime + "\n";
+		temp+="uptime: " + percent(TimeManager.getUptime()) + "\n";
+		temp+="uptime today: " + percent(TimeManager.getDay(TimeManager.getTodaysDay(),TimeManager.getTodaysYear()).uptime) + "\n";
+		temp+="uptime yesterday: " + percent(TimeManager.getDay(TimeManager.getTodaysDay()-1,TimeManager.getTodaysYear()).uptime) + "\n";
 
 		sendMessage(event, temp);
-		sendMessage(event, "minutes sense boot time: " + ((System.currentTimeMillis() - bootTime) / 60000) + "  hours:" + (((System.currentTimeMillis() - bootTime) / 60000)/60));
+		sendMessage(event, "minutes since boot time: " + ((System.currentTimeMillis() - bootTime) / 60000) + "  hours:" + (((System.currentTimeMillis() - bootTime) / 60000)/60));
 	}
 
 	@Override
@@ -45,4 +45,11 @@ public class CommandStatus extends Command{
 		return "status";
 	}
 
+
+	private String percent(double d){
+		int factor = 10000;
+		int i = (int) (d * factor);
+		d = i * 1d / factor;
+		return "`" + d + "%`";
+	}
 }

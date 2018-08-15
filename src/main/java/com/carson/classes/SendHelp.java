@@ -8,6 +8,7 @@ import org.bson.Document;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.util.EmbedBuilder;
+
 import java.lang.Math;
 
 public class SendHelp {
@@ -68,9 +69,9 @@ public class SendHelp {
 	public static void sendHelp(MessageReceivedEvent event, Register reg){
 		System.out.println("EVENT:sending help message to " + event.getAuthor().getName());
 //		String message = "I'm Carson-Bot, and i'm Sliding into your DM's using mag-lev technology";
-		String message = "I'm Carson-Bot, and I'm sliding into your DM's while I wait for the technological singularity.";
-		event.getChannel().sendMessage("```" + message + "```");
-		IChannel dm = event.getClient().getOrCreatePMChannel(event.getAuthor());
+//		String message = "I'm Carson-Bot, and I'm sliding into your DM's while I wait for the technological singularity.";
+//		event.getChannel().sendMessage("```" + message + "```");
+//		IChannel dm = event.getClient().getOrCreatePMChannel(event.getAuthor());
 
 		String str = "Commands. use ~help to get more info\n`";
 		DBHandler d = DBHandler.get();
