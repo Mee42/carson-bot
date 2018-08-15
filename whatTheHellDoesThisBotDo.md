@@ -34,7 +34,7 @@
     ![profile pic](profile.jpg)
     
     ```java
-    class A{
+    class Bot{
         public static void Main(String[] args){
            System.out.println("Carson Bot!");
         }

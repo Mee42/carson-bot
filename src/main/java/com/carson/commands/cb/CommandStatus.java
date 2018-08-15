@@ -1,7 +1,7 @@
 package com.carson.commands.cb;
 
+import com.carson.classes.TimeManager;
 import com.carson.commandManagers.Command;
-import com.carson.commandManagers.Register;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IVoiceChannel;
@@ -19,14 +19,10 @@ public class CommandStatus extends Command{
 
 	@Override
 	public boolean test(String prefix, String content, MessageReceivedEvent event,String rawContent, String[] args) {
-		throw new RuntimeException();//should never happen
+		return content.equals("status");
 	}
 
-	@Override
-	public boolean test(MessageReceivedEvent event) {
-		if(!hasPermission(getWantedPermissionLevel(), Register.getPermissionLevel(event)))return false;
-		return event.getMessage().getContent().toLowerCase().equals("cb-status");
-	}
+
 
 	@Override
 	public void run(String prefix, String content, MessageReceivedEvent event,String rawContent, String[] args) {
@@ -35,9 +31,13 @@ public class CommandStatus extends Command{
 		for(IVoiceChannel v : vc) {
 			temp+=v.getName() + " (in " + v.getGuild().getName() +" ) \n";
 		}
+		temp+="been up " + TimeManager.getSecondsUp() + " seconds in the last " + TimeManager.secondsSinceTime() + " seconds\n";
+		temp+="uptime: " + (100*TimeManager.getUptime()) + "%\n";
+		temp+="uptime today: " + TimeManager.getDay(TimeManager.getTodaysDay(),TimeManager.getTodaysYear()).uptime + "\n";
+		temp+="uptime yesterday: " + TimeManager.getDay(TimeManager.getTodaysDay()-1,TimeManager.getTodaysYear()).uptime + "\n";
+
 		sendMessage(event, temp);
 		sendMessage(event, "minutes sense boot time: " + ((System.currentTimeMillis() - bootTime) / 60000) + "  hours:" + (((System.currentTimeMillis() - bootTime) / 60000)/60));
-		return;
 	}
 
 	@Override
@@ -45,8 +45,4 @@ public class CommandStatus extends Command{
 		return "status";
 	}
 
-	@Override
-	public PermissionLevel getWantedPermissionLevel() {
-		return PermissionLevel.BOT_ADMIN;
-	}
 }

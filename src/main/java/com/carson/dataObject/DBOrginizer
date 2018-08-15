@@ -70,3 +70,9 @@ CarsonBot
      -  name    :   command name
      -  trigger :   for printing in the help menu
      -  help    :   the how-to help menu
+  --logs
+   \- log
+     - seconds  :   the seconds the bot was up
+   \- day log
+     - year
+     - day of year

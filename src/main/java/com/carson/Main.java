@@ -3,6 +3,7 @@
 package com.carson;
 
 import com.carson.classes.FileIO;
+import com.carson.classes.TimeManager;
 import com.carson.main.BotUtils;
 import sx.blah.discord.api.IDiscordClient;
 
@@ -38,12 +39,10 @@ public class Main {
 	        
 	        // Only login after all events are registered otherwise some may be missed.
 	        client.login();
-	        
-	        
-	        
-	        
-	        
-	        
+
+
+			Runtime.getRuntime().addShutdownHook(new TimeManager());//starts the logger
+
 	        
 	    }
 	
