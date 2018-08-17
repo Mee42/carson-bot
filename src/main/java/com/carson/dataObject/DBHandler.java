@@ -154,7 +154,10 @@ public class DBHandler {
         if (document.keySet().contains("leave_message")) {
             leave = String.valueOf(document.get("leave_message"));
         }
-        return new GuildData((long) document.get("_id"), leave, (long) document.get("leave_channel"));
+        Long leaveChannel = (Long)document.get("leave_channel");
+        if(leaveChannel == null)leaveChannel = -1L;
+
+        return new GuildData((long) document.get("_id"), leave, leaveChannel);
     }
     public Document fromGuildData(GuildData data){
         return new Document()

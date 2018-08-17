@@ -16,22 +16,22 @@ public class CommandDnd extends Command {
 
     @Override
     public void run(String prefix, String content, MessageReceivedEvent event, String rawContent, String[] args) {
-        if(args.length == 1){
+        if (args.length == 1) {
             sendMessage(event, "you need a dice");
             return;
         }
         int count;
         int die;
-        if(args.length == 2){
+        if (args.length == 2) {
             count = 1;
             die = Integer.parseInt(args[1]);
-        }else{
+        } else {
             count = Integer.parseInt(args[1]);
             die = Integer.parseInt(args[2]);
         }
-        String str = "here " + ((count == 1)?"is":"are") + " your rolls:\n";
-        for(int i = 0;i<count;i++){
-            str+=(int)(Math.random()*die+1) + "  ";
+        String str = "here " + ((count == 1) ? "is" : "are") + " your rolls:\n";
+        for (int i = 0; i < count; i++) {
+            str += rand(die) + "  ";
         }
         sendMessage(event, str);
     }
@@ -40,4 +40,10 @@ public class CommandDnd extends Command {
     public String getCommandId() {
         return "dnd";
     }
+
+
+    private int rand(int die) {
+        return (int) (Math.random() * die + 1);
+    }
+
 }

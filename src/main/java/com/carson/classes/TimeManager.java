@@ -61,10 +61,7 @@ public class TimeManager extends Thread{
     }
 
     public static double getUptime(){
-        double factor = java.lang.Math.pow(10,5);
         double up = (getSecondsUp()* 1d) / (secondsSinceTime() * 1d);
-        int upInt = (int) (up * factor);
-        up = (double)upInt / factor;
         return up;
     }
 

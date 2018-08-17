@@ -180,8 +180,8 @@ public class CarsonBot {
 		//runs the register.
 		reg.testCommands(event);
 		
-		if(event.getMessage().getContent().equals(Command.getPrefix(event) + "help")) { //sends the help message. needs to be here, because we need to be able to pass the register to the help command462681259370610689
-			SendHelp.sendHelp(event, reg);
+		if(event.getMessage().getContent().startsWith(Command.getPrefix(event) + "help")) { //sends the help message. needs to be here, because we need to be able to pass the register to the help command462681259370610689
+			SendHelp.sendHelp(event, reg, Command.getPrefix(event));
 		}
 	}//end of handle method
 

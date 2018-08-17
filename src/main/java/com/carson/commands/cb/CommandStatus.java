@@ -50,6 +50,6 @@ public class CommandStatus extends Command{
 		int factor = 10000;
 		int i = (int) (d * factor);
 		d = i * 1d / factor;
-		return "`" + d + "%`";
+		return "`" + d*100 + "%`";
 	}
 }

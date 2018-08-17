@@ -8,6 +8,7 @@ import org.bson.Document;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.util.EmbedBuilder;
+import sx.blah.discord.util.RequestBuffer;
 
 import java.lang.Math;
 
@@ -66,36 +67,50 @@ public class SendHelp {
 	}
 
 
-	public static void sendHelp(MessageReceivedEvent event, Register reg){
-		System.out.println("EVENT:sending help message to " + event.getAuthor().getName());
+	public static void sendHelp(MessageReceivedEvent event, Register reg, String prefix){
 //		String message = "I'm Carson-Bot, and i'm Sliding into your DM's using mag-lev technology";
 //		String message = "I'm Carson-Bot, and I'm sliding into your DM's while I wait for the technological singularity.";
 //		event.getChannel().sendMessage("```" + message + "```");
 //		IChannel dm = event.getClient().getOrCreatePMChannel(event.getAuthor());
-
-		String str = "Commands. use ~help to get more info\n`";
 		DBHandler d = DBHandler.get();
-		for(Command c : reg.getCommands()){
-			Document doc = d.getDB("commands").find(Filters.eq("_id",c.getCommandId())).first();
+
+		if(event.getMessage().getContent().equals(prefix + "help")) {
+			String str = "Commands. use ~help to get more info\n`";
+			for (Command c : reg.getCommands()) {
+				Document doc = d.getDB("commands").find(Filters.eq("_id", c.getCommandId())).first();
+				if (doc == null) {
+					continue;
+				}
+				if (doc.containsKey("nohelp") && doc.get("nohelp").equals("true")) {
+					continue;
+				}
+				if (doc.containsKey("broken") && doc.get("broken").equals("true")) {
+					continue;
+				}
+				String name = (String) doc.get("name");
+				if (name == null) {
+					System.out.println(c.getCommandId() + " has no name :eyes:");
+					continue;
+				}
+				str += name + "    ";
+				if (str.split("\n")[str.split("\n").length - 1].length() > 50) {
+					str += "\n";
+				}
+			}
+			event.getChannel().sendMessage(str + "`");
+		}else{
+
+			String command = event.getMessage().getContent().split(" ",2)[1];
+			Document doc = d.getDB("commands").find(Filters.eq("_id",command)).first();
 			if(doc == null){
-				continue;
+				RequestBuffer.request(()->event.getChannel().sendMessage("couldn't find that command"));
+				return;
 			}
-			if(doc.containsKey("nohelp") && doc.get("nohelp").equals("true")){
-				continue;
+			if(!doc.containsKey("trigger") || !doc.containsKey("desc")){
+				RequestBuffer.request(()->event.getChannel().sendMessage("could not find all information"));
 			}
-			if(doc.containsKey("broken") && doc.get("broken").equals("true")){
-				continue;
-			}
-			String name =  (String)doc.get("name");
-			if(name == null){
-				System.out.println(c.getCommandId() + " has no name :eyes:");
-				continue;
-			}
-			str+=name + "    ";
-			if(str.split("\n")[str.split("\n").length-1].length()> 50){
-				str+="\n";
-			}
+			RequestBuffer.request(()->event.getChannel().sendMessage("**" + command + "**\n`" + String.valueOf(doc.get("trigger")) + "`\n--\n`" + String.valueOf(doc.get("desc")) + "`"));
+
 		}
-		event.getChannel().sendMessage(str + "`");
 	}
 }

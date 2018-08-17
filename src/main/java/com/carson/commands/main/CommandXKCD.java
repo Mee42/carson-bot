@@ -1,20 +1,15 @@
 package com.carson.commands.main;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-import java.util.List;
 import com.carson.classes.FileIO;
 import com.carson.classes.PhotoStream;
-
 import com.carson.commandManagers.Command;
 import com.google.gson.JsonIOException;
-
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+
+import java.io.*;
+import java.net.URL;
+import java.util.List;
 
 public class CommandXKCD extends Command{
 
@@ -76,12 +71,10 @@ public class CommandXKCD extends Command{
 		        
 				for(String pic : pics) {
 					if(pic.startsWith("https://imgs.xkcd.com/comics")){
-						
 						saveImage(pic, file.getPath());
 			        	String altText = XKCD.getAlt(no);
 			        	alt.create();
 			        	alt.write(altText);
-
 					}
 		        	
 				}
