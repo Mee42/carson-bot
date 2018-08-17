@@ -19,7 +19,7 @@ public class CommandYoutubeLink extends MusicCommand {
 	public void run(String prefix, String content, MessageReceivedEvent event, String rawContent, String[] args) {
 		String url = content.substring("link".length());
 		m.playLink(event.getChannel(),url);
-	}//TODO check substring index
+	}
 
 
 	@Override

@@ -31,7 +31,7 @@ public class CommandNick extends Command{
 			String text = content.split(" ",2)[1];
 			event.getGuild().setUserNickname(client.getOurUser(), text);
 		}catch (ArrayIndexOutOfBoundsException e) {
-			sendMessage(event,"you need an argument");//TODO fix this
+			sendMessage(event,"you need an argument");
 		}catch (RateLimitException ef) {
 			sendMessage(event,"you are updating it to fast");
 		}

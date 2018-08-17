@@ -144,6 +144,9 @@ public class CarsonBot {
 	
 	@EventSubscriber
     public void onMessageReceived(MessageReceivedEvent event){
+
+ 		if(ProfanityChecker.check(event))return;
+
         Document first = DBHandler.get().getDB("opt").find(Filters.eq("_id", event.getAuthor().getLongID())).first();
         if(!(first == null || !first.containsKey("opt") || (boolean)first.get("opt"))){
             return;//don't run anything if they are not

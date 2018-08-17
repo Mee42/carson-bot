@@ -26,7 +26,7 @@ public class SendHelp {
 		builder.withAuthorName("Carson-Bot");
 		builder.withTitle("all of these amazing commands");
 
-//		builder.appendDescription("***use ~help*** *command_name* ***to get more detailed information***");//not done TODO
+		builder.appendDescription("***use ~help*** *command_name* ***to get more detailed information***");
         int count = 0;
         DBHandler d = DBHandler.get();
 		for(Command c : reg.getCommands()){
@@ -52,7 +52,7 @@ public class SendHelp {
                 String desc = (String)doc.get("desc");
                 if(name==null){name ="null:" + (doc.get("_id"));}
                 if(desc==null){desc="null";}
-                builder.appendField(name, desc, false);//TODO TEST
+                builder.appendField(name, desc, false);
 
 			}catch(IllegalArgumentException e) {
 				e.printStackTrace();

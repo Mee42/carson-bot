@@ -6,8 +6,57 @@ import com.carson.dataObject.DBHandler;
 import com.mongodb.client.model.Filters;
 import org.bson.Document;
 
+import java.io.*;
+import java.util.*;
+
 public class Test {
-    public static void main(String[] args){
+    public static void main(String[] args) {
+        long id = 293853365891235841L;
+        final DBHandler db = DBHandler.get();
+        Map<String,Integer> words = new HashMap<>();
+        for(Document doc : db.getDB("messages").find(/*Filters.eq("user_id",id)*/)){
+            String content = (String)doc.get("content");
+            content = content.toLowerCase();
+            String[] split = content.split("\\W+");
+            for(String word : split){
+                if(word.equals(" ") || word.equals("")){
+                    continue;
+                }
+                if(words.containsKey(word)){
+                    words.replace(word, words.get(word)+1);
+                }else {
+                    words.put(word,1);
+                }
+            }
+        }
+        words = sortByValue(words);
+        List<String> mostCommon = readWords(100);
+        int total = 0;
+        for(String key : words.keySet()){
+            if(mostCommon.contains(key))continue;
+            System.out.println(key +":" + words.get(key));
+            total+=words.get(key);
+        }
+        System.out.println("total words:" + total);
+
+    }
+
+    public static List<String> readWords(int size){
+        try {
+            BufferedReader r = new BufferedReader(new FileReader(new File("most_common_words")));
+            List<String> strs = new ArrayList<>();
+            String line = r.readLine();
+            while(line != null && strs.size() < size){
+                strs.add(line);
+                line = r.readLine();
+            }
+            return strs;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        throw new AssertionError();
     }
 
     public static void runX(){
@@ -76,4 +125,18 @@ public class Test {
             System.out.println("\ttrigger:" + trigger);
         }
     }
+
+    private static <K, V> Map<K, V> sortByValue(Map<K, V> map) {
+    List<Map.Entry<K, V>> list = new LinkedList<>(map.entrySet());
+    Collections.sort(list, (Comparator<Object>) (o1, o2) -> ((Comparable<V>) ((Map.Entry<K, V>) (o1)).getValue()).compareTo(((Map.Entry<K, V>) (o2)).getValue()));
+
+    Map<K, V> result = new LinkedHashMap<>();
+    for (Iterator<Map.Entry<K, V>> it = list.iterator(); it.hasNext();) {
+        Map.Entry<K, V> entry = (Map.Entry<K, V>) it.next();
+        result.put(entry.getKey(), entry.getValue());
+    }
+
+    return result;
+}
+
 }
