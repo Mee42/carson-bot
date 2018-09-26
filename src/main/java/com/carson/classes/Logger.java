@@ -81,12 +81,13 @@ public class Logger {
 		if(messageIds.size() != 0){
 			doc.append("attachments", messageIds);
 		}
+
+		//throws a dup key exception. trailing backwards alone the path - nothing else logs messages, so idk what the problem could be. Fixing with replace
 		if(DBHandler.get().getMessagesDB().find(Filters.eq("_id", event.getMessage().getLongID())) != null){
 			DBHandler.get().getMessagesDB().replaceOne(Filters.eq("_id", event.getMessage().getLongID()),doc);
 		}else{
 			DBHandler.get().getMessagesDB().insertOne(doc);//yes I know im calling DBHandler.get#getMessagesDB three times. idc
 		}
-		//throws a dup key exception. trailing backwards alone the path - nothing else logs messages, so idk what the problem could be. Fixing with replace
 	}
 	
 	public static void logBot(IChannel channel, String text) {

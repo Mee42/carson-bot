@@ -34,9 +34,6 @@ public class TimeManager extends Thread{
         Document doc = new Document().append("seconds" ,seconds);
         logs.insertOne(doc);
         System.out.println("time up:" + seconds + " seconds");
-
-
-
     }
 
     public static long getSecondsUp(){
@@ -52,8 +49,7 @@ public class TimeManager extends Thread{
     }
 
     public static long secondsSinceTime(){
-        //1534354140
-        Instant start = Instant.ofEpochSecond(1534354140);//when I started logging
+        Instant start = Instant.ofEpochSecond(1535783422007L / 1000);//when I started logging
         Instant now = Instant.now();
         Duration duration = Duration.between(start,now);
         long seconds = duration.getSeconds();

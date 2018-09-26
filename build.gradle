@@ -26,7 +26,7 @@ repositories {
 
 dependencies {
 
-    compile "com.github.austinv11:Discord4J:2.10.1"
+    compile "com.discord4j:Discord4J:2.10.1"
     compile 'org.jsoup:jsoup:1.11.2'
     compile 'com.sedmelluq:lavaplayer:1.2.62'
 	compile 'com.google.code.gson:gson:2.8.4'

@@ -4,9 +4,7 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 
 import java.util.regex.Pattern;
 
-public class ProfanityChecker {//]TODO fix up or delete
-
-	
+public class ProfanityChecker {
 	public static boolean check(MessageReceivedEvent event ) {
 		if(event.getChannel().isPrivate()) {
 			return false;
@@ -50,7 +48,7 @@ public class ProfanityChecker {//]TODO fix up or delete
 				"shitfuck|shitfull|shith ead|shiting|shitings|shits|shitted|shitter|shitters|shitting|shittings|shitty|skank|slut|sluts|smegma|smut|" +
 				"snatch|son-of-a-bitch|spac|spunk|s_h_i_t|t1tt1e5|t1tties|teets|teez|testical|testicle|tit|titfuck|tits|titt|tittie5|tittiefucker|" +
 				"titties|tittyfuck|tittywank|titwank|tosser|turd|tw4t|twat|twathead|twatty|twunt|twunter|v14gra|v1gra|vagina|viagra|vulva|w00se|wang|" +
-				"wank|wanker|wanky|whoar|whore|willies|willy|xrated|xxx|sex)\\b");
+				"wank|wanker|wanky|whoar|whore|willies|willy)\\b");
 
 		if(regex.matcher(text).find()){
 			runBlock(event);

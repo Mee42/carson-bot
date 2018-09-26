@@ -34,12 +34,9 @@ public class Main {
 	        
 	        //all this does in import the client
 	        cb.importClient(client);
-
-
 	        
 	        // Only login after all events are registered otherwise some may be missed.
 	        client.login();
-
 
 			Runtime.getRuntime().addShutdownHook(new TimeManager());//starts the logger
 

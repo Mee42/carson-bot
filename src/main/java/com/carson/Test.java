@@ -11,33 +11,8 @@ import java.util.*;
 
 public class Test {
     public static void main(String[] args) {
-        long id = 293853365891235841L;
         final DBHandler db = DBHandler.get();
-        Map<String,Integer> words = new HashMap<>();
-        for(Document doc : db.getDB("messages").find(/*Filters.eq("user_id",id)*/)){
-            String content = (String)doc.get("content");
-            content = content.toLowerCase();
-            String[] split = content.split("\\W+");
-            for(String word : split){
-                if(word.equals(" ") || word.equals("")){
-                    continue;
-                }
-                if(words.containsKey(word)){
-                    words.replace(word, words.get(word)+1);
-                }else {
-                    words.put(word,1);
-                }
-            }
-        }
-        words = sortByValue(words);
-        List<String> mostCommon = readWords(100);
-        int total = 0;
-        for(String key : words.keySet()){
-            if(mostCommon.contains(key))continue;
-            System.out.println(key +":" + words.get(key));
-            total+=words.get(key);
-        }
-        System.out.println("total words:" + total);
+        db.getDB("logs").drop();
 
     }
 
